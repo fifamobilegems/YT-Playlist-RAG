@@ -19,3 +19,8 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Generated RAG data
+project/data/
+project/knowledge_base/
+Ellipsis/
