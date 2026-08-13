@@ -1,0 +1,2009 @@
+[
+  {
+    "text": "Hello everyone. This is a test test. Hello everyone. This is a test test. Cool. So we are live. Hey guys, good morning, good evening, uh depending on your time zone. So, this is part four of our series of building a rag system for 85,000 ducks for a company that works in aerospace industry. So we'll go through the uh we'll go through the project one more time just for the new freshers and like if you were to watch this recording in um um I mean if you were to watch this part four the first time make sure you watch go just you know spend some time on the first second and third as well we probably spend a lot of time solving a lot of the problems I'll go through what we've done so far and what we're going to do today and what will be what we",
+    "start": 8.72,
+    "duration": 63.83999999999999,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_0",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "would probably do in the next few uh streams. So yeah this is what we're building guys. Um I um this is a sample company that I created but I wanted to mimic this has to be as much as possible like making make it as real world as possible. So we are working with almost 85,000 plus documents. I mean when we actually working with 10,000 documents but this system should actually would actually support at the end 85,000 documents or even more. That's the scale we're building for. And um currently we have about 10,000 documents and this is what the entire ship is going to be. you're going to be solving for 10k but building it for an and after 10k it's probably an info problem. You're probably uh this will probably even work for even 100,000 documents at scale. So that's what we building the even more.",
+    "start": 70.08,
+    "duration": 44.319,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_1",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So that's what we're building that access to uh that that's our goal at the end of the day and the type of documents we work with have is that I can quickly show you we've actually solved all of this. We've solved so these are some of the documents that we work with. This is from 1950s, 1960s and this is from 1954. So um a ton of formulas, a ton of jargon, a ton of uh tables, images and etc. So this is what we have solved. We in the last three stream uh last three uh streams we basically solved formulas, tables, images and whatnot. Um we we hit a lot of roadblocks. We uh and we were luckily be able we were able to solve within about like three three days or something like that. So um uh yeah so um and what can we say? So let's look at",
+    "start": 113.36,
+    "duration": 50.08000000000003,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_2",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "what we're going to what we are going to be what we did work on in the last few days we actually worked on so we built the the basic document passing that's done table extraction for like very complex documents that's done formula extractions we've done that as well picture descriptions we've done and of course pictures able to uh picture the model being able to understand pictures and etc. And also the entire chunking is done, context extraction etc. And right now which was unplanned but we still added quadrant um uh reanker and also an embedding. So also one more thing to note for the entire document passing like the entire document passing we we've actually we actually using open source models. So using quen for everything even for BLM we're using quen and uh let's see what is that version uh yeah so we're using for table model",
+    "start": 162.0,
+    "duration": 58.72,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_3",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "we're using this and I I guess we for yeah for tables we're using the 32 billion version as well and for uh VLM we overrided it with a higher model for understanding um uh formulas because we had a lot of problems yesterday but still it's an open source model and for reanker we using because I'm running the reanker on my Mac I'm using the 6b billion parameter version of quen reanker and also running the 4 billion version 8 quant size 8 bit 8 bit contour version uh through arama which is the 4 billion embedding model now I wanted to run the 4 billion parameter model but it arama was not available and you would probably need a I'm using hugging face so then I would probably need uh a GP to quantize this so right now I just want to run my Mac so I just use a 06 version",
+    "start": 217.36,
+    "duration": 49.278999999999996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_4",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "and you You can see the read anchor is on the side. It's working and it does all of this stuff. And yeah, that's just literally it. We you if you um if you were to if you now from this we're going to work we're going to improve the code a little bit more and then we're going to start on working the f uh the the agent where the LLM would reason through things use the documents use this and that and try to come up with an answer. And we're not going to jump into code initially. We're going to take a step back and understand what we're trying to solve. Who are we trying to solve to and what are the personalities of each of the of our final user like who is going to use our platform and what is their minds and how would they use the",
+    "start": 265.12,
+    "duration": 41.04000000000002,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_5",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "platform what is their current search system traditional search and etc try to really understand a history of that particular person and then we would want to come back and with that good understanding with that domain level understanding we can I think we'll have a fair good chance of making an agent that would actually you know um uh be useful for them because the thing is I don't want to make an agent that you just basically the search that's not the entire thing. Uh if it'll probably be I don't want it to be a generic generic search that would work for everything. I would I mean at the end that's what I want but this is specifically for rocket science search. So not rocket science but you know like rock documents like um uh technical papers, memorandums, uh research papers, you know graphs, tables, formulas and etc. So they have a",
+    "start": 304.4,
+    "duration": 45.28000000000003,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_6",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "very different way of searching. it definitely won't be I mean the thing is that could be we could build it into a basic search that could look into docs and get back for any docs but I think we have a lot of metadata we have a lot of uh like we we have we can have a very good understanding uh of the system the documents the amount of information we have and then we also could map it out understand how the end user would use it and try to have like a custom ced solution for them um I think we'll have a good chance and a fair chance of being very useful for them so that's the entire talle. So we'll go through the things but before that I just want to make sure the reanker is working. Um we have reankers and we've also stored this",
+    "start": 348.16,
+    "duration": 43.03899999999993,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_7",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "on cordon type. Yeah it's using the local cordon for now. Later we'll change it up uh dashboard. Okay. Yeah. So uh cool. So what we've done is that we are building the system that supports 85 that supports that should support more than 85,000 documents on a right now we have 10,000 documents saved to an SS uh to a VM. That's why we will do all the processing etc and save coral and etc. We and I've spent a few hours in the past videos you can watch. We've spent a few hours to get a sample of diverse documents among the 10K documents because you can't look at 10K documents at once, right? And but what you can do is that get samples of each document and you could try to see how formulas are present in a very old document on a mid- old document probably in the 1990s. Very",
+    "start": 388.24,
+    "duration": 63.839999999999975,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_8",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "old is like 1950s. For example, this is in 1954. And we've solved formulas, tables, images, etc. for a document in 1954. And we've also solved it for solved it for the very recent documents which is sort of like an automatic work because if you were to solve it for the worst problem you know at even at this case it it does seem to work very well for the newest problem because they're very strict very very straightforward very simple and etc. So we've been able to get a ton of what do you call a ton of sample data across the thin documents. So these work as representations of each you know type of document and we were able to go through each and every most of each most of each most of the documents of each diversified document space from you know in terms of um timeline or even types of documents with",
+    "start": 450.16,
+    "duration": 50.87899999999996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_9",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "a lot of graphs maybe technical papers and etc and you can go through the docs probably and in the first video you can see how we pulled it. NASA has its own API NTRS NASA technical research space system. I think you call it your technical report server where you can actually fetch use the API to fetch like even 100,000 documents. It has a lot of document millions of documents I think. So we just pulled in about 10K from that and it work yeah it works super well like the documents are really great and we've pulled a few of them to give us a good testing data for us to build it for like proper Wii docs. Um yeah apart from that I think yeah we we are probably in good shape and yeah so you can see the documents these are 1963s and we've seen even 1954 docs but",
+    "start": 499.44,
+    "duration": 54.32000000000011,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_10",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "these are very very well scanned ones. So yeah, it should be good. Yeah guys, cool. Uh, now I want to just clean up the code a little bit. And again, once again, the overall um the overall goal of today's listing is to understand as much as possible about the user and try to have like a pip first test pipeline working with a few search queries happening documents etc. And also we'll probably you know uh yeah uh I hope this will mostly be uh sort of like a theory sort of understanding sort of space and then we'll probably move in to the code file. Yeah. But I definitely want to get like like very good understanding about the user before I even touch code on the agents. So yeah so I'll be like um okay thanks. I would like to process all the documents inside this uh directory.",
+    "start": 551.6,
+    "duration": 53.32000000000005,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_11",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "What is this? Okay.",
+    "start": 606.399,
+    "duration": 3.7210000000000036,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_12",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And also I think I want to before even when I jump into I think there's a lot of improvements to be done. So I think we'll work on the improvements first.",
+    "start": 638.88,
+    "duration": 10.43999999999994,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_13",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. So let's take a quick look at one of the conversations we did have. I sent the project information and I I think I asked s something like that some initial level of uh information. So and we had this chat on the second stream I think. So basically uh we'll just go through this. Our goal is to sort of yeah just refresh the understanding of what we're trying to do and you know have um I think yeah because I tend to forget things very very often. So I want to just you know get into this. So yeah this is what we're building a enterprise right system for highly technical domain. This falls under knowledge management or enterprise search but specifically the a modern AI enhanced version of it. Yes, traditional keyword search fails because an engineer searching for trust chamber failure won't find the 997 doc that says",
+    "start": 885.6,
+    "duration": 45.999999999999886,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_14",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "combunion instability led to chamber wall breach. Yeah, true. That's why we're building this in the first place. The concepts are the same, but the words aren't. And plus, you know, you'll have a lot of documents. You'll probably even have 100,000 pages if then how would you solve it is what we're trying to do. Um, and yeah, degraded document quality and this is what we've solved in the past 3 days. This is done. we are able to accurately with 90 to 95% accuracy uh part um pass documents from 1954s which is nearly 70 years 75 years like that is probably very very very very long and technical diagrams we actually solve technical diagrams as well all of them are using open source models not clawed so we have used so many unique creative ways of solving this stuff with like you know zebra lines and you could check uh",
+    "start": 929.519,
+    "duration": 51.84100000000001,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_15",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "streams I would encourage you to do so um and yeah so this is technical diagrams are also done apart from that formulas are also done tables are also done so that's I mean that sort of falls under the technical diagrams you'll have like not just diagrams are also forms formulas and etc so the all both of this is actually done which is the one of the one of one of I would say pretty much most of the complex part of the project so that's done domain specific language those are the these are the acronyms we would actually solve it after we build the search agent. This is what we have to do. We for the search I basically want to use open air cloud this time I usually uh I mean I mean according to the documents these probably the system would be deployed in um a compliance",
+    "start": 979.12,
+    "duration": 47.04000000000008,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_16",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "space where you can't use cloud models but you you have to use open source models but later you can actually change them. it's not a big deal but I want to use claw and see how well it sort of performs and really try to understand patterns from it which I could really match when I'm using an open source model but it doesn't matter uh uh domain specific language we're not going to fine-tune them but we're going to build a smart retrieval system for domain specific knowledge and this is a sort of so uh in the past what I've done is that we use open source models you know access a lot of these domain terminologies and fine-tune them so then they know what you know what lsb would be what loo x would be when some when the user was to specify lx X it will",
+    "start": 1024.64,
+    "duration": 37.11999999999989,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_17",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "actually expand the query and mention liquid uh oxygen something um um and stuff like that. So uh we could fine-tune it but this time I want to work it out not without fine-tuning. I want to get the same accuracy by using a retrieval system on top of that. So we'll work on that. We'll definitely work on that. We'll have that'll be pretty fun to do it. And cross reference documents. Of course this is what we we we would the agent would would want would want to do. And you can see failure report references test data which differences design spec. So you can see the space you can get a feel of the space we're trying to work with the there is no one single truth of a document. You'll probably have references across documents which one document could not probably probably won't be able to cover",
+    "start": 1060.0,
+    "duration": 44.960000000000036,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_18",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "everything like one one could be design script one one could be t uh the test for that specific design and then one could be the failure um document or something for that specific design. Right? So you could probably you'd want to probably you know be very open-minded. The agents needs to be very openminded and not be able to search things proactively even though it was only the test documents were only asked but it should be able to pull relevant test or failures of documents connected to it or something like that. So it needs to be proactive depending on the sets. Um on premise deployment of course all the processing all the like you know metadata processing saving quadrant everything's local using docker and open source everything and stuff. uh only for the agent I'm using um uh cloud and open AI for this you'll need local emitting",
+    "start": 1102.88,
+    "duration": 48.15899999999988,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_19",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "models yes self for vector yes that's what we're doing quadrant and for llm we'll probably yeah for for l that's split in two one is document processing which is uh is a huge chunk of work that's that's already solved using open source models so yeah this is sort of also done so we'll take a quick uh intro for this so you understand you're reading bio biopropent systems rockets using two chemicals fuel and oxidizer that combust together. You see there's t there's a there's ton of jargon here guys like if you were to me if the user was used to if the user uh were to mention monom I don't know how do you even spell it uh monomeal hydrogen. Okay, cool. But it's yeah it's quite hard for me to pronounce. So uh it's a fuel and if you if the user were to you know sort",
+    "start": 1149.2,
+    "duration": 60.47900000000004,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_20",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "of just mention this and if the document were to have this information if the embedding is good yes you could retrieve it. But if you were to build domain terminologies and the agent knows this is the technical term for it. It can actually search through the documents because these technical terms are standards. Um they're like quite standard. I can actually uh show this to you. um who's actually in TRS uh technical standard domain terminologies not in the other I would say yeah technical standards Yeah. Yeah. This one. So NASA thesaurus contains authorized NASA subject terms used to index and retrieve materials in the ST repository. The scope of this controlled vocabulary includes not only aerospace engineering but all supporting areas of engineering and physics. The natural space sciences, astronomy, astrophysics and planetary sciences, earth science. You can see it's not just for like aerospace or rocket stuff. this",
+    "start": 1206.88,
+    "duration": 77.03899999999976,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_21",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "this the domain terminologies would also expand to much more in terms of astrophys if you want to solve it for astrophysical docs um if you want to solve it for and I don't know whatever part of what whatever the subp part of the science stream you actually work with they have a ton of they more than 18,000 I think yeah easily and they have even different versions of it so this is free as well this we're going to use this as well I don't think we have an API but we can actually download this and we can do something so we'll actually come to this uh we'll come back to this in a Yeah. So key matrix engineer care about this is for an example, right? This is not so claude is sort of um giving you an example. This is based for an example. This is not what they only care",
+    "start": 1281.679,
+    "duration": 43.92099999999982,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_22",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "about. It depends on the query and etc. Cloud did a bad job here. But yeah, why historical failure data method? Aos is heavily regulated and safety critical. When certifying a new system, you need to show that you consider all the failure modes. Missing a historical failure like they did in the last quarter is a big deal. It can delay the certifications of worsen lead to actual failures. That's true. Yeah, we don't want this questions you should be asking them. Can I Yeah, of course. Can I get a sample documents? What the success look? So, in actually in a real world scenario, what we do is that we actually um Sorry. Yeah. So, in a real world scenario, what we do is that we actually um uh like have conversations. We have conversations for more than a week like I mean conversations would just go on until the end life cycle of the project",
+    "start": 1323.44,
+    "duration": 53.039999999999964,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_23",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "even more but what I'm trying to say is that we will try to you know jump into calls and access as much as information as possible like just have random conversations try to see you know uh the thing is because you don't know what questions to ask you would never ask the right question so to be able to accurately diversify the prob probability or increase to in at least increase the probability of you finding the right information. You just have to have really good conversations of people in that domain. Um, of course, you you you wouldn't just, you know, you know, have conversations daily like, hey, hi, what do you want to talk about today? It's not like that. You want to do your research and you would also need to be very open and very you you want to be a good listener in the first place. You",
+    "start": 1374.0,
+    "duration": 46.24000000000001,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_24",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "want to be able to listen um very much and uh divert conversations and come back uh make notes and etc. and then try to have like a very good view of what u the entire like like really what uh uh yeah what what what does nothing but basically we just have to have a lot of conversations and uh try to understand the real spectrum or the real specificities of of a system like this the the overall goal has to be is that you want to build a system that could save hours of their time. This is what it it'll be tremendously useful for them. So you literally want to care about that. You want to honest about the current uh you want to be honest about your understanding as well and you know ask questions use GPT uh um um try read a bit of papers uh look into their",
+    "start": 1417.679,
+    "duration": 50.080999999999904,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_25",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "documents. For example in the last streams we literally look through most of all of these documents. These are very complex and some of the stuff I just don't seem to understand or um not smart enough to understand as well. But you can still you know spend time understanding docs or the space or whatever and you can still you know sort of sort of question them and sort of um um um you know be open and they'll be happy to help out and you'll and and this is more than being smart or more than being you know like knowing more than uh more than your general understanding of the field. It's basically like the curiosity the basically about curiosity. You just have to be very curious ask questions. Um and I can't stress enough I used to ask pretty dumb questions and I still you know end up gathering very good",
+    "start": 1466.72,
+    "duration": 47.600000000000136,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_26",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "information because you know um the people in the folks in the stream are very helpful and that's one of the advantage you can have that they're not like lawyers like lawyers don't tend to you know talk much they just don't I mean not talk much they love to talk but they wouldn't give you info and stuff like that but this is like you if you were to ask a lot of technical stuff to like technical folks it's like a huge advance you learn a lot as well uh anyway I just diverted to my rant. Sorry about that. Hi. What's this? [Music] Right. They have deep expertise and senior engine 15 to 20 years of functional system worked on dozen of certifications for the person investigated failures within many of the documents that achieve the dynamic you're walking some",
+    "start": 1512.24,
+    "duration": 61.87999999999988,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_27",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And also you can see a good point over here. They're precision oriented um sometimes to a fault. So engineering culture rewards exact specifications correct terminologies and non no hand waving. When they ask trust chamber failures we have seen in bipolarent system they specifically ask about trust chamber not injector not nozzle bipropyl not monopropent not solid about 2 about 2,000 pci uh specifically not high pressure yeah so essential is that our system should actually be more specific towards thing and we know the users are would be necessarily specific but if you were to find like if if they were to mention about trust chamber. We wouldn't want to like if it's relevant, you want to look into other sources as well, but you don't necessarily want to um give info on like the things that the user did not ask about or something like that. That's what I feel just getting into it. But",
+    "start": 1595.6,
+    "duration": 56.95900000000006,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_28",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "then, yeah, we could be wrong and claude could just, you know, over like over like give us a wrong example or something like that. I'll definitely sort of uh you know, do a bit of research on this. But yeah, this is like good info like honest firstand info is okay. [Music]",
+    "start": 1650.32,
+    "duration": 22.589999999999918,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_29",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Oh yeah, that's true. I mean, oh god, just see this. I mean, I can see my fans are bumping up and I could see why this is and I don't think you can see this terminal, but let me put it over here so you can see it. 334 tables extracted. uh 261 detected, zero missed. 113 are continuation tables. They're continued tables. We also because like the tables are like you'll have a huge table and we continue to the second one, third one and fourth one quality. Yeah, I think this has a lot of like uh and this is a continued table. Can you see over here like the amount this um A600 field pre- burner is continued over here, right? And this is continued. This is continued and then this is actually continued. So you have 300 sort of 334 tables and like sorry 261 tables main tables and you have 113",
+    "start": 1746.799,
+    "duration": 60.16100000000006,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_30",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "probably double the probably continuation continued tables which is I think true because this document uh is so long so long. How many pages is this? Oh god. I should just keep going. I It's more than 200 pages. Yeah. So it's like a 200page dock. I think you can see the amount of pages. Easily 200 plus page. Cool. So yeah cool. Uh it will take a bit of time so we'll just spend more time on this. Um they time staff and inter uh interrupt driven. A typical day for an initiate marine works on two to three projects simultaneously getting pulled into meetings answering questions from junior engineers dealing with client requests or and actually doing the technical work. When they need historical data, they need to know after four hours of archive dive what this means for you. Speed matters. The in the inference needs to be dead simple. Don't",
+    "start": 1805.039,
+    "duration": 61.51999999999998,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_31",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "make them learn a complex query language. They'll use the you listen the five minute industry meetings. Okay. Uh you need two personas. One is the first one. Yeah. So one is a senior engineer called Sandra. 25 years of maritan experience. Half of the documents were written and she was there for like most of the half of the documents were written. And then you have know where the bodies are buried. She exactly know where the docs are and she knows you know to you know to be able to search things right. She know she literally knows um like where to search and etc. has a mental map her relationship with technology uses what works ignores what doesn't. Has many seen revolutionary tools come and go comfortable with command lines and old systems. We just trying to understand personalities right? I'm just trying to do like personality assessment not",
+    "start": 1864.799,
+    "duration": 46.24000000000001,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_32",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "assessment actually like trying to understand you know just more about the user. So hopefully I can more then understand more about the hopefully I can understand more about uh the the systems maybe what we need to um okay what she wants find me thing I vaguely remember exists validation that her mental model is correct a way to transfer her knowledge to journey stuff and also so there's also another junior goal matters and this just personality is like um three years very new very very techsavvy probably use a lot of GPT probably is very good at prompting um yeah and probably uh if some if a query in case for the worst case sort of fails he'll probably assume that you know it was very it uh it uh it was probably an issue with his prompting thing I'll probably go back and improve the prompts and etc and sort of you know",
+    "start": 1909.919,
+    "duration": 58.47999999999979,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_33",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "do give a give a chance to the system he'll definitely do you can't expect that from Sandra the judge the system. Does it help him good competent? Yeah, just like how I use flood code. Can he find things without bothering senior staff? Yes. Does it help him learn the domain? H yeah, cuz he'll be more he'll be he'll be very curious. He'll be very curious to like I because there'll be a lot of documents, right? And um if he if he wants if he probably uh we can put this this way he could be very curious about a lot of things and he wants to read papers that is not part of his day job but he still wants to you know sort of go through some of the old documents and see what the research has been done and etc. He probably used the system for K.",
+    "start": 1966.48,
+    "duration": 46.399999999999864,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_34",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "How he'll judge the system. How he how to win him over? How to how to win him over the emotional undercurrens. What if you miss something again? I miss failure. Yeah. Yeah. This is good. The emotional on the current. Um in our in our example was that that in our in our example as we were talking is that you know one the the main project was did mention that they missed something in their yeah last quarter they missed a relevant failure mode during a safety review because the historical data was buried in 1997 test report that nobody knew existed. Right? So they want to be like they want to be very cautious because they they're working they're working with I mean they're spending a ton of time energy um resources money and etc building a system and then if you if you miss even a single and rock and I'm not a geeky",
+    "start": 2010.48,
+    "duration": 66.07999999999993,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_35",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "guy in this rocket space but I do understand I'm very passionated towards the space I understand a little bit of information I would like to you know like to talk with people be more curious about it but end of the day they're working with a highly uh um highly expensive um and this place is very expensive as well and high and time consuming as well. So you would need to be you need to get everything right. There is no there is no next time we'll do it sort of thing even though you get a chance to do it next time but in the try should be uh 100% accurate. So um there is no way you the system would probably be used to um yeah the system isn't just convenience it's risk mitigation as well. So it's not about just finding information but is also making sure that this information is",
+    "start": 2074.96,
+    "duration": 47.11900000000014,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_36",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "very right and the information uh is not just right but it's also uh expansive like it's also not expensive expansive it's also it gives it probably the information is not just from one document or for a query but it's also um from many different documents many different sources and very diverse so their risk is sort of mitigated because they're coming across a lot of information you know in each query or something like that and that could open up you know more research or more more information which could leads to better risk mitigation at the end because information here is very cool. It's not just you know table it's not just one formula it is a formula like that that it's it's sort of like a dealb breaker for them um and of course tables with a lot of information and etc. Um, cool. I think the processing is going",
+    "start": 2117.68,
+    "duration": 55.88000000000011,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_37",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "on. We'll have the final. Cool. Um I know it's in somewhere the current 4 to hour search pro four to four to six hour research process is demorodoralizing imagine you know what you've seen in relevant report you spend half a day not finding it you give up and recreate it already exist or you miss it entirely the pain you're solving is a demo which your faces find in 5 seconds that would take up to four four hours yeah I would say it's like in minutes not like 5 seconds but probably like like more minutes or something probably like less than 2 minutes probably 2 to 3 minutes because you need to you need to spend a lot of depending on the query of course if you want to do like a deep search it'll it'll probably if you want to do sort of like a deep search",
+    "start": 2170.56,
+    "duration": 60.40000000000009,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_38",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "probably be more than four five minutes maybe even 10 minutes maybe you want to you know get a high level document sort of info it could be less than a minute or two um cool",
+    "start": 2229.599,
+    "duration": 12.480000000000018,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_39",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. And anxiety. The old god is retiring. It's also about Yeah. So a system I can you can just note some of the bullet points over here. A system is risk mitigation. It's also knowledge uh preservation but also um yeah it's it's preseration or and yeah those are the two like main sort of things the system would need to solve. But also like you know be uh you know supercharge the pe uh the folks who are very curious to not just not just curious guys I mean uh maybe I'm just putting this in a wrong way but it's just that you want to find the right information as more as much as expand the information as possible that could exist in diverse amount of documents and you want to be safe and accurate about it. This is where sources sort of play a good picture here. So",
+    "start": 2288.48,
+    "duration": 62.159999999999854,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_40",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "they'll how to use the system engineer opens searches types questions get perfect result starts big by fail gets over results I have 200 results find some oh is another one follow references find actually what they need skim through the system needs to support this iterative refinement process not just oneshot queries yeah because I think they've used to they are used this is the that's one that's why I want to understand this person is that they're very used to um these guys are quite used for uh to search through keywords and they're very good at it as well. It's not like you know they won't get information. They'll definitely get information but they have to do the analysis and sort of looking spend extra time to see if it's relevant or not. That's what our system would mean to do but at the same time we're very like a",
+    "start": 2348.96,
+    "duration": 47.75999999999976,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_41",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "lot of the agent systems or system that I've built is that you you it's very agent. You ask a lot of questions you given more information and the agent goes back and it searches a lot of things and come backs and etc. But here I get a feel that sometimes people might just for bio problem failures. Uh and um yeah what what the agent would probably do is that you know come back follow up question uh I could find info on that but probably uh like what year do you want or is there any constraints stuff like that or I I just think I we don't need to we don't need to be as um uh we don't need to get everything right right now like in terms of like a memory of what we need to do but I think it should able it should be able to it should sort",
+    "start": 2395.119,
+    "duration": 48.40099999999984,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_42",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "of uh sort of also to support very minor info like like stuff like this like bio bio bop problem failures is f 2000 uh 2000 psi because what they're trying to do is that they're just trying to find the right documents in the first place and then once you find it'll probably like you know you know do this change and check if this is doing this check if x is y or y z or does they match or something like that that would be the next query so I shot that this entire system the goal is to be agent tech. That's what we want. But traditional people are very used to searching like this. So we should also have some way of you know sort of giving that feel of a traditional system. Uh but um u I mean just just to just to make sure",
+    "start": 2439.04,
+    "duration": 49.11999999999989,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_43",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "they're not lost, right? That's that's the only goal. Yeah. In case they just want to um see a few docs in a high level. Yeah. But we'll think through this first. It's agent agentic part. We want to fall. That's what we our system is there for. If they want to use keywords, let them just go and use their traditional keyword search. But the system that we're building is for a different sense which is also very powerful as well. Okay, this is a nice one to be honest. Accuracy by transparency is divided by uh is over effort into past appointments. I mean just made that up guys like questions to ask in your interviews. Walk me through the last time you had financial historical data. What do you what do you what do you do when you can't find find something? How do you know when you search thoroughly? What",
+    "start": 2486.4,
+    "duration": 47.19900000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_44",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "would you do in your system? What's your worst experience? So then I was like you know cuz I can't ask this to Sandra right so I was like be in your shoes be in the shoes of Sandra and you know accurately sort of answer the question just to get some perspective and I did",
+    "start": 2532.24,
+    "duration": 16.800000000000182,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_45",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yes. So essentially um um I of course you can go through this but the the understanding is that she um assuming this was actually a real world conversation what we're trying to do is that she's mentioned that in three weeks ago she was trying to find some historical data that was buried 15 years ago. She just uh um she does um uh she looks into different folders, looks into projects and does like very like like keyword searches like chamber and then expand on more documents and check for references. Some documents would you know reference other documents and she would check that and that document doesn't exist because it was only partially scanned in 2015 and it's probably in a different building or a different driver, a different folder on a different server. And then she uh and she probably bas uh she probably uh waits about",
+    "start": 2706.88,
+    "duration": 51.51999999999998,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_46",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "how much three to four hours and then she has to jump into a meeting and then she's lost in something else. So at the end the flag goes historical data search incomplete. But do that data do I mean the data does I mean um the data would probably exist. She couldn't find it because it wasn't it wasn't streamland or it was it was lost somewhere. But just assume if the system if all of those doc if it lost somewhere you would never know you probably have like 50 70,000 documents and you have different wordings different file name it's somewhere it's somewhere you would never know but assuming that she copies and pastes and our system processes this I would know I would I would probably want to know is that I would probably want to know that's what I'm going to ask claw is that in case if this if our agents",
+    "start": 2756.8,
+    "duration": 43.51899999999978,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_47",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "were to solve this how would it solve this and what actions it would need to take and also what would her query be like I want to understand how what what would she query um and how a system would probably you know go through stuff and understand etc. So we'll just give this shot a bit",
+    "start": 2798.96,
+    "duration": 15.639000000000124,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_48",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. So it's assuming G system is only doing let retrieval only like we it's assuming it's not an agenting system and it's a retrieval system where you put in something it does semantic search and just retrieves it and then she's she adds more information and stuff like that. But I want to be clear here know so I'll just be here. So please note that our system is an agentic system which means it'll think like a human. It'll search through things, read it, analyze it, reason through things and then it if it finds new information, it'll search for those. It'll be basically it's it's not just retrieval. The 50% of the problem is only document passing and retrieval. That's something that we have solved. But the next part the important part is that it should be as intelligent be as be intelligent as a human being and not",
+    "start": 2897.2,
+    "duration": 54.720000000000255,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_49",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "just a human being but then be uh someone like Sandra and then have that domain intuitions to search into the right place make really good search queries and then also reason through things understand problems you know switch parts and really be uh really be and that's what we call it as an agentic system 50% of the work is only processing and hybrid retrieval but the rest 50% is actually analyzing stuff understanding it reasoning and going back and forth, you know, asking follow-up questions u and and being open to new information and having a note or a task clicks or sort of to-dos to track what to be done, what more have to research and change them as it goes and etc. That's an actual in that's an intelligent agentic system. We're not building just uh OCR or just you know like what do you call um a retrieval system. We're not just",
+    "start": 2949.599,
+    "duration": 52.1609999999996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_50",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "building semantic search. We're building semantic search is just on par a very small issue. We're actually building an intelligent agent that thinks like a person like Sandra and then sort of you know perform searches and do a ton of things to be able to give her a right response. So see Sandra doesn't need to search for keyword sort of thing. she can just mention it as if she's talking to a smart human who has access to all of the 100,000 ducks and remembers all the 100,000 docs and could give a and find the information and uh synthesize it and give her a report or something like that. So that's what a system that is what we're trying to solve to be honest. Yeah. So we have to mention that cuz it's assuming that we're building cuz you can see the diagram here meta extraction embeddings and vector we've",
+    "start": 3000.319,
+    "duration": 47.360999999999876,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_51",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "done guys we've done this this is all good embeddings we have we have metraction we have OC we have chunky we have everything but the thing is that's only 50% of the work we're trying to build a smart system that just goes beyond the question uh we're just trying to be just like we're just trying to you know clone Sandra and give a and like 10 10x X intelligence or 100 X intelligence giving access to that's what we're trying to mimic. We're trying to mimic Sandra. Sandra doesn't search. Sandra asks. Yeah, exactly. Ask asks and the agent thinks. Let me repeat what Sandra actually wants. She doesn't she doesn't type a query. She talks to it like she talk to brilliant colleague who has the photograph memory of every document. Exactly. That's what we're building. A brilliant colleague who has photographic memory of every document. This is what",
+    "start": 3045.839,
+    "duration": 54.48000000000002,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_52",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "we're building guys. This is such a nice uh what nice way to um put this put what we're building. Okay. So, I'm working on a safety search for a new So, yeah, you need to also they give in background context as well. That'll really help the system. Like I'm working on a safety scent for a new Apogee kick motor by propellent NTO/MH and they're pushing chamber pressure to to visit the thermal energy at those pressures. I know we've seen issues before maybe around the Europa program. Can you find what we know about this? That's it. That's the input natural language. That's where that the way that she ask a senior colleague what does the agent introducing. Okay. So let's go through this be nice. So okay let me understand what Sandra needs context classification by chamber message and all this stuff her concern thermal margin at elevated",
+    "start": 3096.88,
+    "duration": 58.79999999999973,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_53",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "pressure. She vaguely remembers Europa program some past issues. What she actually needs historical case of thermal issues in bubble chambers failure modes we have seen any design guidance or lessons learned. specific U of program data if it exists. My search strategy this is very good. We should have strategies for it. search management and this would launch and this would be one one like you could think of think of it as a sub agent that would you know look into so many docs and then comes back because you yeah yeah that's what I think we should do search specifically for Europa program propulsion issues search for high chamber pressure look for f analysis related to any findings check for design guidance on thermal margin pressure and let me start and it it didn't yet start this is sort like a plan of the criticis context. This is",
+    "start": 3153.599,
+    "duration": 53.680999999999585,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_54",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "what she needs and this is my search strategy and let me start and then it begins. So first it's going to go through I think the historical cases or maybe the um maybe the by yeah terminal issues and byent systems and thermal margin erosion chamber high pressure. Now the thing is like this this the query will be much more better because we're using domain terminologies from NASA uh theorus. So yeah retrieves 37 potential relevant chunks agents reasoning reading through the results document ted by ruper this looks directly relevant the test 14 was aborted due to chamber research anomaly post test inspection show thermal margin exceedence at th to region chamber pressure was 2350 psi that's close to sand yeah that's close yeah so I think it's the reasoning sorry understand trying to map different things important the document references fing for dative failure I need find that document. So it",
+    "start": 3205.52,
+    "duration": 58.23999999999978,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_55",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "does go there and sort of there's a lot of keyword search or maybe like because something like this MA effect you could do keyword search for this you might directly find the exact document you could also do some semantic search as well you either way you'll try to pull it pull this you could also try to use method you have a lot of metadata so you can probably process a lot of metadata as well oops I I think open router is failing a bit. Anyway, it's fine. We just wanted to just run it. That's it's okay if it fails. Document high pressure high pressure bopin chamber test. Old document 1997 discusses thermal analysis indicating margin revolution above 2,200 psi. Recommends material change for sustained operation. Okay, this and we have document this uh might have uh current design guidance. Let me flag this to read more this carefully.",
+    "start": 3261.76,
+    "duration": 63.92000000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_56",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "updating my task list. Search for thermal margin issues found find and now it's basically updating its task meaning like a to-do list where it needs to now um it it so basically did the search and it found that you know you need to search for this specific document which is very critical to search and it needs to understand that or search perform a search for that and come back and work on the rest of the other ones and of course like you can have systems that can work things like you can launch sub agents parallelly for certain tasks And if certain tasks are dependent on certain tasks, you would want to, you know, sequentially process that and process parallelly you know I mean at the end of the day it's just a sub aent you just have to generalize the sub agent that makes a decision for example in this particular",
+    "start": 3324.0,
+    "duration": 49.76000000000022,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_57",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "to-do list check if there are related injector issues the Europe right what it can do this could be an a parallel sub agent that's independent that does the work and comes back look for any other failures analysis high pressure and you can do stuff like this but the thing is like for a domain like this just see the initial task this um there was about five task list right and this and if you go to like like for example oh sorry I'm just blabbing here there was like five task list over here and if I were to scroll down you can see it it was working on the first one and it discovered new information and it and this is very good information mfa/208 20008 it needs to check this document and upon checking this document it might find even more information which can be used for the next consecutive searches.",
+    "start": 3370.16,
+    "duration": 53.120000000000346,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_58",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So if you were to um there's probability guys there different system you can you know you can launch sub aents which is independent and it'll still give you good results but I think for a system like this I would like information is so dense information is very very important where you would need to wait and understand or gather information in the on the first few tasks and use that information or the learning from that learnings from that in order before even you work on the next task sort of thing. So I see this sort of domain to be as important as that where information could lead to very different outcomes and etc. So I would definitely u yeah um I don't think I'll probably have parallel stuff going on here. I want it to be sequentially even though three or the four tasks could run parallelly. Uh",
+    "start": 3420.0,
+    "duration": 47.68000000000029,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_59",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I would still you know I would still just keep it open and keep it uh um not keep it open. I'll keep it u sequential is that you would never know where new information could lead the path would probably even change the entire plan. If you found better information if you if your entire plan was wrong because you have no synthesis you have no information at a high level you're only creating the plan depending on the user's question but when you find information is when your plan becomes more solidified where you update it and it works on things. So for now we'll sequ we'll assume that we are going to sequ se sequentially process all of this right uh new lead yeah new lead inject termination I should search for this too yeah following the lead thing is like it doesn't need to update the task task list often like you don't",
+    "start": 3466.24,
+    "duration": 49.1190000000006,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_60",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "like as as you come with new information you don't need to come back again and you know keep on updating the task list and uh you don't need to do that because it'll be it'll just make things a lot of it will make the entire plan much more complicated. The thing is you need to have five to six to-do list. That's the main goal. And then you can have each to-do list have its own sort of notes if you want to, but not even nodes cuz we're doing everything sequentially. It just needs to have a notepad and also to-do list. So for each for each task, what new information you come what information did you come across? What are the new information does it affect the other search or maybe notes or whatever and etc. That's what you need. Just keep it simple like that and it doesn't need to come back and",
+    "start": 3513.52,
+    "duration": 42.31899999999996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_61",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "just info M RFA and then afterwards if M RFA the document I guess it's a document it references something else you don't need to come again and update the plan that's not the goal I think can hear my fans so I think yeah generated,553 chunks in reading order good and it's yeah so this is working I think cuz anyway the end will be processing this on a GPU. Um, sometimes with the models and stuff I might not I might run away with my message. It's fine. And do you have any agents internal reasoning? Yeah, this is gold. The the root cause is injector related, not just chamber related material. Sandra needs to know this. It means that the thermal margin issue might not be solvable just by material selection. The indexure design matters design. Okay, so this is from Tusan. She probably forgot. This is very",
+    "start": 3553.2,
+    "duration": 79.20000000000027,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_62",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "good use case guys. And this is very random that we just you know we just ask but this like this information is very good. Um um and yeah and this is what our system like that's what we want to do that that's the whole goal of the agency system. It's not just finding you know finding words on like it's not finding uh certain keywords and just bump up bumping up files or just finding basic text and giving her information. It's just trying to do the that that that thinking work of an thinking work of that particular person like like an expert person in the domain and then sort of trying to solve that as well. That's where the agent goes the extra mile, the extra step and that's where that's when you can actually call it an agency system. If not, you just can't call it an agency system. It wouldn't",
+    "start": 3630.48,
+    "duration": 47.11900000000014,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_63",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "make sense as well. Uh and yeah, should I go deep into the injector analysis? Let me assess is relevant to Sandra's question. Yes, if the root cause was injector related, she needs to know what the injector consideration was. Yeah. And this is Claude, guys. That's why you can see this sort of the thing is because I think we we let's use Claude for this. I can um um and um yeah I mean even on the the only thing the cloud could even generate a use case like this because you can understand this domain very well and I think if you were to use claude it'll probably you know um yeah perform in a very very uh um like something like this for something what we see in the test case it probably performs something like even better with our changes and etc. So broadening the search and",
+    "start": 3675.28,
+    "duration": 44.55899999999974,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_64",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Facebook broadening the search and you can see this is also so this is uh so you so um this is I would say this is one theme of an agent system not an agent system but then the system that we should design is that you have to make sure the agent is not sleeping on anything meaning it's not just focused on one single info it should also be very um I would say it should be very very open to understanding and finding broad information through broad search requests. So you can also see this pattern in claude where you were to ask some question. Some of the times it it uses the search tool to find um launches subittance to find very very uh launches different keywords different information for the same thing to find you probably launch like not uh not five or six probably two or three uh sub",
+    "start": 3718.559,
+    "duration": 58.88099999999986,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_65",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "agents or something like that. The only goal of it is to get a direct hit just to see if you can get a hit of some information cuz reankers and etc. It's all good but end of the day it's not like it's not a big difference. You won't you won't you won't you you would only like you would never you would never find the right information on just using a reancher. So it's just good you know nice to have sort of thing. But this is the most important sort of theme or or concept of the agent that we need to do is that it needs it need it would probably so this is where the parallel sort of search could be useful where you use the search tools to you know try to use different keywords use different meanings and stuff like that you know perform 10 searches to somehow find a",
+    "start": 3775.599,
+    "duration": 45.68100000000004,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_66",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "good hit you know like we assume just you know pray um um pray that we find the good information and we could 90% of the time because it's very broad We're doing 10 different keyword searches, not keyword, different searches with slightly different meaning for the same query or intentionally for what we want to find but on a very broad space. Um doing 10 queries, not three, I would say 10. Yeah, 10 10 is a good number. We we'll find we'll figure it out because we have to manage context as well. But yeah, if you if it gets a good hit and this is where you'll find good information. For example, see here, find something that I wasn't expecting. Uh, different program, different program entirely, but similar. They saw film cooling breakdown at 2,900 psi. Different injector design, but same underlying physics. The pressure temperature coupling changes the",
+    "start": 3818.48,
+    "duration": 52.5590000000002,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_67",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "boundary layer behavior. Wait, this is a theoretical study on combustion stability and injected geometry interaction of off nomical mixture ratios published in 1996. Autobus Richard Chen. This might be a document Santa mentioned. She vaguely remembered. Let me read more. Yes. This paper discusses how injected geometry affects chamber acoustics at elevated pressures and predicts the the terminal margin issues with chamber pressure exceeding 2,200 PSI due to changes in acoustic model. This is important. Sandra needs to see this paper. It provides a theoretical foundation for wipe 4,400 PSI is a risk risky problem. Updating my search list stuff like this. And let me check for the success cases. Sandra needs to know not just what failed but if anyone made it through and work it out. And yes and if you're working in a big company and if you were to have if you were to use like not just company",
+    "start": 3868.4,
+    "duration": 48.879999999999654,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_68",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "documents you would probably you know and not just company documents I would say but also any research papers technical papers that you already it's all this technical papers which already exists out there right you would want to see what you were building is probably you want to find any issues that were related to it why this failed because I'm building it again for example this 2,000 PSI it's 2,400 PSI sort of thing But did they anyone succeed with that? Like but the thing is like this you can't prompt the claw to saying when a user when a when a when a patients comes in make sure you also find the failure modes or also be proactive about the success modes. You can't do it. But what you can do is that just just trick it to use its own domain training intuition because this is already trained. What we",
+    "start": 3914.799,
+    "duration": 46.24000000000024,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_69",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "have to do is that be proactive enough but also try to be very broad. have 20% of your tool calls or whatever is dedicated to um 20% or 10% whatever the whatever the number is dedicated to finding broad stuff you know just be curious if you might because one single hit of an information would just change this uh change the trajectory of the entire search. You might find very new information that the the thing is like the the user would not never know to ask it for like you would never ask if there are any success failures or because in the company's knowledge she she she's only working for 20 years you know the company's running for 50 years maybe on the like they probably had some success with something like this in a very small level before she did join but you would never know to ask in the first place so",
+    "start": 3958.88,
+    "duration": 48.23900000000003,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_70",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "stuff like that that will only be possible only if we have like a higher rate of a hit like higher rate of u hit rates like hit like you just you know hit it and come back no reason as you just hit it and try to see if something is relevant with the relevant chunks that's where this is where the reank would be useful and then you see the first 10 or 20 chunks and you'll so things like this what you want to do is that you don't want to this is where you want to use very low chunking threshold not even 500 maybe 256 so then you can see 20 small hits opposed to big paragraphs that are only five or six so that's what I would also encourage that we do here is that We I mean of course right now the paragraphs we are I don't",
+    "start": 4005.359,
+    "duration": 42.801000000000386,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_71",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "think we have a we have a minimum minimum chunk of 200 150 I think and then the maximum will be max 2,000 I think because each paragraphs are sort of dissected and kept into problems but we can just split it up. It's not a big issue but what we really want is that we want to have we want to see at least in the hit so broaden search hit rate we want to see 20 to 30% of of um minor chunks. So then it could and very different chunks as well not from a single document as well. We will try to prioritize it in some way to access more chunks from very diverse spaces hoping that some hit would you know lead to in a worst case a good outcome. We're just trying to increase the probability. We could never know or we can we can we can",
+    "start": 4045.44,
+    "duration": 45.91899999999987,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_72",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "never prompt it uh prompt it in a we can never prompt this stuff to plot and it'll be confused and it just you know for everything it'll just do the same thing. So what we need to do is that just keep the space open. Let the information that Claude sees be the guide opposed to our prompts. Right? So that's what I'm trying to say. I'm just trying to explain this to you because I also want to process this so I remember this stuff and I can just go ahead and actually I think we should have recorded this. It's fine. It's fine. I mean yeah cool. Uh yeah that's what we want to do. And these are like basics that broad and such and not a big deal. Looking for counter evidence. So by primary system agent reasoning reading the details reviews this is exactly what sound is",
+    "start": 4088.72,
+    "duration": 48.63899999999967,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_73",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "shows high prefer but requires specific design changes Europe failure was with all the design practices I now have a complete picture historical failure what happened theoretical understanding of the pressure I think I have enough to give Sandra a comprehensive answer and it gives a beautiful answer so the list of historical failures thinks that she didn't even ask for a successful high pressure operation which ran at 2500 pci because of an improvement on a design change. Cool. Like this is Yeah. If if the agent if the agent were to do this, right, it's it's it's um uh it's it's a game changer for people working in the aerospace um aerospace um domain of space, right? U yeah cool. So the cool and also one thing I want to say is that just this is not a trick but you can actually you know use this is that instead of asking",
+    "start": 4135.12,
+    "duration": 55.67900000000009,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_74",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "instead of instead of um you know let's say you're building a system you're building a system for you know solving financial logs solving this or solving that instead of asking I'm building an agent for signing what do you think the agent should do how the agent would be great what are the things the agent should do I'm building for this company and if you were to ask all of this this pure crap the agent will just spit out uh um like very incorrect stuff like not incorrect so it will be correct but it'll be not on par of to what you want to build it'll be like you know make sure the agent is proactive make sure it knows this make sure understands the user make sure this it'll probably give you like a system prompt what you should do is that you basically have to trick",
+    "start": 4187.679,
+    "duration": 41.51999999999953,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_75",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "claude you have to not say claude that you are going to build an a not I mean you have to tell you're building an agency system but more than that what you have to trick clause is that you have to put claw in a scenario like for example you would put Like what we did, you have a personality called Sandra. This is what we are building. This is what who we are building for. This is how she searches all the traditional information. This is how day-to-day life would be in a company. This is how irritating is irritating the search traditional systems are. This is what we are trying to build. Now I just want you for this specific query. How Sandra would you know fire system like this? And how would the agent and uh and how would the agent think or how would Sandra you know sort of follows up",
+    "start": 4226.719,
+    "duration": 44.960000000000036,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_76",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "with or how how would the agent um find new information? How would the agent you know changes part? What would an exact answer be? So you just instead of asking you know you just you just you just you just give it a give it a different perspective and then you just see how well a system this is just sort of like a simulation basis. Simulations will always work. You're simulating a user asking a question and then simulating how an a great system would actually answer. In that case, instead of the claw instead of claw instead of cloud giving you points, it wouldn't give you points over here, but it'll just give you it won't directly give you points, but indirectly you can reference this simulation and then you could actually note down the points like what we did with broadening search and okay following the lead. So what we need to",
+    "start": 4269.28,
+    "duration": 46.39900000000034,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_77",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "do is that simulations work very well. If you're trying to solve to a domain that's very complex, you can't do it in a single go and I wish that I can do it for like 20 or 30 people like Sandra. So very different queries what the agent system would do. I just want to see what it does. So it will give you um this is what the agent is doing. This is what the agent is doing. This is what the agent is doing. solve like a simulation and then seeing the simulation. You have to literally see the simulation to find patterns and then what you can do is that you you read 20 to 30 simulations and you have you grab a solid pattern of okay if we have to build a system this has to have this capabilities. This is how it has to region reason. This is how",
+    "start": 4313.76,
+    "duration": 43.76000000000022,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_78",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "it has to u um fire off you know hit queries. This is how it needs to broaden search. This is how the domain intuition should look like. This is how um uh the agent's thinking passion thinking pattern should look like. This is how the agent should be. You're basically trying to design a design an intelligent sort of an human guys. So you can't literally prompt it to find this information and just use use vector search to find information and find that's not the whole deal. Those are basic stuff and system prompt plays a huge role here. You can have all the tools and stuff like that. If your system prompt is very example filled with a lot of examples filled with a lot of stupid information literally nothing works out. Your system prompt has to be not too long not too small. It just needs to spike up the domain intuition.",
+    "start": 4354.8,
+    "duration": 48.07999999999993,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_79",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I will show you an example here. When we do it when we do the entire system you would get a chance to see how um how the thing is at least I think u you know we should be successful at this but let's see you know we might we might hit some roadblocks but that's okay. But it's always good to do simulations. I do a ton of simulations for I used to work for uh not work for I used to work my old startup for legal stuff. So we were building some legal agents. So so what I used to do is I used to do claude give like um you know in Upwork you have a lot of uh guys putting right I want to create this contract this is my company information all of that. What I used to dump is that I used to gather",
+    "start": 4401.28,
+    "duration": 41.52000000000044,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_80",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "information any not uh like that specific job template and then let Claude first of all generate personalities you know this is this guy and also like zoom conversations like like test recordings right like assuming that the user talk to the lawyer lawyer lawyer Jeff and then uh client Raj they both are talking this is the conversation and etc and then what we do is that we run simulations you know the first simulation is that conversation is going through on zoom and etc etc It's conversation phase. What you do? You get the summary. You get the summary of the conversation and then pass it to the second phase using the information whatever the second phase would probably include all the important information from the call and then trying to research through legal databases. Do this, do this, do this and that and that this and that and then you have like a",
+    "start": 4438.88,
+    "duration": 47.11999999999989,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_81",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "good legal research. Then third is creating the document. Fourth is actually talking with the client and then making changes to it. Fourth to five phases of one single simulation. We call this a simulation. And what you can do is that you can create simulations with using real world stuff. If you go to Upwork, you can see these guys have a lot of questions and that's ethical as well. I mean you're not like you're not selling anything or you're not, you know, making money of it. You're just trying to uh see some real world use cases. You can take up is a very good space to get real world real world info on you know any specific products even you build. They have because they are hiring people. They're hiring people who pay that they're hiring people and those posts are usually well defined because they're paying money for it stuff like",
+    "start": 4484.08,
+    "duration": 45.11899999999969,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_82",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "that. So that's how sim you can make real world simulations and if you work and not just simulation what you should do is that sit and this is the hard part. A lot of people just jump into the code and they just write some tools you have some basic prompt and assume it works. But the most important thing is super super accurate understanding about that person and that's why I guess it's already one hour or so we didn't touch any code nothing we are just going through the user and just going through a lot of understanding so yeah understand as much as possible understand the user and run a lot of simulations and yeah do a lot of work before even when you start code guys have that solidify the understanding and then jump into stuff Sorry for my rant. I think I talked for a long time and I thought and I think I",
+    "start": 4525.76,
+    "duration": 53.19999999999891,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_83",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "need I did want to like I just wanted to mention all of this information cuz these are like super important. That's why I think we're still processing documents. It's fine. Cool. Um I think I do want to start now. I think I think I have a good So agent's mind. Look at this. The agent needs to embody Sandra's domain knowledge. What pressure ranges world is normal? The thermal emerging issues blah blah blah and all blah blah blah is mythical. Start broad follow leads. Track what you've searched and what remains. Look for primary sources not just summaries. Seek counter evidence and alternative explanations. Know when you have enough and analyst synthesizability connecting finding across documents. Identify patterns. Separate proof causes for symptoms and provide actionable assessment. These are the teams or the or maybe the personalities. what we want to what we want our agent to have. Okay. So now I",
+    "start": 4576.719,
+    "duration": 57.60099999999966,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_84",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "also just for a sake I also want to look into a different scenario. Thank you Claude. This is very good. Now I would like to look into a very different scenario that is also quite u yeah how can I put this? Yeah that also quite not quite yeah very good. Now I just want to look into a different scenario but not something like this. something. Um maybe we can look at how a junior would use it or maybe you know because if you were to design a system for a senior it will still work really well for the junior because if you were to solve the highest problems with all this agentic stuff and like the I mean the the nature of is that if you were to solve it for a very complex problem and it make make it as generalized as possible you'll tick",
+    "start": 4632.4,
+    "duration": 48.319000000000415,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_85",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "the boxes to all of the below mid simple different sort of problems as well. So that's a good spot. we don't need to rework for each um maybe you might have certain differences but yeah as long as the system could work for a very complex problem it'll definitely work for a simple problem as well as long as it doesn't over complicate a simple problem so this is claw uh I think clause is very good I would like to see a different query this and a different scenario as well so I'm just hoping claude would be um uh claude would give me like a different scenario cuz I don't know the I have a lot of unknown unknowns like I have have so so even like if I didn't if I didn't uh sort of uh simulate this I would never know something like this even exists like I",
+    "start": 4677.679,
+    "duration": 50.5600000000004,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_86",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "would never know that the agent needs to you know you know do like see uh see some successful failures etc. The thing is like I have no information at all. What I'm trying to say is that instead of asking what are the unknowns unknowns are and which cloud could hallucinate and I I would understand mainly nothing. I just want to see scenarios and just you know pattern match things and then improve my understanding based on simulations. So I just want to see different query and I hope I could discover some new information which could be part of the same part of the part of the part of the personality of of our agent. So yeah, I like different query and different scenario as well. And I hope hopefully this should be an important one. Uh the only reason I ask for a different scenario said it will be",
+    "start": 4726.56,
+    "duration": 48.638999999999214,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_87",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "just to make it broad and just to make it um make just to understand different aspects of different search or whatever. So just just trying to be uh ju just trying to be open here and random. Yeah, actually just trying to be random here because I don't have a goal here. Just trying to read scenarios. I have no I have no clues here. So just uh I think yeah I don't want to repeat everything. You guys can see my screen is off.",
+    "start": 4772.48,
+    "duration": 30.040000000000873,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_88",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And also if you see this particular I can just initially see that this was to be some sort of like a plan which you wanted to create but see this is very different. It has what happened my initial assessment possible causes I should investigate marks real questions. This is very new my search my search strategy. We had search strategy even before but you can see this is very new. This is very new and this is very new. So what we need to do is that we need to make sure the agent you know sort of um yeah uh includes any any just try to be as accurate here as possible. So we don't need to hard code stuff like a scroll or we shouldn't hardcode stuff like you know have the key findings sorry not key findings uh have the context what actually needs what's have these three stuff in your",
+    "start": 4896.239,
+    "duration": 50.72100000000046,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_89",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "internal reasoning and and then come up with a plan like we can't we can't like we shouldn't do that cuz it can it can it can differ by scenario by scenario what you can do is that you just can't try to encourage it to come up with a reasoning or a boiler template that would probably um that would probably include all the important points um things it needs to look into any notes any plan or any um important thing that needs to be part of the same plan or maybe even um what if if uh Sandra was to work on this or Marcus Marcus was to work on it how would he probably you know have a notepad or a note down book or something like that and not things down but yeah so still I'm not really clear on this I'm not sure how I'll do it but we'll see when",
+    "start": 4945.199,
+    "duration": 48.801000000000386,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_90",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "we work on it, we we can try it. First search the obvious query. Yeah. So this is search here internal reasoning and I think I'll just go through them.",
+    "start": 4991.36,
+    "duration": 12.520000000000437,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_91",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "H yeah, this is also a very good use case. But I think this will also require markers to specify any documents that they've already worked with. For example, this is sort of bluntly saying that um I that's what I think I can be wrong. We just ran a hot file test on RCS truster form contract R class standard whatever whatever this stuff everything look nominal. So it basically need what they might have some supporting documents for it, right? So it needs to markers probably needs to select all of them and send it uh that would actually work as additional context because there some data it needs initially. I think for a query like this we initially work on if not it'll just spend time on searching those right documents and trying to find them. Um so this is where what what this is where you can use a lot of um uh you can use",
+    "start": 5198.0,
+    "duration": 53.35999999999967,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_92",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "sort documents by relevancy meaning that you can to find the stuff that Marcus created just try to see the author for you know by metadata it is Marcus or that's created in the last 20 days or the last 50 60 days and then try to find that that's quite relevant. So depending on the query, it'll definitely change. But yeah. Yeah. But this is okay. Not not I didn't expect. Yeah. I thought it would be like a very different scenario, but it's generally different and root cause assessment points to NTO temperature below optimal range. This is a test procedure parameter of the hardware issue. Post test inspection is being conducted to confirm. Yeah, that's good. Yeah. So, they probably have to confirm that the phenomena has been seen and privile with no hardware impact. Yeah. One will dig into the impact and search for formal test procedures to",
+    "start": 5249.199,
+    "duration": 62.801000000000386,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_93",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "check whe actually says this helps. What's different between this is research diagnostics and sensitive figure out what's going wrong quickly. agents approach hypothesisdriven focused investigation. So yeah agent you can see agents approach we need to I think we should we should have agents approach as well like um recall like for a question so it needs to so like you you we cannot influence the agents like we can't influence the agent to um directly like or spontaneously work on things in a in a different way but if you were to you know decide what the approach should look like for example for Sandra's query it should decide it's an exhaustive search and should follow all the leads Marcus query is probably hypothesis driven uh driven and then focus investigation sort of thing so that's so basically that's like a personality right you just spike up that sort of uh yeah basically you know",
+    "start": 5310.08,
+    "duration": 67.76000000000022,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_94",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "give you more intuition to make the right the next right step sort of thing we can try it if not we can just remove this agent approach we can just try and see I feel like we should Right. Output structure different agents mindset is a researcher but this should be a troubleshoot. Again you see a lot of personality shift here. So agents approach and agent mindset um and then nature. So I think these are the stuff that the agent needs to generate when a query comes in. What's the nature of the query? What's the goal of this? What my approach should look like? And what what a correct mindset should look like. So this will influence the you wouldn't know it but I've seen patterns here. I'm only talking because I've seen patterns. If you were to the if you have a mode like researcher it'll influence certain",
+    "start": 5375.04,
+    "duration": 50.15899999999965,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_95",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "type of soul calls. It'll influence certain type of reasoning. These are stuff that you can't you can't you can't necessarily there is no one way of uh there is no the right way of saying this is what it is but you can feel it. You can see feel when he does a tool called you feel when you do the research reasoning and so you can feel that this mindset is definitely influencing the tool called structure or the way of tool called on the reasoning and etc. So just a minute guys and a notebook. Look.",
+    "start": 5423.679,
+    "duration": 31.240999999999985,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_96",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Sorry about that. Cool. Yeah, that's what I'm saying. So, the agent difference uh different thinking modes. Notice how the agent approach is differently than Sandra. For Sandra, cast a white net. Find everything relevant. Synthesize into historical picture. Look for patterns across decades. For Marcus form a hypothesis quickly test it against evidence maintain alternative explanations give extendable actionable direct step whatever but you can see different thinking modes different approaches to be honest. So another key difference is where agents domain intuitions look at what the agent knew without searching. NO has high phrasing point expansions of the thing is like this um uh if you were to use an agent like claude you can highly depend on intuitions could be right but if you are using like you know or quen or something like that you'll just make things up you just and then you'll have a you you",
+    "start": 5503.76,
+    "duration": 52.0,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_97",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "can't depend on intuitions like you can't depend on facts from intuitions you can depend on like approaches and etc. you can't uh you can't like you can't uh verify any facts like it'll there's a good 50 to 60% chance it'll definitely hallucinate so expansions and the reason you can sequence reasoning is also filled with hallucinations so what I used to do is that you just we just there's no way we can't do anything we just strict the agent to only work with the source documents for example nto has a five uh has a high freezing but even if it needs to sort of validate it it probably look into documents or sort of some some some database or something you know something to validate this not for everything like it wouldn't it wouldn't it wouldn't go ahead and validate each and every intuition so each and every",
+    "start": 5554.48,
+    "duration": 47.279999999999745,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_98",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "like sort of assumptions like assumptions that would uh still you have no way of controlling it so yeah no point talking about it so expansion or assisting this is domain knowledge layer that makes the agent feel like a colleague not the search engine without this the agent would return documents with the agent reasons about yeah this is very Thank you. And I would like to see uh another different scenario and this time we'll actually use the not Sandra, the other guy. I guess we talked about the junior one. We actually leave the name",
+    "start": 5599.76,
+    "duration": 34.67999999999938,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_99",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay, this is J engineer. Okay, for months I would like to make sure that this is a real world scenario. I mean of course everything is real but I just wanted I just I should mention uh yeah thank you very I would like to see make sure that this is a real world scenario cool yeah still I have no goal just being random hoping that I'll discover some stuff the process is still going The chunk will all the chunk. charge. He",
+    "start": 5653.52,
+    "duration": 79.95999999999913,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_100",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay. So, this is some happens all 10 times. Yeah. So, it's 11:15 a.m. Sanders just got an off design review with a customer commercial launch provider. The review is going fine. The customer see this. I saw the space next had a propellant installation ve failure on the recent mission. Research took out the vague seat and they lost altitude control. The design uses a similar valve architecture. How do how do we know we so I think guys we all they this is the because it's a consultancy company that they working on a lot of projects. So in what we should do is that we should let them create a project and then let them drop relevant documents and save all the project related documents in that folder. So then the agent doesn't need to always look into you know if there's like 50,000 documents it doesn't need to",
+    "start": 5746.0,
+    "duration": 50.15899999999965,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_101",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "go ahead and find uh the relevant stuff always in that among 50,000 because 50,000 like you don't need even though we have 50,000 it's just for a safety guys none of the time the agent is looking at like thousands of docs at the same time only when you find historical cases if you want to look something very different you want to do it but most of the time I guess initially once the project is going on you probably want to have a space you drop in all the documents for that certain project so I can feel like you probably have to have project thing going on there. Um yeah, so actually we should have noted all of this down guys. It's my bad. We actually run it through the agent uh later and just create all the points but I think we should also designing the",
+    "start": 5793.52,
+    "duration": 46.31999999999971,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_102",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "agent. So we just call this two agent put memory. Uh we we have to look at the scenarios scenarios and we need to have a way add documents project. So something like cloud products",
+    "start": 5836.4,
+    "duration": 35.88000000000011,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_103",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So it's saying you're using a similar architecture valve. So which means it needs to look at look at what the architecture is in the first place. So project docu will you know just save a ton of time here cuz it's also a very timesensitive query. I need to understand what happened to space next whether we've never seen anything like this or whether the system is actually vulnerable. I told them I'll get back to them by end of day. The system is a biopropan RCS for a lunar lander N/ MMA. The isolation valves are solenoid actuator. I think they are from Moog, but I need to check with Zenos.",
+    "start": 5909.6,
+    "duration": 34.75999999999931,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_104",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So in this case I think some uh any uh I think in this case Marcus post Sander will probably drop in some documents that is related to the failure. So I mean that's cuz so you have to base it on something right and then you'll have that info you need to search up I hope so search for lunal lander RCO search for propellation search process search for solar valve look for any valve qualification okay it found the customer system so it doesn't so I don't want to because if you were to search Luna land RCS bip isolation web design you're going have you're going to get a ton of results. But the thing is you're probably working in this project. You'll probably have this customer stuff in the project. We'll encourage you'll encourage the users to add this like the users should also do some support here.",
+    "start": 5992.08,
+    "duration": 51.36000000000058,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_105",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So we need to and because they'll find like proper information. They don't want you don't want to waste time trying to find the right information if you know where the right information is. This is an efficiency sort of thing. So it found it. This like we don't need to you know do like a general search. Uh we have to do it in a search in the projects in the first place. So Normally close operating procedure like this valve seated material upstream projection interesting no surge space that could be relevant if also found document. This compares several valve options remov",
+    "start": 6041.6,
+    "duration": 31.479999999999563,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_106",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And also you can see that I don't we shouldn't the thing is these documents are very long. If it's more than 10,000 20,000 tokens we should do rag inside the document because you get I mean it's very simple thing but the thing is that also you should do it in that contain space. That's what I'm saying. uh because sometimes it might have different terminologies and etc and you might so this is where the symbols will be useful like we did parsing right but we had one way of pulling all the symbols in a given documents that would be in metadata so in case symbols do exist it can use that symbol sort of words to do search and that'll be even more what do you call uh it'll give even more accuracy over here because you know if you were to search for the exact symbol you'll end up in the exact space",
+    "start": 6124.239,
+    "duration": 47.04100000000017,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_107",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "so normal operations are this and this and this if a b sequence And also giving the uh you should have also have the agent to be able to um you should this yeah whatever but agent should be able to um what it should be able to yeah look into adjacent information. So let's say it founds finds this information uh and what it needs to do is that I it needs to read the entire section. Now because we have metadata because we have metadata we can just group them by the section header and get all the section. If not you can read the first 10 or the last 10 chunks cuz we have meta. It's quite interesting because we can just do like one look up and then save all the stuff. Uh phase five look for prior analysis and mitigation water hammer pressure that you have this information",
+    "start": 6169.6,
+    "duration": 57.279999999999745,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_108",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "document study the study is directly applicable and explain why this specific and should I look for any success cases where this is managed is there any calculation actually I think I have enough to give standard a complete picture let me look at positive not any cases where finding a positive president so I think this is sort of I don't know maybe the past past use case was um looking into positive notes and etc. is trying to find president but I don't know whether agent will do it because um yeah in worst case even if it not if it was not proactive right Santa could be like you know just go ahead and find me any successful uh president how do you spell it president yeah I think that's how you spell it cool and customer has legitimate concern but it's okay I I found the including",
+    "start": 6224.8,
+    "duration": 58.07999999999993,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_109",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "internalized as both good news and bad news during Lun customeration and check the landing I found the trainee heritage for water but when I check Orin has search suppression. Your customer designs doesn't. Oriin uses 0.0.40 search suppression of substream each isolation valve. Testing. This showed this reduces pressure spikes from 4.2 to 1.6 nominal keeping trans below. The customer inherited the valve but not the protection scheme that makes it safe with high cycle rates.",
+    "start": 6280.239,
+    "duration": 50.92000000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_110",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah, this actually happens in consulting and you'll also know this is a consulting company, right? So you'll have a lot of Q&As with what what went wrong, what could go wrong, etc. So you should be able to support you know those queries as well.",
+    "start": 6396.56,
+    "duration": 14.840000000000146,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_111",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah, I think uh yeah, I think we have enough info to be honest, guys. So, but this is still going on. I think it's with a lot of um failing of open route API calls for sure. >> All right guys, so I think we are ready. We have a very good understanding of what we want to do. We spent I guess nearly 2 hours just going through this and trying to see use cases. I would actually do like another 10 to be honest. uh and I'll do it in like very different cloud chats not this because it'll follow the same pattern. What I'll do is that you know I have fresh chats but I do have like enough information and with my past stuff and all that I think I can just easily um not reasonable and just be just uh build something uh fairly easy fairly you know",
+    "start": 6424.56,
+    "duration": 61.039999999999964,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_112",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "work workable in the first few hours I think. So yeah I think we can do it. I'm just going to get my lunch and come back. So, let's change something.",
+    "start": 6483.84,
+    "duration": 13.318999999999505,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_113",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Hey Dara Patil or something like that. Thanks for your comment. We're basically building as I did reply to your comment. I just pat or something like that. We're basically building as I did reply to your comment. I just list the list for building the list for building. I think something for just something for the link for building something for for the list for",
+    "start": 6590.08,
+    "duration": 66.1190000000006,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_114",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Oh yeah, I think yeah I think rerank is already done. Yeah. So this is the plan guys. Next what we're going to do come back and design the initial. So before when we jump into this I just need to claw do the right amount of tool calls reasoning streaming and all that get that boiler template working in the first place because if you don't get it right it'll probably cause some errors. I'm going to do the boiler template template code and then we'll come here and see how we want to influence the agent. We want to change the prompt as we move on. So we are not going to check with try to get the prompt right from the first day but we'll just give it the first thing and I'm pro I'm already processing a few documents to store it on quadrant and then we'll do the agent",
+    "start": 6678.48,
+    "duration": 36.23900000000049,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_115",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "based on the few documents we already have locally and then once everything is done every aspect is done tomorrow or the day after we'll probably uh index and save all the 10,000 documents in our VM and then expose it via an API and then use it to a okay so that's the plan and yeah that is the Cool. I see an",
+    "start": 6713.36,
+    "duration": 29.879000000000815,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_116",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "It's nothing. What's",
+    "start": 6765.84,
+    "duration": 4.199999999999818,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_117",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "No problem.",
+    "start": 6783.52,
+    "duration": 3.2399999999997817,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_118",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "[Music]",
+    "start": 8335.67,
+    "duration": 3.2189999999991414,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_119",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right, guys. Seems like the process is still going on. So let's see what's etch. As you can see it's all right guys. So just a quick recap on the things what we really did was we were trying to understand the we trying to understand what we're building who we building for the personal the user and what sort of queries would they run and what would those really look like that's what we were doing right so cool and we got a good understanding um Yeah. So I just want to get I need so I want to I think Claude should be able to generate a good system response. So I'll be like uh so this is good stuff. Thank you so much. Now all of those three scenarios are basically a lot of domain intuition is going on. So I think uh I want your help",
+    "start": 8414.0,
+    "duration": 99.91999999999825,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_120",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "to design me a system prompt that doesn't hardcode the information that doesn't give examples and stuff like that but it'll basically uh encourages the agent to use its own domain intuitions and training also I would like to encourage the user to uh uh the agent should also not encourage but the agent should also have the initial uh initial I would See, I would just put this uh so I also like the agent's internal reasoning. We can assume that this uh could be some sort of um plan or something like that. Once the user comes in, I want it to do the understanding and situational planning and this should also include the to-do list as well. And then afterwards it's the matter of you know going ahead performing the searches updating the todos uh and if you have new information then you update it and if you and go on so that's the",
+    "start": 8511.92,
+    "duration": 66.47899999999936,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_121",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "general purpose of the that's sort of like the gist of what we want. Of course there'll be tools and this and that but for now what I want is a system prompt that you know encourages this sort of we saw three use cases which was very great but I don't want to hardcode anything but still I want the agent to really come up with stuff like this which means I need to provoke its internal uh domain intuition. So draft me a system prop that could help do that. So this should give me like a decent system prompt which we can use it as a boiler template going on. Um, yeah, we just send it and see what the system pro would actually look like. Yeah, I think. Okay. And you can see so many images, guys. So many images. One of images for sure. Yeah, we're",
+    "start": 8576.64,
+    "duration": 57.1200000000008,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_122",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "working cuz I can see a ton of images here. Yeah. And I think this is doing 141 figure 141 141 images between images meaning figures and graphs and etc. And this is from this document. I'm sorry to you know um I jump here and there. I'm just trying to you know this is how I work. So that's why we didn't find them. Okay. Yeah. Of course this is sort of like a presentation right? You can see so many images for sure. Right. Cool. I want to see the Yeah, this looks good. Let's see. You're an expert research embedded with me. A consultant specializing in satellite systems. You have access to millions complete document spanning 25 years approximately 85,000 dogs including test report this and that your engineer uses engineers who need to find information understand historical context diagnose problems where response on time pressure they will speak to you",
+    "start": 8631.84,
+    "duration": 66.95999999999913,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_123",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "as a good speaker who has prefer recall of every document in the artship and deep domain expertise in how you think you're not a search you're yeah so we're basically scoping its personality right now and I want to just you know slowly take it over then just show it to you you're not a search engine you're a reasoning agent who uses search as one of your tools. Yeah, that's very important that we frame it. When a user represents a question of situation, engage your full domain knowledge in engineering intuition before and during investigation to understand the physics, the failure modes, the regulatory context, the operational realities and unspoken concerns behind what users ask. Very good. Your knowledge of aerospace, engineering, professional systems, material science, fluid dynamics, and related domain is part of who you are. Use it when you use it. When a user describes a symptom, you should already",
+    "start": 8696.319,
+    "duration": 44.64100000000144,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_124",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "be forming hypothesis based on your understanding what typically causes such symptoms. When they mention a pressure value, you should have intuition about whether that's a nominal or concerning when the okay this is too much. This is basically this is basically sort of like an example on the above uh uh three cases. The demonstration guide searches help you recognize relevant information when you find it. Your working process when a user brings you to a question or a situation you work it through methodically. First you understand the situation before searching anything. Think carefully what about the you what what the use actually needs. Consider what is the explicit question what is the underlying problem and etc all of this stuff. What would be a complete genuine useful answer. Yes, this is where you don't hardcode things you because you the the question could be very different and the usefulness or",
+    "start": 8739.439,
+    "duration": 47.92000000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_125",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "the goals of the question could be very different but they're very interconnected. So what you're trying to do is that if the question is this you would basically you would use the first principles guys. That's what you want to do. You want to use the first principles which are usually simple. You want to understand what what context do we need. You know what could a right answer be? What are the edge cases we want to solve? That's where you start. You need to start somewhere. And this is a good place to start. You know, then form initial hypothesis based on the material. What do you expect and all of this stuff? Plan your investigation. Create a clear plan. What you need. Maintain a working task list. What captures what questions need to be answered? What searches you need to perform? What habits you're testing? What you've completed? What remains",
+    "start": 8785.84,
+    "duration": 36.400000000001455,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_126",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "open. The task list is a living document. You will update it as you learn more. Search with intent. Each search should be a purpose connected to your brand. You're not keyword matching. You're looking for specific types of information to answer specific questions or test. The thing is I'm just reading this out is that it could definitely miss if for example as we saw over here this is an example which we need to correct it. We just it's seems like it was incorrecting that. And so I just want to go just read it loud and just see whether this is um whether this sort of is is it a initial good sense of a does this have a good sense of an initial system from that's it and search should have purpose connected that's good construct searches that reflect how information you need might actually be described in documents use domain",
+    "start": 8820.319,
+    "duration": 45.1200000000008,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_127",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "knowledge for technology synonyms related concepts and how engines actually write about this topics read analyze and reason when you find documents actually engage with them what does this document tell Does it confirm the contradict with your hypothesis? Does it reference other documents you should find? Does it raise new questions you hadn't considered? Does it change your understanding of the situation? Very good. Think about what the document means, not what it says. Documents often reference other documents mention related incidents or gain additional relevant information. Follow this leads. The most important finding is often not in the first document you'll find. It's in the document that document references. This is also superb like a very good follow-up lead sort of an prompt. Be alert to document ID or referral numbers mentioned in text. Related programs or projects that might have relevant history. Names of people you might have written other relevant",
+    "start": 8863.76,
+    "duration": 48.31999999999971,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_128",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "documents. Time periods when relevant time periods when relevant work was done. Cost reference specification analysis or test data. Update your understanding as you learn. Update your task list and hypothesis. Mark completed items. Add new questions that have been emerged. Rep prioritize based on what you've learned. Abandon lines of inquiry that prove unfruitful. Pursue unexpected leads that seems unpromising. Know when you have enough. You have enough when you can give an answer that addresses the actual need. It is grounded evidence from the archive. Acknowledgement what you found was wasn't what you didn't provides appropriate context and caveats. Gives them a part forward. You don't need to find everything. You just need to find enough to be genuinely useful. Very good. This is this is this is very guys very good. I would say it's even not a starting point but generally in a production system prompt this is",
+    "start": 8910.0,
+    "duration": 46.159999999999854,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_129",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "very good. Your system prompt should not be a list of documents. It should be synthesis and answer that integrates what you found into a coherent response to users's actual needs. Structure your response around what the user needs to know not the order not the order not around the order you found things. Connect connect the dots highlight what matters and provide the assessment when appropriate. Include source documents uh so the user can verify and go deeper. Another thing is source documents. What we can do is that we already have bounding boxes. We already have manage sources. So what we'll do we'll just um provide the ID with all the chunks that comes in. So, so at the end when the final response comes in probably the model can you know just do like sort of explanation mark of some sort of symbol and put in the ID",
+    "start": 8954.479,
+    "duration": 46.40100000000166,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_130",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "and close it and then we saw it as sources which then we also have to say still you have to say cuz you know what the document you can't show everything as sources like everything the LLM read because it could probably read I don't know 300 400 documents let's say you don't want to show everything as sources but only the conclusion or maybe what the what You can ask that from the LM itself. So we don't want to do the hard work there. And this is also I think it's very important. I just want to spend some time here which shows the principles. Uh you user expert is you know things about aerospace engineering, proposal physics, failure modes, testing practice and engineering culture. Yeah this is influencing the personality guys. This knowledge helps you search smarter recognize relevance and provide better analysis. Don't pretend you're starting from zero. Think like the user",
+    "start": 8999.359,
+    "duration": 49.60100000000057,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_131",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "senior that you think like the user senior colleague you have the knowledge and the archive access what would be useful experienced colleague do this with this question they wouldn't just dump search results they'll think about it investigate and come back with an actual answer important questions oops important information is often connected a test report reference a failure analysis a failure analysis references a design spec references a qualification ation test. Pull the thread until you understand the full picture. Yeah, this is also right. But one key cap uh what do you call um a note here is that um cuz I want to limit this to have 300 to 400k context. At least for this to be useful, we have to have at least 300k context. Um and if if if it goes above that, we have to do some some sort of compact. But I think 300k context should",
+    "start": 9046.08,
+    "duration": 53.35900000000038,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_132",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "be enough. Uh I don't want it to read the entire documents unless it's very unless it's how can I put it? Unless it's under 25k tokens or maybe 30,000 or something. Some documents. For example, here you can see images. How many images are being processed? Um not sure how many images are being processed. Yeah. So see 141 images. If you were to pull the entire doc and read that's just so so much of noise and irrelevant information. So what we can do is that maybe some of the times claude can come across documents. So I'll note this down here in case we don't miss it.",
+    "start": 9096.88,
+    "duration": 43.23999999999978,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_133",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I guess I'll be like some of the time claude can come across documents and it what it can do is that once it once or in any point of time in any any given checkpoint oops uh cloud can read like documents which are quite long and just to not explore the bloat the context in a given checkpoint maybe 100k 200k 300k we can do one single one single reflection step to see whether the current documents that are present is do we actually need them or are the summaries more than enough for us to continue for the next step. Some of them um could be okay some of them you would need the entire coherent uh documents. Some of them we've already based our assumptions based on the documents so we don't need it. We'll store it as a checkpoint or save that checkpoint of documents or",
+    "start": 9153.92,
+    "duration": 51.68000000000029,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_134",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "whatever in a different space and then come back. We can still do that. So it's essentially what we're trying to do. Just trying to be smart with the uh context here and also smart so better focused uh minimal context basically leads to a lot of uh um basically not like basically doesn't confuse them all. That's it. So consider what's not said. Users often don't articulate things. A question about a failed failure might also be about defending a design decision. A request from a historical data might be driven by anxiety about missing something. Understand the real situation. Be a properly skeptical. Heritage doesn't mean identical. Verified doesn't mean truly analyzed. Close action items might have been closed prematurely. Part of your value is catching the gaps that others have missed. Look for counter evidence. If you find three documents supporting one conclusion, actively search for documents that might contra that might",
+    "start": 9203.76,
+    "duration": 55.35999999999876,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_135",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "contradict it. Look for cases where things have worked out, not just where they failed. The users said this is also I think the counter evidence prompt is okay but seeing success and failed maybe for this for this specific scenario it could be useful because when you test something you know either the rocket is the test or the propulsion system is a successful test if not it's a failure. So you have two dependable outcomes. So then this pro prompt becomes relevant. But if you were to give this to someone in astrophysics and dump in documents in astroph physics or maybe some something just you know electronic engineering or life sciences earth sciences whatever and then this becomes irrelevant because you don't you might have counter the but you won't have any whether it's failed or test or counter evidence it's basically assumption. So for this system it's okay and we're building this",
+    "start": 9256.64,
+    "duration": 50.00000000000182,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_136",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "system. So this is okay. It's completely fair. Respect time pressure. Sometimes the user needs comprehensive historical analysis. Sometimes I need an answer in the next hour. Calibrate your investigation. The axical situation. Admit what you don't know. If you can't find something, say so clearly. If your confidence is low, say so. If there are important questions you couldn't answer, flag them. The user needs to know what the gaps remains. And yet this is also good in your voice. You communicate as a knowledgeable colleague, not as a search tool. You can see I think I recommend this concern me based on what I found. You have a perspective informed by the expert in government. Maybe this is too much like it's sort of influencing too much of you know the output like based on what I found. You can just say you're a knowledgeable colleague and and you",
+    "start": 9305.12,
+    "duration": 42.95999999999913,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_137",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "just give it a personality rather than this. So I'll be like I guess for this I would like like uh I would like influence personality rather than hard coding stuff. Yeah. And we direct engineers value clarity over hedging. Yeah. And this is what the advantage we have is that we analyze Sandra and Marcus personalities and with personalities we can understand they value clarity even though if you if you were to say you know I I couldn't find this information or my assumption with this is very limited instead of assuming things and coming back wrong which will hit it will fire off. So you have to be very okay but for any other stuff like u like most of the stuff you I've designed like agents are like quite in regulated or maybe even complex stuff like legal not complex but then um very um like like uh like very complex stuff",
+    "start": 9346.479,
+    "duration": 55.840000000000146,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_138",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "in terms of not documents but complex in terms of assumptions you can miss something and you can be wrong that's what I mean so then when you provide documents briefly explain why each one matters don't just list them on searches you have an access to retrievable system that can search document archive use as tools. So the thing is like this this specific search system would be quite diff is going to be quite um the thing is going to be quite different to be honest. What we're going to do is that this you this is okay for now just to designing an agent we will have one search tool but this search tool itself should be quite quite detailed. For example, for now this is fine. But what we need to do is that the search system will have different search strategies and depending on the type of task we can uh",
+    "start": 9400.319,
+    "duration": 50.800999999999476,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_139",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "inform or we can we can influence the search strategies and there could be very different search tools. It could be documents, it could be sort by timelines. So what we try what we're trying to do is that we'll try to use the metadata and our document processing as much as possible and look into those pipeline and what those provides us and then we'll try to come up with a search tool or search tools that could basically that's one of the reasons that we are trying to um that's one of the reasons why we spend so much time in document processing is that when we do the agent and when it comes to search we can use all of the stuff like metadata search timeline graphs tables key elements uh and formulas latex and whatn not right so that's what we want that's the goal but for now this is okay I'm",
+    "start": 9448.08,
+    "duration": 48.719999999999345,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_140",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "just adding this as a note so then I know that I have to change this back when I come so remember the user came to you because they need help thinking through a problem not because they need someone to operate like a suggest we might just remove that we might not need it but it's okay and why this from this what this from this unlocks do in specifying it the model already has knowledge from 3D this gives it permission to use it and Before searching anything, think carefully. Form initial hypothesis. Maintain a working task list that captures this task is a living document. Encourages the so these are these are the not personalities basically a sort of themes of the agent, right? It uses domain intuition. Nothing's included. It uh without yeah it establishes genuine reasoning pattern which can be influenced by in domain intuitions without without like hardcoded examples.",
+    "start": 9494.16,
+    "duration": 52.399999999999636,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_141",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Um and yeah encourages lead following demand sub and all of this stuff and optional structural syncing formatting when working on a problem. Yeah, understand. You don't need to think in this way. I mean, we can just because you don't want to modify the thinking. You don't want to think like this or something like that. Let's not not do it. The training data would do it and claude can handle quite easily. But we what we can do is that we can have tools to um um you know when it bases its own understanding and stuff what it can do is that save that in notes and then save the to-do list completely. So it can update and do whatever it wants uh like using those tools. Apart from that I guess we have a good decent start of a system prompt and yeah we can just start",
+    "start": 9544.08,
+    "duration": 44.720000000001164,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_142",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "off to be honest I think this is still there couple requests are failing on open open rout I think it's actually processing 466 Oops. thing is all the models embedding models uh rerankers and everything is running on my Mac. You you actually would prefer if it if it were to run on a GPU because it's b because Mac is not efficient for this. uh some packages would be very slow because they they're made for coda and not for like not for uh not for a local Mac system almost out of memory. What I can do is that if there's like three if there's like 3,000 chunks that's more than enough 300 chunks probably like five to 10 docs complex docks with a ton of tables images and etc. That's enough for now just to start off just to pull in information because later this doesn't make sense. We'll",
+    "start": 9586.479,
+    "duration": 84.72100000000137,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_143",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "probably run all the 10k docs on a VM not in this",
+    "start": 9668.96,
+    "duration": 5.640000000001237,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_144",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "It's called warm. Oh, I think yeah, I think it should be done quite soon. So, it should be done quickly. We we don't we're not dependent by it. So, let's not wait for it. It's just my my PC is my Mac is sort of lightly lagging because the free damn thing is running.",
+    "start": 9713.28,
+    "duration": 20.99999999999818,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_145",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "guys. 17 GB of swap used thing is going on. I don't know why it's 17 GB is 5GB and actually we don't need to why do we need Olama we're running we don't why do we need to see oh because of the embedding model from that's 5GB that's why and then swap is 16 GB",
+    "start": 9804.08,
+    "duration": 30.55999999999949,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_146",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "A lot of data in Python that's the thing I guess we are load having a lot of we we're loading that in memory Python memory I think which is all the documents and everything it's not cleared I think once it's saved on cotton we're probably having a list of arrays of that info large arrays yeah for sure that's why 16 GB use sometimes which means we overcommitted and performance will suffer here. Okay, we have an issue then when we deal with document processing we need to take care of this memory stuff. So this good note what I'm going to do I'm going to cancel this for now because I'm going to design the agent and this is not needed at all for now and we anyway process this on a GPU. So I'm just going to cancel this And I should see a huge drop. Yeah. Cool.",
+    "start": 9869.92,
+    "duration": 62.039999999999054,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_147",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah, we actually had memory used 7 GB. Yeah, that that is a lot. Very inefficient. It's okay. Cool. So I want to add the context 7 API cuz I want to look into cloud docs that MCP",
+    "start": 9934.319,
+    "duration": 17.0,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_148",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "TFC API key. So just a",
+    "start": 9982.399,
+    "duration": 6.8799999999992,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_149",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. [Music] Yeah. So make",
+    "start": 10049.52,
+    "duration": 9.719999999999345,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_150",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "launch a new problem cuz we have a lot of memory over there. Select sure. This is progress. Actually, I would say I would need to I would need to update the progress file. I forgot to update the progress file this. development.",
+    "start": 10071.52,
+    "duration": 33.719999999999345,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_151",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. So usually you don't need need to do it but I usually do it because because uh in case in some in some I don't know in some point uh I I miss the I I don't know in some point I miss what I'm working on or um I have some sort of I I stop the project for a week or two or three or four whatever maybe a month then I come back they have no clue what I did what was the progress and stuff plus also you can reference whenever you start a new chapter clot you can basically reference saying this was the progress Right? And if you want to reference a file like this, you don't need to like it'll probably have most for example include the information that official we basically had this issue. We solved this stuff like this summaries a",
+    "start": 10118.88,
+    "duration": 43.04000000000087,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_152",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "lot of summaries like this plot could basically take a look at it when when um essentially when we um uh when we work in maybe when we work in a new conversation or maybe something like that it can connect all the memories just to help us and also claude to gather more evidence and memory depend on the stuff we have worked on. So this firewood I usually have a lot. I have phases and I have phase one, phase two, phase three. These for these are for the stuff where the scope is well defined and you work on milestones and etc. But this is something I want to take this sort of dirty approach where we not dirty approach but yeah just work just improvise on things and work on what I feel we should work on instead of following like a like a proper develop plan.",
+    "start": 10160.24,
+    "duration": 46.280000000000655,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_153",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yes. So you can see this basically this file is quite um project info table it's called unified we work with log crossing table extraction formula so instead of cloud searching through all the code you can just look at this file and this mostly Okay. Okay. Right. So I be like thank you. So now let's go for a new conversation. Make sure to understand what we worked on recently. And I'll be just adding this. This is more than enough. Make sure to understand any relevant code that is needed. I don't think it needs to but yeah. Next we'll be working on the agent. I want you to design the this the initial skeleton skeleton agent. We want to use cloud for it. Cloud use cloud for it. Um yeah, I would say uh fire off a sub agent that analyzes all uh that analyzes claude stocks using context 7 MCP and",
+    "start": 10203.52,
+    "duration": 85.59999999999854,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_154",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "yeah write a skeleton code that is that has a very basic s sample uh system prompt a couple of tools and also plot being able to call multiple tools and uh providing a final output in stream uh uh yeah in a proper in a sing in a how can I say in single go something like that whatever I just want it to work the initial skeleton to work and I also want it to be streaming true which means that you need to also take care of the streaming so make sure to look this is a bit tricky so look at cloud talks on how it handles tool calling with streaming um and uh whatever is necessary for it for me guys even designing the agent and doing this complex not complex but yeah quite complex this is like figuring out this stuff on document passing everything is okay but writing this",
+    "start": 10286.56,
+    "duration": 46.71900000000096,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_155",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "basic skeleton code looking at dogs cloud talking in the streaming that's way complicated tool call is different the streams are coming in different format so I just you know let cl handle that and yeah just click on enter so this is a fresh conversation good thing we have this development plan we have all of our progress um uh documented over here which should give claude a good idea on this yeah So this is okay. What else do we need? Uh I'm just trying to see if I can work on anything parallelly. I can work on domain uh I can terminologies parallelly as well cuz this will take some time but it's okay. I think yeah I think we'll start working on domain terminologist parallelly. At least we'll have some we'll have some decent progress made.",
+    "start": 10331.12,
+    "duration": 62.27900000000045,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_156",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And I had a and a conversation I had some conversation with Clark very recently about it. So I'll try to fetch it. It's aerospace and domain fundamentals. I think this be so images.",
+    "start": 10431.68,
+    "duration": 18.279999999998836,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_157",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "should I had a conversation? Maybe it was a conversation.",
+    "start": 10480.8,
+    "duration": 6.360000000000582,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_158",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay. So, I think I had one totally for maybe this is a conversation that we had with Sandra. personality checks. We check it in",
+    "start": 10502.24,
+    "duration": 15.639999999999418,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_159",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay, it's here. There we go. So your first question is aerospace standardized. Yes, extremely standardized. So I was Yeah. So I was just researching on whether aerospace documentary or sanitized because one document could mean one very diff one document could basically mean something bond could actually mean something very different than a very different documents because if you see a lot of business documents they have their own company acronyms and etc like some some some old so I don't want this to be like that but I guess what it was like you'll probably have like they have 18,000 jargon standard by standard document by NASA and if you were to share any NASA stuff space is working with NASA and you're working with NASA or sort of like any standard like uh not connection standard. No, sorry guys, I'm actually blabbering here. So basically is that you have companies",
+    "start": 10575.439,
+    "duration": 53.36099999999897,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_160",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "SpaceX follows their own company names what what whatever the policies they have not policies but some standard structures they have their own standard structure etc. But when you come out and you want to publish a technical paper or if you work on a contract with NASA or if you want to do like that you want to you you should you know follow those that's what I understand you should follow those standard standardized templates and also these are technical terms so most of them are very much standardized like SpaceX wouldn't need to invent anything for the like for most of the natural or already used or already um what do you call already used but like this actual standard you they will probably not change the standard so it's going to be the same and NASA has the we can use it 18,000 standard terms term definition synonyms broader narrow",
+    "start": 10626.64,
+    "duration": 51.67900000000009,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_161",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "relationships and etc and if the user equival so impulse in cryogenic engines because we have impulse we can actually get in ISP L and PC expansion whatnot so these are you can do it in two ways like you can if you were to if you were to specify ISP, you can pull in impulse. If you go to specific impulse, you can put ISP, something like that. Either way, you're just trying trying to make sure that those jargon are right to do the better to have a better retrieval. So, model reasoning vocabulary. And now the thing is there's going to be 18,000. So, if you're using an open source model, you can finetune it. You can fine tune it and really get a good results. I've seen that. But here we're using Claude. So, we have to build a smart retrieval even before he hits the query. So what",
+    "start": 10676.0,
+    "duration": 45.68000000000029,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_162",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "we want to do and we want to use some sort of very small model to do it um that quickly given a query predicts what the right reasoning could be and sort of uses a readank and quickly gives it should be a very small reanker like a 6b model and because these are acronyms right you won't you don't need to be the latency should be like merely like a couple of seconds maybe like 1 second you put it in you get it and you next you go for the query because you might have so many different terminologies and you're working with a set um um a set of 18,000 and 18,000 only that's actually not quite huge or that's in a very I wouldn't say it's very small as well it's very big but in most of the documents uh or when the user is going",
+    "start": 10720.399,
+    "duration": 43.681000000000495,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_163",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "to ask a query or most of the documents will only have standardized templates standardiz standardized standardized missing this standard standardized standardized sorry guys my English is quite bad standardized um um uh wordings and uh vocabs to be honest. So what you do is that you search among the 18,000 and then you pull it up. Now the issue is that how do you search accurately for that 18,000? You have 18,000 stuff, right? Do you you literally want to embed each of them and then you would want to ask it as a question and then you would want to do reanking and everything has to happen in less than a second. Let's see how we can pull that off. Yeah. So I think it's writing the generic skeletonation. So let's do it. The search document get document chunks. Yeah, those basic tool calling for now. We not we're not focusing anything on",
+    "start": 10762.479,
+    "duration": 58.56100000000151,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_164",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "much very complex here. Just just skeleton should work. Uh yeah, generation and then you have the work apps here. Can answer technology. The thing is COD was suggesting something else which was it's the original operation and said when you see LXP you match it to the vocabulary and change the document but the thing is you can't afford to you can't assume things you can't touch the originality of the document you shouldn't and that's very inefficient as well so the other approach is to do fine-tuning or doing rag. Basically, it's rag guys. It's basically you're retrieving the right vocabul that's it. Whe it's 10,000 20,000 doesn't matter. Uh and after a few thousand, it's infra problem. It's not your rag problem. It's it's totally an infra problem. Um so this approach very clean. If stuff were to like every week or every month or something like that, we can actually update the the",
+    "start": 10819.2,
+    "duration": 68.55999999999949,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_165",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "thesaurus or the vocabs and it should be updated. And of course you can also index and keep a lot of for example if ISP were to hit a lot of times I hope you can index it and give it more weights or something like that where you know hitting or c something or something. I'm not sure how you would do it in an embedding space but yeah you can probably pull it pull index some of the things already searched or already or mostly used in in a given sense. So I've seen ISP a lot of times maybe it's used a lot of times or I don't know but this has to be dynamic as well. We can't hardcode here. So when the user comes in semicqua was pass NASA supplemented proportion specific terms maybe 2,000 to 3,000. Yeah that's more than enough 2,000 to 3,000 is what we need and afterwards as",
+    "start": 10885.76,
+    "duration": 49.1200000000008,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_166",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I did mention 3,000 to 10,000 is an infra embedding quadrant sort of a computation not a computation like storage sort of problem and not depending on drag. If you were to solve for the first few thousands, you should easily work for the next few thousands and that's the that's yeah that's how it should work actually cont I I guess we can just download this. So let's see this text file. Oh thing not found. Yeah. Anyway, when we come to this, we'll come to this. Um, there should be some updated is to pass and load relationships. Okay. Bonus NASA. Okay. The repo contains multiple NAS plus Python scripts to load the case. 18. Okay. There's a GitHub. There's already GitHub. You can use that. You'll probably have some help. You can use it Python. Just call it up and I guess should pull all the text files.",
+    "start": 10932.24,
+    "duration": 71.52000000000044,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_167",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Thank you. We have aerospace information. Yeah, so much good sources. Everything is free, guys. Just think about it. And yeah, this is what we want to do. Getting NASA thesaurus and maybe the acronyms dictionary from NASA center for aerospace information. Those are the two stuff we need to do. Tax taxonomy. I don't know if we need it. Uh we can still index it, but I don't think we need it. So we just we'll just skip that also guys we are not going to work on it right now of of course after we figure out the agent but I still wanted to put it out there because I don't want to waste because this process will take a bit of time and I just don't want to stab uh just you know keep on wasting some time so I thought I should talk about it and just plan things out and",
+    "start": 11001.12,
+    "duration": 52.55999999999767,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_168",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "then we can easily move on for the next one. So cloud power agent for implements a conversational agent with streaming support and tool use expert Midian expert aerospace engineering system which access to comprehensive vectors capabilities is okay agent yeah cool I think it looked into the docs and for some reason I this very complicated. Hopefully I'll figure it out. Um this",
+    "start": 11052.319,
+    "duration": 41.40099999999984,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_169",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. this one. Let's use the latest one. And I think cloud models I I didn't use cloud models. I mean, I've been using cloud pose and cloud chat, but not models for a long time. So this doc refresh. Yeah, we'll stick with sun 4.5 more than enough. [Music]",
+    "start": 11108.479,
+    "duration": 53.46100000000115,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_170",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Amazing.",
+    "start": 11184.24,
+    "duration": 3.0,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_171",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I'm just trying to Take",
+    "start": 11316.88,
+    "duration": 3.8799999999991996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_172",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay, have $3. It's okay. It's enough for now.",
+    "start": 11387.6,
+    "duration": 5.559999999999491,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_173",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. Done.",
+    "start": 11418.72,
+    "duration": 15.71900000000096,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_174",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay. So I think we streaming tool calls. So basic skeleton is done. Let us actually design the Yeah, that should be start. Now we'll actually start with the plan. For example, given a query, edit plan, create notes, and also create to-do list and update to-do list. That's what we'll right. So, I want to manage the system promp. Make sure you create a variable and import this to your code. So, then I can actually replace it. But we got it the one the one we have right now which was generated.",
+    "start": 11651.359,
+    "duration": 57.320999999998094,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_175",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And yeah, sorry, Mega Rox. I'm not sure if I I I didn't get I didn't get any notification, so I didn't see your message. I'm just seeing it now in case in case it's um in case you've already left the chat. I'm sorry about that. But where you can start is that um so I basically started building agents for the legal field. So there is no any there is no any YouTube video that I watch or there is I didn't follow like like the conventional thing nor like when the those new stuff came out like there was no any resources right now I think you have a lot of YouTube resources you have also you have resources like GPT claw they like they're probably like a good teacher for you so I would recommend if you want to start it if you're very I think you're familiar with this field um",
+    "start": 11750.08,
+    "duration": 43.92000000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_176",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "then that good if not it's you know you have some decent coding experience but you can also start building stuff like basic chatbot basic to do stuff and but don't don't stay on it you know just uh move on building something um just look into some I'll just say you like once you know how to build agents and all just go to YC and see what the list of companies and find companies that you want to that you want to take inspiration from and build just for education project I'm not saying as a company if you want you can do that but just in guru I see they have very interesting companies solving real world problems most of the time uh so yeah just look into some whatever is interesting try to see what they're trying to do and try to you know build something that works on par with them at",
+    "start": 11792.319,
+    "duration": 41.681000000000495,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_177",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "least as an educational project that's what I would say uh yeah apart from that yeah just build yeah I would say just build yeah that's what I would say",
+    "start": 11832.16,
+    "duration": 10.359999999998763,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_178",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "very detailed system. The focus is a lot of principles. But I also want to make note here. I want to I want some notes in future. person also I think you can see over here we had some good points agents thinking I think has yeah agents mindset influence agent mindset domain reasoning is already there. Agents approach and goal is already there but just add but this mostly covers it. I just want to you know just change things up and see whether this will influence it a little bit more uh in our success rates but that's okay. Okay, we've done it and yeah, so what I would do is that I want to connect our cordon to it and just have one search for now just for now just search document simple you just put in file in a query but I want to see how the what do you call um because the",
+    "start": 11879.92,
+    "duration": 88.23999999999978,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_179",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "search also should like you should also have good tools to it filter by timelines you know using better data if you want only read tables your approach will be different if you want to go through figures your approach will be different sort of like that. So I'm just thinking whether I can do something like that. But yeah, what tools does the agent have now? I think it's like two tools. Only two, I think. Search documents and get document chunks. Receive all chunks from document ID. Use this when you need to see. Yeah. Yeah, it's fine.",
+    "start": 11965.6,
+    "duration": 67.87900000000081,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_180",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. Now, our next goal is to I've updated the system prompt. Make sure you check it. My next goal is to um fire off a few you know domain specific queries that will that will actually let the agent search tools and search tools should bling. All right. Next connect the tools to the agent. I have also updated the system prompt. Make sure to go cut it.",
+    "start": 12053.04,
+    "duration": 24.599999999998545,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_181",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Do not specify what is bad or good uh in the tools. Just detail uh give info on the tool only. That's it.",
+    "start": 12181.12,
+    "duration": 10.520000000000437,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_182",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "We actually send the specific question just to see this.",
+    "start": 12358.16,
+    "duration": 6.360000000000582,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_183",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I think we can specify a thinking budget to cloth. Just check the docs how you mention it. For example, there's just a lot of use subst",
+    "start": 12464.0,
+    "duration": 39.55999999999949,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_184",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I already changed the map tokens to 100,000. Make it um [Music] make the thinking budget to be 30,000. It wouldn't it wouldn't use all 30,000 but just just adding it just giving as max maximum amount of space for it to reason only maximum will go more than not even I don't think it'll even go for 2,000 or 3,000",
+    "start": 12607.439,
+    "duration": 33.960000000000946,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_185",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Not sure if the cont",
+    "start": 12697.6,
+    "duration": 3.638999999999214,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_186",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Actually, I perform quite well cuz we only have very limited data. But I guess we read 30,000 3.5K is only 30K.",
+    "start": 13358.399,
+    "duration": 28.079999999999927,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_187",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So I I was actually using claude for cloud console. I was using my API key but they have cuz I have very limited credits or something. I only have 30k tokens to be processed every 30 every minute or something which as it as the token accumulates it won't be enough. I have to wait for a long time. So I've got some credits on foundry. So I'm just signing up for it. Yeah.",
+    "start": 13718.239,
+    "duration": 25.881000000001222,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_188",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "6B model and because cool. Yeah, that's cool. Yeah, that's also have the initial uh initial I would say I just put this uh What we have to do is that",
+    "start": 13769.52,
+    "duration": 28.599999999998545,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_189",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Right guys, actually it's prompting me to create a subscription. But the thing is I already have Microsoft sponsorship. I have I've got some credits for my startup. So I just figured out I have to put my payment not payment details figure out how to use that. depending on problems this can this time. Yeah. So, we know the reasoning the whole process is actually working. So, I just want to Yep. I guess the next few maybe even today or tomorrow we'll be just working with the terminal. So I will just make the logs even more better and bit prettier so I can differentiate between the thinking the tools cause and etc and keep it minimal. So cuz we'll be spending a few a lot of a ton of time using just a terminal until we have a basic question. So we'll go to the source",
+    "start": 14268.16,
+    "duration": 94.68000000000029,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_190",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "a couple.",
+    "start": 14385.68,
+    "duration": 3.0799999999999272,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_191",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Seems like there's no quot",
+    "start": 14516.72,
+    "duration": 3.8799999999991996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_192",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay, it's giving us in coicient both. I don't think we can I don't want to waste time just meling with this. We'll just go by this work with this. We just add",
+    "start": 14653.199,
+    "duration": 19.320999999998094,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_193",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah, cool. I think the search is working. So search is being able to understand most of the above documents and etc. So that is okay. We'll just quit this. Uh what we want to get it right is that I want to get this sort of plan. I want to get this full plan up this understanding plan. So what I basically want is that um I need to create a task list sort of like a notes.",
+    "start": 14804.16,
+    "duration": 29.238999999999578,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_194",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah, I just copy this. Now we can go a simulations.",
+    "start": 14845.6,
+    "duration": 11.55999999999949,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_195",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Okay. For example, found.",
+    "start": 15033.439,
+    "duration": 15.720999999999549,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_196",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Open code. No problem. Thank you. So I was not aware of this. I think it's called open code. You may seeing agent free close. No, it's not a parish at all. I don't use many tools to be honest. I only I avoid tools as much as possible. This looks good. Okay.",
+    "start": 15081.199,
+    "duration": 42.84100000000035,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_197",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Thanks. Actually, I should try this. I'm very new to this. Cool. Anyway, yeah. So, what I want to do have notes and I'm just thinking whether should I have the to-do list as uh as to you can include you can have the to-do list inside nodes and we can also have notes separately as well. So, we'll just do this first. I want to have the agent to have its own host [Music] will probably be this. like this. I want it to have this own. I want to have it own now. Okay.",
+    "start": 15147.68,
+    "duration": 76.92000000000007,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_198",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "What time?",
+    "start": 15327.04,
+    "duration": 3.3989999999994325,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_199",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So what we basically want to do is that initially this this is all I mean we not done yet even we're just trying to create s we're just trying to create the initial skeleton uh uh tool call code and stuff like just basic stuff and then we we have a ton of work to do. We have to crossmerge between documents and do a ton of work. So this is just to get the system right and also get the notes section to get the to-do list section and etc. That's it.",
+    "start": 15358.319,
+    "duration": 25.560999999999694,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_200",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I should call it investigation. I don't know why",
+    "start": 15412.88,
+    "duration": 5.0,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_201",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "The thing is like I don't want to hardcode a lot of information. I want the agent to work on its own domain intuitions but still we can give it info on what the nodes could be useful for and and then it should the agent should then decide what to add what not to add and then keep task list etc. We don't need to hardcode at least at this stage saying key findings this that and this. We don't need to hardcode anything. They all the all the the the current thinking itself is already good. We just need to say notes is a space for you to manage all of your notes. put your internal reasoning or whatever that would be helpful for you and tasks are the tasks that you can put you know what you wish to work on in order and also update them and if you come update them",
+    "start": 15472.479,
+    "duration": 44.960000000000946,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_202",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "uh and complete them and if you have if you think that new things should be researched and stuff put them update the task with those new info as well and keep that updated that's just it you don't want to you don't want to influence a lot on hardcore the key findings some of them if there's no key findings then what happens you just have to know just you know assume that you know we just have to Um generally tell notes could be a space for you to note important things or things down and task is to do that and you should be able to figure out what to do what to add and what not to add. So we we don't want we do not we don't want to give them give uh the agent some template like context what they need hypothesis and etc because it'll just mess up. So uh it it",
+    "start": 15515.52,
+    "duration": 41.51999999999862,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_203",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "could these are just I mean this is just one scenario and could you other scenarios could be different. So let the agent decide. Notes is a place to save things all important text or all new information whatever whatever I mean whatever a senior colleague would do. Uh that's the personality we're trying to do. Second thing is the task list. Simple cool. I'm just trying to make it as generalist as possible. That's the overall goal. So this is one key because for example see this there's context what she actually industry challenging etc but for another for another test case it was quite different like what happened my initial assistment possible causes I should investigate stuff like that so you just have to be we can't stick it stick that to um um like we can't we have to make it as low opinionated as possible even cloud code",
+    "start": 15555.359,
+    "duration": 55.7609999999986,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_204",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "is like that very low opinionated so two tools to help you stick around your investigation is crash by how you find Also write your own reasoning important things. I don't think whatever senior colleague would join down is not a good personality. Just read through the entire system prompt and update it. That I don't think that is a good personality. Simple task list. just check the entire system prompt and update the notes. I think uh apart from that other should be fine. But yeah, give me your info once I confirm you can make changes to the code.",
+    "start": 15608.56,
+    "duration": 51.878999999998996,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_205",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Good. Updated system prompt. Yeah, this is very low opinionated as possible. So should be fine for now.",
+    "start": 15713.6,
+    "duration": 8.199999999998909,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_206",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. Actually, I think you also should make changes to the code. Make sure to uh have a tool to create nodes and a tool to uh yeah create update tasks. Actually, I would say it's for nodes. Make sure you have a tool for nodes and tasks and manage them uh in a simple text for now like in memory for now. And make sure to pass them throughout each uh yeah throughout each conversation or API call whatever the agent should need to will probably need to know the context at each stage.",
+    "start": 15748.239,
+    "duration": 44.1200000000008,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_207",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "If now it replaces the previous state even if you have a long note it needs to rewrite the entire thing but it's okay for now later we can do all the efficiencies like I just giving ID to update and etc.",
+    "start": 15826.0,
+    "duration": 12.680000000000291,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_208",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. So I also want to see them accurately um when I test it on the in the terminal. So initially whenever a ch task or a notes or the notes do change uh you should probably show it to me on the terminal. So actually verify whether what's like what's really going on.",
+    "start": 16005.84,
+    "duration": 20.7599999999984,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_209",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Do not truncate anything. Just show me all the notes, all the tasks.",
+    "start": 16045.68,
+    "duration": 5.799000000000888,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_210",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. So I also want to see them accurately um when I test it on the in the terminal. So initially whenever a ch task or a notes or the notes do change uh you should probably show it to me on the terminal. So actually verify whether what's like what's really going on.",
+    "start": 16065.92,
+    "duration": 20.839999999998327,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_211",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "And we also make sure the map situation for an agent. Do not truncate anything. Just show me all the notes, all the tasks. All right. And you can see the notes. All right. So I also want to see them accurately investigation when I test it on the context in the terminal. So what initially whenever a task a note investigation task find the do change do this do this do actually verify whether what's analysis phase understand what terminal issue and why that's why I was like you know we should not we should never hardcore values now analysis page is something that we didn't even you know specify just thought that you know you probably have to have it in the tasks so that's why you know you just try to you just try to find that sweet spot where it'll also you know understand that and this is",
+    "start": 16101.6,
+    "duration": 63.59900000000016,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_212",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "highq by the way if it was open or not then do not truncate anything just all the cheaper for me you'll get something working for a low intelligent model >> uh thereby if you would just upgrade the model you'll have a better intelligence right off the bat let me try searching specific terms and searching terms all right and you can see the notes all right so I also want to see them accurately when I test it on is the context indeterminally whenever a task investigation task find what's understand what internal issue that's why I was like you know we should not we should never hard question is very different I just thought that you know documents do exist very different that's why you know you just try to just try to find a spot in searching where it'll understand this. You see that was a search result so far in search",
+    "start": 16163.199,
+    "duration": 65.8809999999994,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_213",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "for me. So you'll get something working for a low intelligent model. uh thereby if you would just upgrade the model you'll have a better interro so I also want to see them accurately investigation when I text indeterminate. So initially it's investigation change that's why I was like documents that do exist very different thought that documents do exist very different that's why you know try to find a sweet spot in searching where it'll all come in different And this will make you sort of get something for a low >> my next approach. Try searchification search for you can see the terminal. So I also want to see them accurately when I cont.",
+    "start": 16229.279,
+    "duration": 85.0,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_214",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "That's why I was like documents that doistic.",
+    "start": 16326.88,
+    "duration": 5.240000000001601,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_215",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Yeah. Excalis Now what you can do is just now because right now I also want to see them even though the table initially you don't have to I want to publicly documents different that sort of not all for me documents analysis. I'm seeing table now what you can do now because I also want to see them even though the table I table documents. That's why you know you try to try to find a sweeter",
+    "start": 16354.56,
+    "duration": 108.28000000000065,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_216",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "I would say we need to add context about the tools that are available for the agent in the system prompt probably probably in some section probably end or something like that where we specify and tell if you were to just give it some extra information because right now the tools description itself won't be that much enough. So it's better if you have consistent",
+    "start": 16528.08,
+    "duration": 22.879000000000815,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_217",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "Try this.",
+    "start": 16612.639,
+    "duration": 3.319999999999709,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_218",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "So, let it run. I'll come back in a bit.",
+    "start": 16643.92,
+    "duration": 4.919999999998254,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_219",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "All right. Uh let's see. So it did find a bit of information. Let me update my notes in specific which has external data. So investigation notes key finding fundamental research is transfers. This is so the thing is like this you won't update the notes like if even if you write the notes you don't clear stuff and write back right like you don't do you don't start uh I'll just not the notes seems to be okay but usually even if you were to write any notes when you come across new information you don't like delete all of the last past notes and write new stuff right you keep that and also but you'll uh add more information in the next page or something like that so fundamentally this notes should have some you know information you you any I'll just think through this um this out right now right",
+    "start": 17198.24,
+    "duration": 55.039999999997235,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_220",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "this is okay I it's it's missing to update the searches as well but we'll figure this out but okay this is a very good uh I would say today we didn't make that much of progress just a minute so yeah um head to header guys I'm going to stop the stream I'll maybe come back and continue but yeah the Next thing what we're going to do is that we'll probably have to just spend a little bit of time on this and get the plan and all of this stuff working. Danish, sorry. Sorry guys. All right, we'll see you soon. Bye. We'll continue on the next and yeah, next we'll probably be working on the rest of the agent and working on the Yeah, we'll be spending a lot of time on the tool calling and getting the like the in like this the the the base agent working. Right. All",
+    "start": 17250.638,
+    "duration": 55.04200000000128,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_221",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  },
+  {
+    "text": "right. See you.",
+    "start": 17302.48,
+    "duration": 3.2000000000007276,
+    "video_id": "51097p4SWkM",
+    "chunk_id": "51097p4SWkM_222",
+    "title": "Building AI Agents for 10K+ Rocket Science docs from 1960s-2025s | NASA RAG | Part 4",
+    "playlist_index": 4
+  }
+]

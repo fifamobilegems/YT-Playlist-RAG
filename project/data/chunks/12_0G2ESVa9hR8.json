@@ -1,0 +1,2369 @@
+[
+  {
+    "text": "Hi everyone, I think we are live. Good morning. Welcome to day 11 of building a production back system um for 10,000 plus doc NASA documents that scales for even more than 85,000 to 100,000 documents. that see how we're dealing with and yeah so far we've built the entire document processing processing uh document pipeline that is totally run by that's using dockering hybridly and also open source models totally open source models which can run on an um which can run on one single H100 which can prod which can sort of um process formulas tables process formulas tables uh diagrams pictures and technical diagrams and etc on a from a uh from a what from uh from a document and documents tend to be very complex. If I were to scroll down in one of the image here, you can see over here uh they have a lot of index, they have a",
+    "start": 4.0,
+    "duration": 52.079,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_0",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "lot of formulas, they have a lot of tables, they have a lot of graphs and you can see the images we have and etc. So this is not your general PDF your general chunking wouldn't work and currently we are working to we've completed the entire pipeline in the past few streams. I guess the first day three the first day 1 2 3 part one part two part three was like document processing we worked on that we fixed that and right now we had a bunch of issues and we are currently working on deploying something like this at scale for 10,000 documents and how do you handle the infra of you know making how how do you handle the infra of processing 10,000 documents right so it takes a few days you want to run the H100 on you we we've only got 95 GB of H100 RAM and we should be able to you",
+    "start": 54.96,
+    "duration": 40.559999999999995,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_1",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "know do a lot of parallel processing batching and etc to run this models. So that's what we're dealing on uh for the past couple of days. A lot of issues. We rewrote the entire pipeline to be able to separate the GPU service, the CPU service, and then reuse a lot of stuff, remove a lot of unefficient stuff. And we did a ton of work. I'll have to probably write like a blog post. So you can't probably see all the 11 hour 7 hour live streams. But what you can see is to read the drop um see the u blog post and sort of try to uh get a sense of what we were dealing with and what we are actually dealing with. Uh let me actually my sound input quickly. Okay. Hope you guys can hear me. All right. Yeah. So that is it for that. Now",
+    "start": 94.159,
+    "duration": 44.641000000000005,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_2",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "yesterday we I mean there was a lot of from the past streams I went offline to work on this a lot and um yeah I have to share a few updates but it seems like in the last stream we were we were struggling to even process one document at scale and right now we can run 24 parallelly and all of them have their own own version of dockling and also is able to properly utilize the GPU through batching and we were able to bring down a lot big PDF for a couple of seconds. I think the number should be here but I'll go through the entire thing. So we are arranging about 71 to 80 71 to 100 pages pages you know a document might have a lot of pages right so the proper thing is we evaluate this by pages so we're doing about 80 to 100 pages a minute a",
+    "start": 136.4,
+    "duration": 46.24000000000001,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_3",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "given minute we're processing 80 to 100 pages we I think we can still go up because we have 10,000 documents processor so we need to be able to get it at 150 uh p uh pages per per minute sort of range that's my goal but let's see um all righty um let's go ahead and test this out. uh so yesterday we dealt with a very small issue where I'll just give you some background uh where you know some for example some uh PDF were actually 150 MB for example this is 170 MB but this only had 37 pages uh and we uh and we came to the conclusion that this scan was super act super super uh what do you call super big it's super high quality so we wanted to reduce the scale size of it um dynamically I don't I think so. It worked out. Uh,",
+    "start": 181.04,
+    "duration": 50.32000000000002,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_4",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "it still took the same time. I want to test it one more time. It's day. It's the next day. So, give me the commands that I want to run. Or maybe we'll just run it. Why ask? So yeah, you'll get you'll uh I'll like you know I know this is quite like if you were to watch the last recording and come back to this there is a little bit of miscap is because I worked on this offline for a bit and um yeah had a bit of issues constantly working for a few days and I uh didn't eat properly and everything so have a bit of gastric so um yeah stomach issues had to take go offline and take some break. I mean, I didn't still take break. Just was working on this anyway, but I couldn't stream it. But yeah, I'll go through everything. I'll go through everything",
+    "start": 230.0,
+    "duration": 46.39999999999998,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_5",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "in a bit. Just give me some time. We'll just test this and come back.",
+    "start": 274.639,
+    "duration": 5.720999999999947,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_6",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "All right. So, we backed the PNV. Let's start the So I'm going to run this test dynamic scale and let's watch this. Watch in one second and run this. We have six. Nothing has started yet. Now go back. Activate the VNV. The VNV. You can see everything other everything is started. We have the Olama model running. We have the uh we have the other default what do you call this uh dockling services are running as well. been activate. And then we want to go inside research folder and we want to start salary actually. I want to flush everything and this would have been failed. It's okay. We'll first start celery and come back",
+    "start": 293.759,
+    "duration": 76.36099999999999,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_7",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "and we'll start the array concurrency is six alone and we'll start this and I can see it should automatically start. Okay, I'm going to go ahead and watch this. We've already done by one. This is giving us about 72 pages a minute sort of range. That's what we want to bump this up to 150. That's the goal. Or maybe even more if we can. Let's see.",
+    "start": 386.88,
+    "duration": 36.839999999999975,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_8",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's give it this give this some time.",
+    "start": 440.479,
+    "duration": 4.680999999999983,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_9",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "just Second document is definitely taking some time.",
+    "start": 486.08,
+    "duration": 5.32000000000005,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_10",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "You know what? I'm going to restart all the services.",
+    "start": 540.24,
+    "duration": 4.519999999999982,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_11",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I want to kill somebody.",
+    "start": 560.24,
+    "duration": 3.6399999999999864,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_12",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yep. Everything will also coupling services that are running. So all of that those are killed. We have embedding running. Let the embedding be as it is. Actually, we might need to kill embedding as well. Flashed is okay. It's flash. We don't have this embeddings. Oops. Model is fine. Keep the model as it is. should start. Give it a minute and start the salary worker concurrency with six. Nothing is in regist. So nothing should start and not sure the state changes. Okay. This check because what we're trying to do is that for a 50 MB PDF if it if a PDF is more than 50 MB we try to downscale it. So the the the the so it's 170 it'll probably be in the 80 MB range and then yeah you get the point just split it into a half in terms of quality you'll also lose a",
+    "start": 602.88,
+    "duration": 115.67999999999995,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_13",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "lot of details in that you should be you know careful with that but processing.5 for an for a like 172 MB is too much so you just can't do it you can't just afford it doesn't make sense to afford with the current uh system that I have it's only one H1 and I need to get it sorted out in one to do this like All 10,000 pieces in a couple of days. Yeah.",
+    "start": 716.72,
+    "duration": 22.999999999999886,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_14",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "actually make it uh yeah we'll actually test it and see first and generate we'll try it. So quit salary on currency six test this. So you can you should be able to see couple of vol services sorry docking services bump up",
+    "start": 915.36,
+    "duration": 24.918999999999983,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_15",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Watch this.",
+    "start": 967.759,
+    "duration": 3.32000000000005,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_16",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "That's just",
+    "start": 994.079,
+    "duration": 3.1609999999999445,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_17",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This is definitely taking time. I can I think the scale is not working but we have to wait and see. It saves a lot of time to wait. So wait, wait a little bit and see.",
+    "start": 1023.92,
+    "duration": 11.399000000000001,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_18",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think it's taking some time for unpacking stuff and Thanks so",
+    "start": 1241.919,
+    "duration": 5.639999999999873,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_19",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "much.",
+    "start": 1267.76,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_20",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops.",
+    "start": 1320.64,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_21",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think the recent change has made the the processing even worse. Can you please check whether increase? Can you please check on this?",
+    "start": 1389.039,
+    "duration": 11.88000000000011,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_22",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Maybe do one thing. Remove uh any PDF that is large. Just remove any large PDFs and we'll process the documents one more time and see if scale changes is an issue or not.",
+    "start": 1417.84,
+    "duration": 16.07899999999995,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_23",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay.",
+    "start": 1472.159,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_24",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It has the command.",
+    "start": 1586.559,
+    "duration": 3.7200000000000273,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_25",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "The second image is only 13 MB but you can see the time it takes",
+    "start": 1726.32,
+    "duration": 6.200000000000273,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_26",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "That is sunsh.",
+    "start": 1751.2,
+    "duration": 3.3199999999999363,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_27",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think you're bringing on scale has brought in a bit of issues and it's basically reducing the amount of parallel work that is actually running. So yeah because reducing scale loads something I don't we should do research and see but this is definitely slow. Our previous documents were quite fast like super fast. 24 documents was like it was done in less than 3 minutes.",
+    "start": 1846.24,
+    "duration": 30.279999999999973,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_28",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This show started. And we make concurrency five and here this submit is reverted. Okay. So we should start here. You can see",
+    "start": 1900.64,
+    "duration": 36.19999999999982,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_29",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So, we're going to run the baseline.",
+    "start": 2592.079,
+    "duration": 4.039999999999964,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_30",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, we're just on the baseline. See",
+    "start": 2613.839,
+    "duration": 4.360999999999876,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_31",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This is",
+    "start": 3017.68,
+    "duration": 3.1590000000001055,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_32",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, I think there's some startup issue like you know. So what I want to do is to completely reset this all the work back again. uh some case issue we would never you would never know. So yeah, let's see.",
+    "start": 3099.76,
+    "duration": 16.4399999999996,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_33",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's kill everything with",
+    "start": 3131.119,
+    "duration": 4.121000000000095,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_34",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Good. G2 is pure and clear.",
+    "start": 3176.079,
+    "duration": 5.800999999999931,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_35",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "setting a quick warm up to so it load the model manually.",
+    "start": 3194.8,
+    "duration": 6.359999999999673,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_36",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So VM is ready with 50 GB. Let's put concurrency 3 and run this. Anyway,",
+    "start": 3367.2,
+    "duration": 16.68000000000029,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_37",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, it's starting.",
+    "start": 3422.72,
+    "duration": 3.5599999999999454,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_38",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "What we should do is It could be like save research and scripts.",
+    "start": 3439.839,
+    "duration": 18.440999999999804,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_39",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It will take some time but we'll start this. Those should have been loaded. The model should load now. And only three concurrent, right? Only three models will load for now because that's only needed to load.",
+    "start": 3470.72,
+    "duration": 17.240000000000236,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_40",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think there's something wrong.",
+    "start": 3585.359,
+    "duration": 3.9600000000000364,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_41",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's go.",
+    "start": 3672.24,
+    "duration": 3.400000000000091,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_42",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So the thing is VM timing yesterday it was quite there is no I I'm not able to find a reason why it's not working Thanks.",
+    "start": 3972.4,
+    "duration": 9.239999999999782,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_43",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Actually, this could be an issue with salary. So I don't want to use salary. I want to directly run uh a document and check how much time it takes. Like directly run it and check it. I think it's an issue with salary guys. U it's taking some time unpacking and unpacking stuff. I don't know. I don't know. Something something is there for sure.",
+    "start": 4256.719,
+    "duration": 33.16100000000006,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_44",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Perfect.",
+    "start": 4314.239,
+    "duration": 14.720999999999549,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_45",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "H picture processing failed. The file name. Okay. I think there was a loop going on here. All right. Now I think we can Yeah, we'll find the issue.",
+    "start": 4368.64,
+    "duration": 16.4399999999996,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_46",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Please don't search for files. Read the entire code because even a small missing context could lead to a very bad outcome. We can't afford to lose time here. So please uh in uh ingest and you know check all the context required full files. Feel free to launch subs if necessary.",
+    "start": 4575.92,
+    "duration": 24.11999999999989,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_47",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Nice.",
+    "start": 5123.679,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_48",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. So, I think yeah, it's working out. It's quite fast. And it is a mere issue with the text names being large. Nice. We're now again back with 95 pages a minute. Go. Thank you, Goind.",
+    "start": 5210.8,
+    "duration": 29.55999999999949,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_49",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Give me everything. We're back again.",
+    "start": 5268.08,
+    "duration": 8.039999999999964,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_50",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "is actually better than the original face. What was the fix you made? We will What was the fix?",
+    "start": 5298.88,
+    "duration": 17.5600000000004,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_51",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, good. Please update the phase 4 documentation and then let's test with the concurrent six for once and if everything is okay, we'll move forward for the next. Update the documentation.",
+    "start": 5349.6,
+    "duration": 19.399999999999636,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_52",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops. Sorry guys, doing some karmatic practice.",
+    "start": 5624.48,
+    "duration": 5.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_53",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oh, hey man. Rag of Bodhani, I just saw your message. Hey man, how's it going? Good, good. Uh, just read through your Meridian Aerospace logs. Wow, nice. Great stuff, bro. Um, that's what we're working on. Day 11. Yeah, 11. And we have been working having a ton of issues in scale you know processing 10,000 documents and you know plus very complex documents we're using open source models and only we have only one GPU so we're learning all of this parallelization all the infra stuff that's taking a lot of time but yeah we we getting there I I just fixed a small issue and I want to test it with a few documents and yeah hola hola Nathan Corros hi hi hi good to see you Sam hey man yeah Sam is actually my teammate. We're working on uh we're working on something um called Introplex and he's taking care of the sales side",
+    "start": 5647.36,
+    "duration": 52.319000000000415,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_54",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "and I'm working on the tech side and good to have him on the team. Uh yeah, guys, if you have any questions, you know, feel free to drop them as we go. I'll try my best to, you know, answer and yeah. Yeah, check you guys. Cuz the thing is I don't open up the comments very often and um I don't know, for some reason OBS doesn't show me the comments. I'm not able to see unless I click on a video and come back to this. So yeah, sorry about that. All right. So I think we're making some progress and you can see that uh we are getting about 16 talks actually not 16 a lot of documents per minute. We can actually yeah 16 docs a minute but even more we could actually do a little bit more um and we're getting actually close to 100 pages a",
+    "start": 5697.52,
+    "duration": 43.198999999999614,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_55",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "minute which is very good uh totally which opensource models and etc and with with very limited amount of compute. So yeah, let's I want to do a single test for 24 um what do you call I want to do a single test for 24 I guess six documents in a in a in in a given shot and see how long will it take and yeah here we can take it from there",
+    "start": 5738.88,
+    "duration": 25.079999999999927,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_56",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, we'll test the six.",
+    "start": 5780.88,
+    "duration": 4.039999999999964,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_57",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, I think this also includes like so that for example we also have a lot of issues where one single document for example this document would actually be 37 pages but at the end it'll actually end they be 170 MB and you might have 300page documents that's less than 10 MB and stuff like that because these are scanned copies and I uh so those issues are definitely there and that's what you're trying to you know deal with them. Uh but yeah, let's see the size of um the entire size. We only have five PF. That's more than enough, I think. And yeah, these are two very small ones here. We'll test the the large one very soon. Um it's fine. So, I'm going to go ahead and flush for this. Let's start the worker and actually want to start it again because concurrency is actually running",
+    "start": 5796.96,
+    "duration": 66.23899999999958,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_58",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "and here it is running. I will create one batch one test 62 activate this. Go back. Yeah. And this we put them.",
+    "start": 5861.44,
+    "duration": 19.640000000000327,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_59",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, I've started it and you can see the process has started. We'll quickly go ahead and watch the progress. washed for every second. Oops. Okay, already we've kicked one and you can see all the GPU stuff happening uh going through over here. I think we've kicked the second one now as well. We're arranging over 84 pages a minute. It's a good number to flow. Okay, the second one is also done. We are at 69 pages a minute. It's okay. Now we 116 pages a minute. What is this? Great. Good stuff. If you were to have 116 pages a minute, if you even just, you know, go through a flow 100 pages a minute. Yeah, we can just get entire ducks done in two days, less than two weeks. Maybe, you know, maybe less than a day. sometimes. I don't know. We'll have to check embeddings have been generated. So the",
+    "start": 5896.48,
+    "duration": 81.60000000000036,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_60",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "VM entire stuff is actually done. So you can see annotated numbers, 13 tables, 71 figures generating chunks. Good. We're still at 86 page. Yeah. So it depends on the document. Some documents could be huge. Some of some of them have might have a lot of pages and etc. The range should be around 100. And you can see we're ranging at 1 0.71 seconds per page which is which is that's that's the number we want. We want to process 0.5 to 1 second. One sorry we want to do one page in.5 to 1 second. That's the ratio we're dealing with. That's the ratio we want to deal with actually. Okay. So nice. We actually done 100% done. Damn, this is good. Now, we've excluded the 171 MB doc. We'll come back to this later. There's a small scale issue with this. We'll fix it right away, but you know, we'll just",
+    "start": 5975.679,
+    "duration": 58.16100000000006,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_61",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "focus on this for now. And average is about 1.36 docu per page. Decent number because certain pages can be like high quality. Then you need Excel results. You have uh six workers, 3.1 docks per minute, 1.3x scale, six workers, and we're dealing doing about 109 at an average space, which is a very good number. Through output is very good. Ball clock is 1.3. Yeah, 1 minute. We actually processed five documents in 1 minute and 37 seconds. And we have per doc average is about 59.2 different docs. Scaling isn't perfectly learning. Expected 4.8 eight documents per minute but that's because different test scale 60 has hard documents. Yeah, exactly. Some contention on shared resources VM still higher than nine pages for this. So we'll just quickly ask um keeping an average assuming that you know there's 50 pages in 10,000 documents as an average that's the worst case scenario.",
+    "start": 6030.239,
+    "duration": 59.52100000000064,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_62",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Sometimes some of some of them will be 20 pages but keep an average of 50 pages per 10,000 documents at this pace. How many hours or days would it take to process all 10,414 documents? Now, we can still bump it up. You can see we have another 20 GB of VRAM left. You probably can add dockling and also slightly increase the uh batching or the the concurrent batching for each of the VM requests. That's a possibility here. But I want to keep it at a keep a buffer of 7 GB because sometimes stuff may for example you see over here, right? There should have been only 70 60 sort of 60 65 sort of GB but it's 77. So you know things can go up and down. It's usual but yeah and at current base actually we might might take about 3.38. Okay that's bad. With 10 workers it will",
+    "start": 6088.4,
+    "duration": 59.23900000000049,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_63",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "take two and with 20 workers 1.2 days. H now we have a six workers. Okay, we'll do something like this. Okay, now I have a document. Uh, okay. The thing is like this. I want also test scale. I also want to test the scale as well. So, what I what you what I want you to do is that I want to now we know we fix the issue. I want you to um check dockling on how to we've already done this before but you can search it up again for dockling how to make changes to the scale. So if the document is more than I maybe like 30 MB then we scale it to point yeah there's 1.5 or something like that check on this and let me know. So because there's a good chance that we might deal with documents which are 170 MB like that that you you can still deal",
+    "start": 6142.0,
+    "duration": 54.07999999999993,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_64",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "with some of them could be 300 MB you you might not know. So in that case we want to lower it down to to a good ratio. Um that's what I'm thinking what because I think if it's very high quality if it's full of 170 MB even if you put it down to.5 scale you know it's still high quality for example if if you know images you work with photography you have 8K image you scale it down to 1080p 1080p is still accur accurate you can read text you and it's crisp and it's not crisp as 8K but you can still read that's the uh amount we're dealing it because we are scaling it from the original ratio original ratio can be 4K 8K whatever and.5 of that so you can assume um it can be effective. So the image option exists but it's being it's being passed to let",
+    "start": 6194.4,
+    "duration": 46.88000000000011,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_65",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "me implement dynamic scaling. Yeah let's do that and depending on the depending on this thing if it's 50 MB if it's greater than if it's less than 50 we'll be like if it's more than 50 MB and less than less than 75 then we keep it at 100 one and then if it's more than 100 then we keep it at 0.5 because we can't afford to process 100. No, we can actually it'll take some time and okay, it should take time take some time because we act uh that's what we want to do, you know, accur accurately pass stuff, but also we can't waste weeks staying up until it does all the work. So, yeah.",
+    "start": 6239.44,
+    "duration": 38.52000000000044,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_66",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Now the thing is I want to test it again with this 77GB right I want to again once more test this one more time just to see how much of now for example the max could have been 75 you know uh you know 75 or you know you have in memory you have 77 gigs of VRAM we can again process this and see where is bumping up if it's going above for each request for the same request if it's bumping up a couple of GBs then just assume you know with a lot of the request it's going to bump up and there's some and there we have to probably there is something some state or state level C or state level something is there in the GPU VM what we have to do is that once you process it you know just flush those out and pull",
+    "start": 6294.48,
+    "duration": 43.44000000000051,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_67",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "in the next one flush it and pull it next one uh so then it's also efficient that's that I think I think I think it's efficient I don't know I have to",
+    "start": 6336.48,
+    "duration": 9.920000000000982,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_68",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's go for one. So 171 MB will be 70 MB. Still low but actually we'll do like this. Now the thing that yeah so the now thing is like this sometimes a document could be 200 MB right then we can't do 200 MB we want to get to 75 or something but if it's less than 50 we can do one and stuff like that like it needs to have some decent logic could we specify 75 or one or is it just one 1.52 is it like on that",
+    "start": 6464.159,
+    "duration": 42.16100000000006,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_69",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, we can do any scale. Okay. So, we'll do less than 30 MB, we'll do 20. We can accommodate it. If it's 30 to 100, we'll do 1.5. If it's 10 to 200, it's one. Yeah, we'll actually lower faster. Yeah, this is okay for now. We'll proceed and check the difference. This will any anyway be slow because it's actually a 50 MB PDF. So, it'll definitely be slow but still u I want to first of all check you know um yeah let's do one thing before we test it. I want to check the I want to check the quality of it uh for a test. So then I would know even a 0.5 you know scaled down version of a document that is in 200 MBs or something like that depending on the pages would actually if it's high quality then that's good that's what we",
+    "start": 6522.56,
+    "duration": 46.638999999999214,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_70",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "want because that those that's only for images like you take a screenshot of an image and then you pass it that's the thing now author detect image skill based on files provided now I also have one more question for example Example, initially we process all the images and all of those stuff, right? You know what we do and then we get access to the prempute pre-process basic C4 whatever and there's only one dockling per initially that runs for a document and then sends all of those document class down below. Now I'm curious to know will the im because you're passing scale to the image level will now already the image is scaled down and passed would you still scale it down and then uh do you pass it to the image models I'm just curious to understand because there is no way you there is no way to autodetect",
+    "start": 6566.4,
+    "duration": 56.319000000000415,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_71",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "and etc because oh maybe you can do it but dockling does all of the process and passes it that's it there's only one try you do for a locking and then you process all the precomputed stuff you understand what I'm trying to say if Yeah, hopefully you should understand because I think I'm guessing what what it's trying to do is that you have an image you scale down to 0.5 and then you also there's a code to send these are precomputed we have a graph here on on the architecture we're trying to do and anyway once the once this project is done I'll leave all the code but this is the architecture here and here we actually have one phase one to CPU pass and that's it and afterwards it's layout GPU and then VLM after this there is No going back to dockling you understand so",
+    "start": 6620.239,
+    "duration": 44.400000000000546,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_72",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "there is no scaling down and all there shouldn't be if not the the package will get into thread the thread will lock entire thing become sequential that's what we're fighting for good question uh thank you extracts images scale 1 b to workers resize can't resize yeah this is okay if it's above more than 1536 res so potentially double processing do extra scale caps Yeah, but there's only one dock link that initially runs, right? In when you re when you resize image, you don't use dockling to resize image, right? That's my question. Correct. Dockling only runs once to extract images. VM resizes. Okay. Python imaging library that has THR request. That's okay. Okay. Got it. Makes sense. Let's proceed for the next. Uh yeah, if your scale changes are done, we can start testing it. Uh yeah, one more time with this five documents or or or this",
+    "start": 6663.199,
+    "duration": 85.6810000000005,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_73",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "current test six which only has five documents and then if we get the same results we go back and test the 24 documents and then we will try to come to a conclusion on where to increase workers and etc. afterwards 109 documents per second. Now I complete the step after",
+    "start": 6747.04,
+    "duration": 32.88000000000011,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_74",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, before I start, just check uh uh the files and also if you can put back that 172 MB file to this uh folder so we can test it in a go. Actually MB 29 MB file and test 6 should not be just check test six and see do we what uh do we have a 29 MB file oh maybe the last that's the last one that was if I remember it Yeah, that is a 29 MB file. It's okay. Yeah, nice process. And then it then that was quite fast as well. Lower the threshold 25 MB from scale 1.5 or keep it as it is all further. No, no, it's okay. 25 MB is fine. You can accommodate it. Now we'll run the test. So it started six workers. You can watch the changes. Now, this won't this won't actually uh show us anything new because we already",
+    "start": 6820.8,
+    "duration": 96.59999999999945,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_75",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "have uh because we testing the same thing status one out of process. Watch this.",
+    "start": 6913.92,
+    "duration": 21.159999999999854,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_76",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Second also done.",
+    "start": 6950.8,
+    "duration": 3.9600000000000364,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_77",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "already 80% done just last document left you can see we already posessed 117 pages and full done good scale is not I Yeah, scale. We we we don't still test scale here because uh we are not uh what do you call we are not yet in this threshold. It's 25 MB not and the file is 29 MB. So you didn't get results looks good which is good. Pages 106. Yeah, you just need to get the range. That's it. Scale didn't break anything. All files were less than MB. So scale was two anyway. Reding and we'll test this 24th option. Okay. Let's flush this. And this",
+    "start": 6982.56,
+    "duration": 54.92000000000007,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_78",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "we'll do six workers run six. And we'll run this.",
+    "start": 7050.639,
+    "duration": 9.5600000000004,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_79",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Yeah, it started. Okay. And you can see the bump in the GPU. We already at 80 GB. And I can see that accumulation happening. So that's an issue. I think something is stored in V RAM and it doesn't get offloaded. And again when you process it's still loading more and again you process is loading more. It just keep on loading more. Uh yeah, let's see. Focus on this GPU count and everything. Maybe I should No, I guess you can sleep.",
+    "start": 7078.639,
+    "duration": 42.680999999999585,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_80",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "And some of the documents for example this uh 401 and all of this is processed through scale of one. This is processed to scale of one. So scale is also working. This is processed in a scale of 1.5. So it's a it's something less it's less than 100 or something I think I don't know what we have four completed and these are quite huge documents one of them uh you know consists of a lot of pages I guess nearly 70 pages and then the other one is dense with quality so that's one with 172 MB document yeah but still we're ranging with 90 90 99 this is what we have to focus on sometimes could this could take a while depending because at the end End of the day, a PDF can have 10 pages and one PDF can have thousand pages. You would never know. So, your throughput should",
+    "start": 7145.199,
+    "duration": 54.88100000000031,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_81",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "actually be in this range. As long as you're in this range, you're safe. Uh that 100 100 pages per doc sort of range. And this will go down next. I think because right now we are probably processing um a dense document.",
+    "start": 7197.679,
+    "duration": 21.960000000000036,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_82",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think we'll hit another issue. I can see over here uh page zero has zero content blocks. Yeah.",
+    "start": 7234.0,
+    "duration": 10.4399999999996,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_83",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I'm worried if this if these documents actually need OCR annotated fiction. These are images are okay. Some of the documents need OCR for text even for text because some of them are scanned copies and you know general scan copies. You can't grab text like properly and we only doing layout layout detection. Yeah, I think we'll hit a road bump here. Definitely. I can feel it. Next. That's the That's what I want to see quadrant and see the chunks and verify chunks and etc. Yeah, but at least uh we're doing a good uh per minute per pages per minute sort of ratio. We actually at 138 pages per minute. And some of the documents are actually huge. 110 MB, 117 MB, 150 MB. Uh, so this is a good number and we're doing 0.7 for we're doing a document for every 0 every page per 0.7. So less",
+    "start": 7274.719,
+    "duration": 60.16100000000006,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_84",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "you're processing like 1.5 documents every second. That's very fast. And the maximum was actually 3.7 seconds. Maybe it had a lot of I don't know whatever the stuff it is. And we're doing concurrency six that we can actually do more concurrency. We can do another 10 gig of concurrency. So load up another two or three dockling six. We can do 10. We can do 10 workers. I'm only worried if we need OCR. If this if let's check the text. We check the text blocks of quadrant. I can see the 000 uh chunks being retrieved. I don't know if it's like a very baby error or something like that. ina page zero context page. Okay, it's actually page zero sort of error I think. Uh other we can check quadrant and if it's good then it's good. Again we've already done uh we at 138 pages a minute. It's quite",
+    "start": 7332.159,
+    "duration": 63.5600000000004,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_85",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "good. 141 pages a minute. Nice. Damn. Actually this is what we spent like I don't know easily 3 4 days 5 days figuring this out. I'm not I don't have any experience in this infra stuff. If I were to work someone you know I usually work with people uh who have you who who probably have done stuff at scale you know I've done similar work but you know right now doing the infra for it is totally it's a different ball game apart from all this building agents and everything and yeah I I'll write a blog post because you can't see the entire video. I'll write something on medium or write some sort of 166 pages a minute. Nice. Yeah. So, this is a good range. 166 pages a minute. Very good range. I was expecting to be 100 but 166 and it can I can I think we can pull off 200 if",
+    "start": 7392.719,
+    "duration": 61.44000000000051,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_86",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "we use that extra 10 GB properly. We can put it off. And yeah, I'll again coming to the point I'll run a blog post and I'll just you know put in all the challenges you might face. Um and and yeah this is not related to agents this is not related to any u you know like complexity and stuff this is just pure infra you know I guess this is how big companies would try to you know not like this they'll have you know PhDs and etc but you know we are doing something decent and this is something you know you can also you know take inspiration on depending on you know the servers you work with GPUs you work with I work on an H100 you if you work on a B200 this can be 300 page uh the processing time will be much faster and if you're not",
+    "start": 7451.28,
+    "duration": 44.48000000000047,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_87",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "using dockling and you're not you know dependent on any thread pools or any issues on piped pipeddm you can actually skip that write your own stuff and you can range easily 500 pages a minute like that's what you want to focus on that very simple goal right you you know that's the general s that's the general uh sort of um general um ratio that you can uh that you can think of which is at pages per minute you can depend on that because that's the that's that's the that's the fixed general factor there and then what you have to do keep a goal of processing this and that in whatever the amount of time you want and then try to write your stuff and wrappers if you have really custom stuff if you write stuff on C++ and Rust it's much more faster you can easily range from 300 to",
+    "start": 7493.679,
+    "duration": 46.16100000000006,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_88",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "500 pages per minute and if you have a lot of GPUs then that's thousand pages a minute if you have a couple of two let's say you have like two one B200 that's more than enough I guess is 150 GB one B200 is more than enough. If I could have a if if I if I if I had the resource for it, I would have definitely showed you guys how to do it. It's much more faster. You have all the drivers um based on Blackwell quite fast. This is of course this also this is the second to third generation. Nvation uh at least we're ranging at that 135 to 150 stuff. So yeah, pretty okay. And this I'll also keep the code in a very decent way where you can you know depending on you know the RAM you have you can load in models if you want to",
+    "start": 7537.44,
+    "duration": 44.71900000000005,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_89",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "enable OCR you can do it and you know sort of like that I think dockling is a big blocker maybe you know we might I um yeah yeah no point like no maybe next time if I were to do something something like a series like this I wouldn't use link I would do everything custom so everything thread safe pool thread pool safe no locks um um uh like Uh yeah, stuff like that. I'll focus on that initially. Think about those stuff. This is a good lesson for me. I didn't think about that at all. You should definitely if you're, you know, working with big companies, you will have people to think about this and you know make decisions and all. Uh yeah, and especially in enterprises where you have a lot of documents, you know, stuff will work for one, might not work for the other and",
+    "start": 7580.48,
+    "duration": 46.88000000000011,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_90",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "etc. So you'll constantly have those issues. Okay. So I think total CPU time 42 minutes. Yeah, don't focus on total CPU time. This is definitely not 42 minutes. This is CPU time. So we running six paralle parallely, right? So even it take one takes about 2.6 minutes. We've already done 22. So you do 22 by 2.06 then you end up in something like this. So that's the par that's the CPU like the compute time parallel time. We actually started with eight pages a minute. Eight or sometimes even 3.5 pages a minute. Now it's 160 pages a minute. But I think it's stuck in stuck in this one. Let's see. And maybe this is a huge document. See, there's something failed over here. We'll copy this. Yeah. And this Yeah, this is trying this. So the failed one is being tried again. You can see 2 96 tables, 84 figures, zero",
+    "start": 7625.04,
+    "duration": 82.96000000000004,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_91",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "formulas. That's very dense image. Dense sort of image. I think uh I think that will fail and I'll keep trying. I think that's what it's trying to do.",
+    "start": 7705.36,
+    "duration": 14.278999999999542,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_92",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So I guess it's batched all. So you can see 296 tables, 84 figures, zero formulas sending 380 BLM requests. So that's what you can see this is 100% and this full this is fully used utilized. Uh now we've done actually it's quite fast. I would say this will drop I think this will drop. Now it's embedding embedding all the stuff but you can understand the scale 380 this in one forward pass. If not what you have to do is that you want to do forward how much if you do it parallelly it'll be like 1 2 3 4 380 or batch it then divide by three then how much 300 divide by something around yeah 190 120 something like that that be one like 120 forward pass this is only one forward pass actually no I would say 128 so three forward pass 380 request is done it's",
+    "start": 7764.639,
+    "duration": 54.039999999999964,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_93",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "quite quite us do this with Poweroint presentation. So this is a PowerPoint presentation. I saw this image. I'll show it to you. So for this we have to deal in a very different way. Um yeah I don't have you know with I don't have for example see this is the one AI I whatever with images you can see the number of pages and then everything is like graphs and etc. So for for stuff like this where it's sort of like a poweroint presentation we know it's totally images we need a very different way of handling it but that's maybe something for the uh we have to take care a bit later not now and one failed I think two failed uh 8% failure rate actually copy this can see it here.",
+    "start": 7814.88,
+    "duration": 77.96000000000004,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_94",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Amen.",
+    "start": 7906.639,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_95",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "The test is nearly complete. 24 document final sales 90% complete. 23 successful 25. Yeah, there was one corrupted document. Um, server disconnected. Okay. Okay. I didn't know this. I thought it was corrupted. I think yesterday when I shipped it and we made changes to the code 162 pages processed performance. Yeah. So the thing is like this we have four 10,414 documents. Even if we range for 9,000 you know some even like,400 documents fail or maybe 400 documents fail it's totally okay like terms of ratio you just you will have that you know 3 to 5% of uh failure rates. You have to accept that you can't get everything right here. A notable completion from logs. This is for image ST 14 pages retry retry in progress. Okay. So I don't think we also changes made some changes to the code where uh you there's no one retry currently processing after",
+    "start": 7985.04,
+    "duration": 59.03899999999976,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_96",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "the initial failure. It doesn't the retries won't process. We made some changes to the code issues. The two failures are from document connection drops not the retry logic is working. Failed documents get recouped after 60 seconds. Yeah. Okay. 2.5 finishes in 3. The async optim is working well. 481 current request. Uh okay. Now I want to discuss something as well. Good. Now we basically ran all of this stuff and uh the current this is the current GPU memory. I can see something here where for each request the GPU just gets adding up you know after let's say now it's it's currently at 79 right when we run this request again it'll become 83 and then it'll stay at 83 and then when we run this request once again it'll actually from 87 and it'll stay at 87 like that is actually accumulating and something is accumulating and um it's it's just",
+    "start": 8041.92,
+    "duration": 70.3189999999995,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_97",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "staying there I don't know what is really there um you know you'll definitely have all of the doppling stuff You can see the split of the GPU consumption but I'm definitely sure something is there that's catching holding on to the memory something that we should not hold on to because see we processing a lot of documents by the time we reach 1,000 2,000 3,000 documents we don't want that very small accumulation to be in GPU memory as well I don't know what it is but I can feel that something and then in the middle you'll have this no G uh GPU memory not available error and then everything will crash like we can't do that we can't help it so I want you to you know spend some time on Um yeah, right now you know pipeline is working but we can't afford to have issues like",
+    "start": 8110.88,
+    "duration": 48.039999999999964,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_98",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "this. Go back.",
+    "start": 8154.239,
+    "duration": 4.680999999999585,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_99",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yes. Yes.",
+    "start": 8632.16,
+    "duration": 3.719999999999345,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_100",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yes.",
+    "start": 8726.08,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_101",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Bye.",
+    "start": 8750.64,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_102",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Stop.",
+    "start": 8775.439,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_103",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It's nice.",
+    "start": 8831.76,
+    "duration": 12.280000000000655,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_104",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "What is it?",
+    "start": 8908.399,
+    "duration": 3.3209999999999127,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_105",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "All right.",
+    "start": 8933.52,
+    "duration": 3.0799999999999272,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_106",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "this cleaning uh GP memory basically offloads all the models. So what what really happens on the I don't understand",
+    "start": 8962.08,
+    "duration": 8.359000000000378,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_107",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "What's that?",
+    "start": 8991.359,
+    "duration": 3.161000000000058,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_108",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. And this also doesn't interfere with VLM. Right. For example, right now when you uh when you make a batch request, it reuses KVK. Oh, sorry. So, this doesn't affect the process of VLM, right? Because right now if you uh process a document, it reuses a lot of KV cach. It reuses some um it batches concurrently and reuses some KVK some I read about it but if it doesn't affect this yeah you can make this go ahead with this change",
+    "start": 9081.359,
+    "duration": 28.440999999998894,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_109",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Yeah. Oh, actually we have only proc we have actually processed uh those bunch of documents in 1 2 3 4 5 concurrent workers. Okay. I thought it was six actually.",
+    "start": 9140.64,
+    "duration": 22.92000000000189,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_110",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "2, three, four, five, six. Okay. And we run concurrency six. Just folks should pick up everything. So you have six three here, three here.",
+    "start": 9282.88,
+    "duration": 33.559000000001106,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_111",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Awesome.",
+    "start": 9334.479,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_112",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Sometimes this might slow down because this might do a bit of clean up and then you're loading it again. Those might take a couple of seconds, but I actually don't know. So, we have to wait and we'll see.",
+    "start": 9363.2,
+    "duration": 13.238999999999578,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_113",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "And you can see all of this it it doesn't exceed more than 5GB before I guess before if I want to see uh this is four this is three this is five this is three six but you're seeing everything is around 1 then 1.2 36 33. So well done the and you can jumped up to 79 but we're still roaming around 70 776 this with only four only four dockling servers is sorry five dockling servers is six dockling servers additional 5GB but we're still at that 70GB range and still ranging about 103 pages per minute. Then we can actually with this efficiency we can actually dump in actually bump in another two three workers maybe maybe 10 10 dockling servers. Yeah we'll try 10 dockling servers next one even though there might be a small you know few seconds gap but still that gives us an extra 5 GB then another one",
+    "start": 9463.12,
+    "duration": 59.599999999998545,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_114",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "worker or two worker dockling worker and one dockling worker can process documents in I don't know two three documents so it's like a yeah it's like a very good investment sort of thing. And it's actually nice. We're well under 70 GB. So you can see this is 1.2 MB. 1.2 MB. There's no accumulation here. You can see that. And everything is less than 2 GB right now. And that's what so images and everything. So PyTorch stuff the libraries and everything work h with this memory. Right now we free it up, delete it and then restart from that. That's why it's actually under 2GB. This might affect a little bit on you can see the minimum to 1.23 seconds. The last time minimum was something. This will definitely affect a couple of second seconds. I think as far as you can see you can see it was 072 seconds.",
+    "start": 9520.319,
+    "duration": 64.5609999999997,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_115",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "That's the minimum and the average was 2. Did we have around 30 seconds extra? Oh yeah, we have to wait and see the final compar comparison.",
+    "start": 9582.96,
+    "duration": 12.359000000000378,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_116",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "And I also think for embedding you we only able to embed one thing at a once. So I want to check two things. I write here not embeddings need to understand parallelism here because two docs can can two docks can two docs um inest embeddings in justest embeddings to quant the same thing that I can see here quadrant seems to be sequential. One pops up and then the other one. It's okay because you might need you might need um you don't want to jumble any chunks and etc. So um yeah, it's okay for now.",
+    "start": 9618.479,
+    "duration": 57.48099999999977,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_117",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "You see here 217 VM request then it'll uh it'll complete in two forward pro one is 128 in one batch sorry one single batch",
+    "start": 9729.2,
+    "duration": 14.118999999998778,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_118",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This is 481 real 45 tables 436 figures. Let's run it. And you can see this is done. We only taking sequential embedding time. So this embedding is being saved sequentially 128 at the time. I think we have one failed document.",
+    "start": 9765.2,
+    "duration": 34.27900000000045,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_119",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Last one is being processed. I think I think it's done. One failed one processing but it stopped over here. And we the range is good. The range is okay. So I'll send this information much better and you can see it's spelled on the last time. If I scroll up to the history you can see 79 GB. Once this is once we finish everything we finished all the inference and we had about 79 GB. Now we finished all the inference much quick much quicker. Sorry much quicker. Okay. Okay, now it's I guess it's retrying the failed one. So, it will wait. And it's still less 10 GB. 10 GB of extra VRAM um is is being saved over here. So, we'll send this information actually this one. Put this information here. Is this very efficient? Very efficient.",
+    "start": 9847.52,
+    "duration": 77.31999999999971,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_120",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "14 GB saved. So doling instances are stable at 1.2 GB each. uh 24 the one failure versus two versus before 161 pages per minute up from 139 timing clock wall. Okay. So we processing 10 in 10 minutes we processing uh how much in 10 minutes you're completing,652 pages GPU temperature 64 Celsius LD at 165 with 50 pages yeah for 520,000 five we assuming there's like 50 pages per five 10,000 documents we'll complete the entire thing in 2.2 2 days and now the memory will stay stable throughout. And now what we'll do is that looks good. Now update the phase 4 document with this. Next I want to bump it up for 10 workers. So 10 dockling workers and I want to test um the stability of it. So far good progress. I want uh let's update the uh phase 4 document with this info. So this has the cleanup has actually",
+    "start": 9943.359,
+    "duration": 61.36099999999897,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_121",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "helped it. Now we might have to do some clean up in this VLM or maybe not. Let's actually scroll up and see the old one. Old one is 55. This is also 55. So once the request is done, I don't think there's any C or nothing is stored uh for temporary allocation for for the VLM. I think it removes everything. It does a good job for it. So we don't really do anything. But I don't still know. I have to still verify the complete pipeline and see. But if we go in this speed then if it takes um this is be six workers and if you have 10 workers that actually I think 40% of speed. So this can everything could be done in 6 to 7 minutes with you'll definitely have little bit of congestion but maybe with maybe with this we can actually get save",
+    "start": 10002.24,
+    "duration": 50.80000000000109,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_122",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "all yeah do all of the 24 of course one is failed but still that did process I think. So we can try 10 workers and see where where where it leads us and then we can go go from there. Go from there. Okay. I just saw your message. Pro education. What are you building? I am new here. So hey man, I'm not sure if you're watching this. Probably I think you already you already I just got a because OBS doesn't for some reason just show me the chats. So I just saw it now randomly loaded up the video. So yeah, we're building a rag system for NASA for for a company that works with NASA. It's a fictional company called Meridian Aerospace, but it's actually like a real world project. Uh nothing no different uh than a real world project. Here only I'm the one building on it. Uh the first",
+    "start": 10050.56,
+    "duration": 50.71899999999914,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_123",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "few days we solved document processing. Second in few days we built the agent. Right now we're building an infra that can actually process 10,000 documents in a day or so, a day or two. Uh so we only have one H100 and we only have very very limited amount of compute and our documents range from basic documents to scan copies to handwritten to technical diagrams to images to figures to tables and formulas and etc. very complicated. Some of the documents are 4K or a scan. You have 170 MB documents 200 MB document that's only 10 20 pages long and there's a bunch of issues. uh so we only have very limited amount of compute and we also have been using dockling and dockling has a very small not sure if you have um used for pdfs and etc they have this issue with threads to simply put you can't parallelly unless you in a",
+    "start": 10099.439,
+    "duration": 49.52100000000064,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_124",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "given let's say you load 2 GB you can't do the entire dockling process for that entire 2 GB of VMA you can't do batch processing like VLM so what we're trying to do is that making sure we use it efficiently we are actually loading up dockling models you know just models per se to do a lot of layout detection parallelly. So then we're bypassing that thread issue uh sort of thing. So I'm I'm sure you know you might be sort of wondering what we're trying to do. It's just simply we're just trying to build a system that can you know work with 100,000 documents documents and these documents are actually pulled from NASA. So just to show you some example these are the stuff of these are the type of documents we work with very complex not very very complex but some decently it's not your general legal document it's not",
+    "start": 10146.24,
+    "duration": 47.44000000000051,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_125",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "your general financial except they have a you can see the amount of scan very bad scans and you also have here a lot of diagrams you have a lot of pictures and etc. So this is what we're actually dealing with. So yeah, if you are very interested in like you know uh building stuff like this, you know, make sure depends like this you want to build only learn how we built initial agent watch part three to five. I think if you want to do document processing learn from 1 to 3 but if you want to you know work on know about infra how to do all all of those stuff watch from 6 to till now I think about I was spending time around 5 days but those are very inefficient some of them were very buggy days I spent like 7 8 hours 9 hours 10 hours working",
+    "start": 10191.359,
+    "duration": 45.36099999999897,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_126",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "on bugs only and then I rewrote the entire architecture right now we have a new architecture to uh you know do something like that we took inspiration from companies how you know scale AI open AI cloud this big big companies really focus on a lot of memory very very minor pieces nuances and etc and you know build very different services uh that the CPU that is uses GPU and then some caching radius and etc. So we taken inspiration from them a little bit. Um and of course with the help of claude we were able to build something decent. Um yeah so if you if you want something like that don't watch the entire recording. I'll leave like a medium article or maybe some article I write later. I you know use cloud code to just analyze this stuff we have done because done a lot there are a lot of",
+    "start": 10234.56,
+    "duration": 42.879000000000815,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_127",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "issues I itself I just forgot a lot. I'll do that and put it down and then you can actually yeah you can actually see that and take some um uh yeah information and build it on top of them. So yes, go ahead.",
+    "start": 10275.359,
+    "duration": 22.11999999999898,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_128",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Also with that I also want to with this I also want to understand about retries because let's say we processing a lot of stuff par right I want to know about retries because retries do not want to complicate or take uh compute from the current batch. We don't want that happen. It doesn't need to re uh interfere with the current batch and cause inefficiencies. At worst case case, we will process all of the failed ones last manually if needed. Okay. And I expect to at least have thousand failed dogs easily. I think we have the four 10,000 414 exactly and you know thousand docs might fail 10% ratio we can keep like a 10% because some PDFs might be corrupted there's no way you can you can't you can't bypass it unless you do some custom work to it so we'll work uh we'll validate then",
+    "start": 10340.8,
+    "duration": 70.47900000000118,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_129",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "work up and then if there's space we'll see whether we have to bump up the work cut or we have to bump up the sequential processing. So instead of 128 in a single goal, if we can accommodate 256, we can do that.",
+    "start": 10408.16,
+    "duration": 15.799999999999272,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_130",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, I want to start fresh. I want to kill dockling flush radishes and then start the concurrent workers within. I have the command just give me commands to um kill dockling and u uh yeah just command to kill dockling actually know what I have the command kill all the docking services we only have embeddings and we have the model running same 55 layout start the This one will restart the server. We don't need to restart. It can catch on from where we left. And here concurrency will be done. And yeah, and we need to start I'll start. So it start [Music] you might need to update this file. And we'll kill this one more time and start it.",
+    "start": 10445.68,
+    "duration": 88.35999999999876,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_131",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, now we run this. It's already up to date. It is run in on port is not running. Okay, it's all stopped. We'll start it. Give it a few seconds for everything to load. Then we can start the process.",
+    "start": 10554.16,
+    "duration": 19.400000000001455,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_132",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, start. Okay, process started using a 09. And here you can see expand or expand this. So 1 2 3 4 5 6 7 8 9 10 10 Python. Okay, everything is running. Let's watch the progress. uh up to 92 GB. I think this might crash. It's Let's see.",
+    "start": 10598.399,
+    "duration": 34.76100000000042,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_133",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Get something.",
+    "start": 10656.479,
+    "duration": 3.161000000000058,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_134",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "All right. Sorry guys, I had to go and take some food. And yeah, the range is 180 pages per pages how much? Pages per minute. It's I'm sorry. Uh uh previous range was I don't know but I didn't get a chance to see the peak because I wasn't there. big GPU with last was 165. This is 180. That's it. Small bump. Huge bump. War clock 9 minutes. Not a big difference. It says 8.5 seconds. Yeah, we got like 5 seconds faster. Uh other than 80 yeah success rate same plus 56% saturation block by minute suggest we're approaching LM saturation point yeah you'll only have a a point you'll only have a point where you can go and afterwards it will saturate because some of the internal requests might hold up in the GPU and etc. So what we should do is that I think we have memory but we don't",
+    "start": 11438.64,
+    "duration": 101.52000000000044,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_135",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think I think uh our VLM could also be blocked by the batch request. How many concurrent requests do we serve right now? And um could we serve more? Could we serve the double of what we have right now? So what we can do even the dockling gives you a lot of requests. VM should have the batching capability to handle that. So it both goes hand in hand guys. There's no one solution works. You just have to you know think through this and you know find the best approach simple and yeah you just find have to find the sweet spot and you can't plan for it. You have to test and test and test with a very small set of docs and see. And I my goal is to get to 100 pages a minute. That's it. Now we do 180 and after the change we might do 250. But",
+    "start": 11536.319,
+    "duration": 48.40100000000166,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_136",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "when you're processing I don't know um yeah when you're processing 10,000 docs you might have some compute issues I don't know even if there's a 50% drop worst case you'll still we'll end up on time but it won't we'll end up early only just saying only 120 only 50 GPU with 10 workers each document could be 400 yeah exactly 50 to 400 concurrently that's big poweroint had 481 yeah 4x limit request about 100 Yeah, exactly. So this is blocked even though dockling you know it extracts and give you the info dockling is waiting and this is blocked because there is no VM used like free memory used. So what we can do is that double this to 256 and increase this site slightly. Yeah we'll update this and see and we'll measure the performance and see and we'll go until we notice that saturation and then we'll come down find",
+    "start": 11581.2,
+    "duration": 53.7599999999984,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_137",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "the sweet spot lock it in and then you know yeah just run it for all the documents and we're done. We should be good. So we have 16 GB free safe. I don't know if it's true because I saw in one point we hit 92GB. We just try and see what's fancy. Okay, we killed I think we killed Docker. Did we kill? Oh, yeah, we killed and restarted. I think it's loading.",
+    "start": 11632.479,
+    "duration": 62.92000000000007,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_138",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It's loading.",
+    "start": 11749.359,
+    "duration": 3.3209999999999127,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_139",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It's loaded 60 GB now and we are have we are totally at 78. Still a huge risk big risk because all of this will double and we might run out of GPU memory. Let's see.",
+    "start": 11790.96,
+    "duration": 15.200000000000728,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_140",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Okay.",
+    "start": 11848.479,
+    "duration": 3.40099999999984,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_141",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So process should have started. You can see the bump here. I'm expecting this will fail out of run out of memory. It's already 90 90 93 because we are removing all the memory, right? Once we process something, we remove the memory. Then we might get lucky. But yeah, for example, one is done and you saw the one of the memory was totally removed. Yeah.",
+    "start": 11892.319,
+    "duration": 30.84100000000035,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_142",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This document failed because of this error. Copy this and keep it.",
+    "start": 11949.2,
+    "duration": 6.278999999998632,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_143",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Embedding is also having some efficiency issues. Slow it down. Now we're doing 48 pages. I think this will be a little bit slow for some reason. Let's see.",
+    "start": 11997.12,
+    "duration": 14.199000000000524,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_144",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It's going to turn to my pages a minute. Slightly increasing. As we go on, we increase. We'll get into the flow. More than the flow, it's actually about the um type of document. They should have been fast, but yeah, 83. You know,",
+    "start": 12035.2,
+    "duration": 19.799999999999272,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_145",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "There's no obvious increase in speed. I can see that",
+    "start": 12150.72,
+    "duration": 5.960000000000946,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_146",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think six workers is a sweet spot. Maybe that's the thing. keep at six workers and then um double the amount of sequential um sequential what do you call a sequential number of requests you can do okay that's part let's see more than 22 pages per minute",
+    "start": 12192.96,
+    "duration": 23.2400000000016,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_147",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I don't think we have a big change here.",
+    "start": 12520.8,
+    "duration": 5.079999999999927,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_148",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "No, I don't think we are. There's some issue. I'm not sure if we are actually using the 256 requests. I know we loaded the model with that but maybe in our change are you sure the model can handle 256 at a given time because I'm not sure if the change got uh the change is visible or whatever because I'm not sure um yeah you will have to check just check the code if um the change you made on 256 is actually being used and also I'm not sure if the memory needed to process 256 allocated is also enough or quite enough. I'm not I'm not sure if that's the case. Um yeah, because I want to validate validate this uh if then in the future because there's no big difference, right? What we can do is that we can have six focusers but increase the amount of uh increase the amounts of uh",
+    "start": 12562.88,
+    "duration": 63.35900000000038,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_149",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "sequential processing we can do or concurrent sequences if what we want to verify that you know it uh whe it's and we can allocate more memory for 256 as well. uh and yeah and also yeah I have another issue on embedding so I'll talk to talk about it later but first yeah check on this because saving embedding is also taking time and the 5GP doesn't seem to move up so maybe embedding itself it can you know process 120 idea 128 embeddings now it can maybe process even more embeddings so you can process one embedding in one particular call but not bad 184 pages a it at worst case let's say 150 pages just quickly use GPT laws assume we have 10,000 documents and each of them have an average 50 g 50 page document if we process 150 pages a minute how many days would it take to complete all 10,000",
+    "start": 12624.56,
+    "duration": 63.48000000000138,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_150",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "now I am thinking it'll be if it were to predict whatever the prediction is it probably be a little bit lower than that because not all the documents will have 50. Um no average will be less than 50 like 30 odd 30 40 odd maybe 50 max will be average of 50 3 2.31 days. So if I run it today 26.7 so yeah it'll be fixed by next Monday. No sorry not Monday Thursday. Yeah but we don't need to wait for anything. We can you know start the stream and we can start working on the agent and etc. Nothing is stopping us.",
+    "start": 12688.399,
+    "duration": 36.64099999999962,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_151",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Sorry.",
+    "start": 12752.56,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_152",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah. Yeah. We'll actually try this and see. What we'll do is that we'll reduce it to back six workers, but we'll uh keep it at 256 and see. And then from there, if we see a slight improvement from the original, we'll keep on increasing the uh sequence like from 512 sequence or something. Yeah, first we'll get it to six workers and um try 256 and see what happens.",
+    "start": 12783.6,
+    "duration": 30.039999999999054,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_153",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So this start with six.",
+    "start": 12859.6,
+    "duration": 5.1599999999998545,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_154",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I'll also stop um I will also stop what is this name of this doc limb because it will take you know three three or four will take some RAM so we don't just get rid of",
+    "start": 12888.56,
+    "duration": 14.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_155",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Starting 1 2 3 4 5 6 6 is starting. Let's see.",
+    "start": 12955.2,
+    "duration": 9.959999999999127,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_156",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "And you can see it's randomly loading those five end points. So we have around 3 4 GB of um just caught up VRAM which can be removed in a real world scenario. We don't need if you only need six then we only need six. No no no more no sorry we don't need more. We don't need less one. Yeah. Oh nice. 202 pages and this is with only six workers. So the bump in sequential processing is working. We are 200 202 let's say. Oh no no no sorry I'm wrong actually. Yeah we actually low 78.9 pages pages a minute. It is a switch.",
+    "start": 13085.279,
+    "duration": 54.99999999999818,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_157",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, I think we're passing this collection. And because this collection doesn't exist, everything is stored in bin documents. This one. Yeah, seems fine. And there's actually how much? 34,395 chunks already because we ran a lot of test and etc.",
+    "start": 13260.88,
+    "duration": 25.88000000000102,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_158",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "H embedding is actually sequential. That's why the other document even though it's done, it's waiting until the other embeddings is saved before it can put in this embedding.",
+    "start": 13307.439,
+    "duration": 11.161000000000058,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_159",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Now this is worst case scenario we're handling 481 wheelm request. Usually that's not the case for one document and we should have done something different for PowerPoint but it's okay. can't afford to spend time right now. It's already we already late. Okay, now this should be quick saving embeddings.",
+    "start": 13407.6,
+    "duration": 31.878999999998996,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_160",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops.",
+    "start": 13456.64,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_161",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Am",
+    "start": 13534.8,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_162",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I on? Yeah. If I can see",
+    "start": 13554.88,
+    "duration": 13.639999999999418,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_163",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Can you quickly connect to dockling sorry the BLM docker and see what was the KVK usage just to get a slight idea how were we utilizing it fully or just a little bit",
+    "start": 13618.239,
+    "duration": 16.1200000000008,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_164",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "H only 40%. That's what or maybe no I can't be wrong. There's there's more info here. Max was 84 I think. I didn't know 99. We did use it.",
+    "start": 13646.8,
+    "duration": 25.31999999999971,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_165",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "More consistent high usage. I'm sure why there is a little bit of idle time. I think it's maybe because we are blocked by embeddings and I just I just I mean I just you know visually went through this but seems like I see all the embeddings generated and then another documents embedding comes in. Uh are we calling embedding sequentially apparently? Can you please check on this or again for same thing for storing as well? Just curious to know cuz if we need to wait before other documents embedding comes in and this finishes if you're doing embedding saving embedding in a sequential process then that takes time too. Don't make changes to the code. I just want to",
+    "start": 13687.6,
+    "duration": 50.59899999999834,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_166",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "That's what this is where VM is actually idle. When do finishes, VM starts in Roblox. Yeah, not sure if it's possible, but probably there is a way. Definitely there is a way and probably it's uh we can make it async. So, please do some research uh on this and yeah, feel free to launch a sub agent to save context and come back to me uh on how we uh you know I don't want to get into any bugs and I don't want any incorrect stuff to be added to my to be generated or maybe added to the quadrant. So we need to make sure it's accurate and you know because a lot of dependable components but if there is a safe and very accurate way of making embedding async uh sequential for for generating and also putting to the quadrant then you should be great. So launch a survey agent and",
+    "start": 13801.6,
+    "duration": 60.44000000000051,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_167",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "come back to me",
+    "start": 13858.64,
+    "duration": 3.399999999999636,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_168",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "also data.",
+    "start": 13875.279,
+    "duration": 6.520999999998821,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_169",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Is it too?",
+    "start": 14121.84,
+    "duration": 3.638999999999214,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_170",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, like",
+    "start": 14244.239,
+    "duration": 2.6409999999996217,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_171",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. This",
+    "start": 14290.64,
+    "duration": 5.559000000001106,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_172",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, now going to go ahead and test it one more time and close this. Close this. We will refresh.",
+    "start": 14668.479,
+    "duration": 16.28100000000086,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_173",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "And I guess embedding was quick generally quickly.",
+    "start": 14737.76,
+    "duration": 5.558999999999287,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_174",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think we",
+    "start": 15236.479,
+    "duration": 3.480999999999767,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_175",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oh, is So I think maybe we uh just you know check on this and give me your thoughts. I think you going how much are you batching per embedding? I think the embedding uh VRM doesn't even move. I think we can also like for a single embedding call you can you know get a lot like you can send more or batch it or whatever.",
+    "start": 15299.76,
+    "duration": 22.840000000000146,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_176",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "But still it's 174 pages a minute still. Um yeah 5 to6 pages more. Hey, embedding can handle 256 also. Can you check Olama uh sorry can you check VLM's docker logs? Can you see is there any idle performances? Anything idle or how is it max and everything?",
+    "start": 15341.04,
+    "duration": 43.15899999999783,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_177",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's make it eight. Is there uh availability of RAM for us to process uh make it increase it from 256 batch size because I think we have another easily we can use another 10 GB. So I was just curious",
+    "start": 15488.479,
+    "duration": 31.8799999999992,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_178",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "So, we're making it 8 and then 512.",
+    "start": 15547.439,
+    "duration": 4.6010000000005675,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_179",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "10 is ready. Maybe you need to uh stop the docker model and restart it, right? You have to allocate more memory for it. So then then it then only it would actually use the 512 embedding batch, right? Cuz right now we only allocated something. I don't remember.",
+    "start": 15583.84,
+    "duration": 20.68000000000029,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_180",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "No, no, no. I meant V llm like we started VLM using Docker and we only gave it we only g we've given it very minimum amount of G G G G G G G G G G G G G G G G G G G G G GPU, right? For it to use the extra 10 GPU, you need to increase its GPU utilization, right?",
+    "start": 15646.0,
+    "duration": 19.35899999999856,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_181",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I mean the VL1 GPU utilization in VL1",
+    "start": 15706.479,
+    "duration": 6.040999999999258,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_182",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "See only 65. We have to maybe bump it to I don't think we should bump it.",
+    "start": 15742.0,
+    "duration": 10.359000000000378,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_183",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "slightly a little bit like actually we'll start it like this and make it there was already 215 request versus right there's overloading the mon than 12. We'll try and see. We'll try and see.",
+    "start": 15779.439,
+    "duration": 23.320999999999913,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_184",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops.",
+    "start": 16036.399,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_185",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Sorry.",
+    "start": 16437.76,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_186",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "check um check VLN VLM Docker and see if are we still having that same gaps or any insights on",
+    "start": 16712.639,
+    "duration": 11.681000000000495,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_187",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I think we don't have memory to serve that 512 uh chunks. Sorry. 512 batch request. If not, we can actually afford we can because see we have eight workers but we still have 1.2 GB 1.2GB 2 GB of GPU piled up. Let's check this. H 137",
+    "start": 16738.24,
+    "duration": 27.39900000000125,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_188",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "That's only a slight improvement. I guess this is the number, guys. We'll stick with this. Uh, I think this is good enough. Yeah. And what's the last API call? What's the last embedding that's processed? I need to move. Is it a failed dog? What is it? Because I see do um salary worker stops and then it starts putting embeddings on something. I share the logs about I wanted to know what it really is.",
+    "start": 16801.44,
+    "duration": 31.160000000003492,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_189",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "corruption corrupted documents. So only if one fail leave it as this. So this is good enough. So just curious you know is there a quick way for us to check how many pages we have in the 10,000 documents. 10,000 uh it's actually stored in mount mnt/ data somewhere. There's about 10,400 documents. Is there a way to quickly check how many pages uh we totally have? Uh and I don't want to spend too much time in it. Uh I don't want it to take hours and etc. I just wanted to know is there uh could we check that quickly how many pages we have so we can make so we make the calculation better because that sometimes if you if we were to load PDF the plugins uh plugins for everything then it'll take and 10,000 will take a lot of time now we averaging 50 maybe it might be",
+    "start": 16978.638,
+    "duration": 60.56199999999808,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_190",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "more because I've seen most of the documents are 60 70 pages They're they're not basic stuff, right? Rocket stuff. Uh one di like one they're not like each page would not have a lot of text but they have a lot of diagrams. So that's what I'm just yeah thinking. So sample 100 pages to estimate total pages. Yeah.",
+    "start": 17037.6,
+    "duration": 23.080000000001746,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_191",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Actually, how long will it take for you to check uh for the entire 10,457? It will take like a few 10 or 15 minutes. Is that the time frame to to check or to run the code to access all the PDFs and access all the pages? I want to accurately know. So, and some of them could fail here like 10% of the FS can fail here. It should take two to five minutes. Okay, then that's fine. Excellent. Give it some time.",
+    "start": 17198.958,
+    "duration": 54.92000000000189,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_192",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "180 pages.",
+    "start": 17513.6,
+    "duration": 3.400000000001455,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_193",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I actually expect this to be average 64 because uh even if I pull up the documents that I have over here everything is more than 30 40 pages easily most of it and this is even I don't know how much 90 69 70 pages this is 61 pages This this is 46 pages this is 37 pages. So yeah generally it'll be um we can take average as 64 uh it'll take around with our current workers uh yeah keep it don't I don't want to increase this. So I'm estimating it'll take 2 and a half days but by tomorrow this time we should have around 3,000 documents already processed. and yeah then I can start the live stream with whatever the documents we already have have uh at the current moment. So let it we'll just start on work on the agent because even,000 2,000 docs is more than enough for for us to",
+    "start": 17593.04,
+    "duration": 65.04000000000087,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_194",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "you know sort of try and see how it sort of responds and etc and then um yeah we'll slowly uh slowly not slowly we'll just keep on developing and we have domain stuff domain acronyms to solve and all of those stuff. So let us let us uh start on that. Let us start on uh domain acronyms tomorrow. That'll take a decent chunk of time definitely and then Tuesday we'll have everything and Thursday we'll wrap everything up and Friday uh the project should be live. That's the plan. Hopefully should work. So I'm okay even if it takes 3 days I've got time. I've got some time anyway. So 3 days should be fine. So 51 hours with this 62 hours. I actually think for example over here this particular image we had we tested one of the worst worst worst scenario over here of processing this much at the",
+    "start": 17655.84,
+    "duration": 49.038000000000466,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_195",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "given time but usually you don't have 300 images in a given PDF so the per page sort of per page sort of checking should definitely be around 200 we should be ranging around 200 I'll control B I'll run this in the background",
+    "start": 17702.958,
+    "duration": 20.80199999999968,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_196",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It's fine. We can check back later. But I'm just curious. Our last test was with how many workers? I guess eight. I guess eight. Yeah. Eighting fight doling instances other than 9 minutes. Okay. Okay. All right. Until it loads, I think we can start the processing right now. We can start the process right now. Um I would like I would probably definitely want to you know or actually no actually we'll keep it keep this as default. And uh what else do we have to complete in phase 4? Oops. Oh What happened? Wait. I'm not sure what happened to the background task.",
+    "start": 17806.32,
+    "duration": 64.91999999999825,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_197",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Fail corrupted 11 total pages. Oh god. 6 671,000 pages. take 2.6 days meaning 3 days uh 62 hours. So you're looking at 2.5 days current of 8 workers. So close to 2 days if you can push to 10 to 12. Let's actually try 10 workers on team. Um we did try 10 workers before. We didn't have a didn't have a huge impact. Nothing worked out well for workers, but we'll try. We'll just give it a shot and see. This concurrency refresh. Damn it. Okay. So, you should start you should see all the bump here. 695. Oh, Oh, very close. very close from being okay. Yeah. Yeah, it broke it. Yeah. But still, I don't think it should have any impact. I think it'll eventually come down and then we continue some. I think we continue. Oh, yeah. It could. Yeah. No this actually see this is the issue we don't want like",
+    "start": 17883.28,
+    "duration": 166.08000000000175,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_198",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "we don't want any issues in the middle so I I think 8 buffer of 5 to 6 GB is is a sweet spot. I think yeah I don't want anything to fail in between and I don't want to spend time continuing from there now just a pure waste of time. 70% allocation and then we keep at the same weight but workers as eight. Yeah, we'll stick with the same eight. We'll I think we'll take around two days. two 2 and 1/2 days, maybe 60 hours total. All right. Uh yeah, sweet spot. Update the document with this. I think we're good to go. I also want you to check what other items are left in phase four. I think good to go, guys. Uh pretty challenging. Four four days I think. And yeah, actually this is very good. uh without when we started off we aimed for 28 days",
+    "start": 18046.4,
+    "duration": 94.07999999999811,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_199",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "um yeah literally 28 29 days something and right now that was the worst case scenario and then we did we did the entire architecture we you know we changed up the GPU count we changed up the CPU layers we removed by PDF we dissected most we basically removed all of the inefficient part and put it into one layer for sequential processing extra we did a bunch of things and now we're down from 29 days to only 2 and 1/2 is so yeah around 66 yeah 66% reduction in time no I think no 66% no I'm not bad at math but yeah um yeah we just with just 10% yeah 90% deduction in time yeah and still uh if I if we had more and also very scalable as well very scalable option if you were to inject another GPU let's say H100 then this will double for example from two and a",
+    "start": 18137.92,
+    "duration": 54.7980000000025,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_200",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "half this it will come down to one day. No, maybe even less like 19 hours, 21 hours or something like that. And if you have like a B100, B200, then this is nothing for you. Like you can easily process all of the stuff at this scale um uh in like I don't know B200 you have 150. Yeah, probably like Yeah, 15 hours or so. Still fast. And that has more memory and stuff. you can still load so much of stuff and make it fast and yeah so and also you should note we're using the 7B version but also FP8 version you can go down to int 8 if you want it'll take a little bit more less RAM and if you want you can also go to cons 4 version that's the last of four you don't want to go I mean four I don't want to go to four because you'll",
+    "start": 18190.958,
+    "duration": 50.882000000001426,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_201",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "have a lot of inaccuracies and I also use FP8 because H1 natively supports and that's one of the reasons since hoppers were built. So that's what we went with it. But if you are still, you know, having a lot of memory crunch, uh it's about timing only. You know, you just, you know, keep it running for a couple of hours, days, whatever, and then get it back. And timing or uh in terms of memory, if you want to do this stuff and you if you only if you only have a very very low amount of documents, then not low amount of documents, but low compute, you can still, you know, stretch the models, you can squeeze a lot of things. you can reduce the number of workers or maybe even you can u what do you call if you have more compute then you can you know fire up a thousand",
+    "start": 18240.24,
+    "duration": 39.599999999998545,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_202",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "parameter model if you have I don't know if you if you if you're a startup that's you know you have a lot of million probably have a lot of compute let's say access to a lot of GPUs and etc then you can even bring in a 120B version or maybe like a 225 billion version and etc to bump up your accuracy it's about it's at the end of the day it's your needs at the end of this probably it's something that you have to architect architect and sort of come to a conclusion on so yeah not now but later what we'll do is that I'll have like a test or something like that which scans your CPU GPU all of those stuff and then gives you you know what could be your sweet spot number just a normal prediction sort of thing okay and let it process",
+    "start": 18278.32,
+    "duration": 46.07999999999811,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_203",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "94% is less and you have like a quick gap over the production. Okay, there's only 11 corrupted files, but I assume at least 10% will fail. Like easily 10% of the files may fail. Okay.",
+    "start": 18338.08,
+    "duration": 22.599999999998545,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_204",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I want to quickly try with seven workers and see I'll quickly try here. Start this Starting",
+    "start": 18381.84,
+    "duration": 24.360000000000582,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_205",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "the documents.",
+    "start": 18420.32,
+    "duration": 2.477999999999156,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_206",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "What's happening? And here I Okay.",
+    "start": 18461.68,
+    "duration": 12.277999999998428,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_207",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, I also want to check one thing here like rerunning failed docs. For example, let's say we run you know only concurrent we run about eight, right? So um how would the rerun work? Let's say in an eighth one fails when would it retry and all of those because I don't want it to bring unwanted congestion to the GPU and also if a document is probably failed it's only because it's corrupted. We usually know that and I mean we can accept a little bit of failure rates. I don't want to you know I want to I don't want any surprises. That's what I that's what I think maybe we can have you know collect all the failed without retrying the failed ones. So we can collect all the failed ones we and we process everything and then later you know we have access to the fails one failed",
+    "start": 18690.48,
+    "duration": 45.7599999999984,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_208",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "documents right then we can actually reprocess them manually when later when needed. This means that you know there's no GPU congestion no surprises no breaks no new uh requests and etc. We have the buffer there and all should all should be fine and there should be any lags in the between. Additional to this, I also of course I want to of course I want to quit the VM, but of course I don't want all the process to be uh you know um I don't want the process to quit, right? I want all of the process to actually run and I want them to you know keep on running. I whenever I want to you know jump into the VM, check the progress and then go back. I'll quit the VM, but I want it to be running. Maybe we use screen for this or maybe T-Max for this, right? TMUX for",
+    "start": 18734.878,
+    "duration": 48.721999999997934,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_209",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "this. Um yeah. Uh yeah, what are your thoughts? Pick note and not uh also another collection for box at the end charts.",
+    "start": 18780.56,
+    "duration": 34.04000000000087,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_210",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "But we want to note down the failures like where did the failures go on etc. Yeah. Correct for my",
+    "start": 18887.12,
+    "duration": 15.480000000003201,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_211",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, with a new session going to do create monitor the progress. Okay, cool.",
+    "start": 18918.08,
+    "duration": 18.7599999999984,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_212",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Come on. Okay.",
+    "start": 19152.718,
+    "duration": 13.481999999999971,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_213",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I I think this might still be less than 80. I think the best is eight. Eight is the best. Uh maybe the sweet spot you can say here. There's no best. I mean, if if you were to try, you know, a couple of times, seven workers might still end up with something a very decent number, but you would never know. So, just to be on the safe side, we'll stick it eight. I think it's like a I think it's fine. It's a decent number to wait. So, corn stone. Okay, two failed this time. Okay, because the memory hits I would say we'll stick with this. Sure. But also I also sure now when I when I start dockling I only want to start eight um um eight dockling services and I think I think in our previous code we also um um brought in another two like nine and 10 I I",
+    "start": 19203.2,
+    "duration": 74.55999999999767,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_214",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "don't want that just remove that I only want eight maximum.",
+    "start": 19276.24,
+    "duration": 4.239999999997963,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_215",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay.",
+    "start": 19314.798,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_216",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, two are gone. I want to try flush everything and try it one more time. Eight. Start.",
+    "start": 19361.28,
+    "duration": 19.720000000001164,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_217",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops.",
+    "start": 19440.878,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_218",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Let's watch this.",
+    "start": 19484.32,
+    "duration": 3.558000000000902,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_219",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, maybe I can run nine. Just one more. We try nine cuz we got rid of like 2 GB. We saved about 2 GB from that. We can use this here. I'll try nine and see.",
+    "start": 19513.92,
+    "duration": 20.200000000004366,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_220",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, done. So, same average 180.6 when last time 180 something. Yeah, the average is 180 with 8. But you can see we have um 83 95 12 gigs left. We have a bump. But I want to try one more time before I set right. we just have to you know run it on a screen and just quit vm and wait that's it but I want to just try with a concurrency of nine just to see in case in case a little bit even thin uh you can use that two or three whatever is available just a little bit that'll be definitely be useful so I'm going to go ahead reflush this just last test and then we're done okay 180 The last one. We run this. Add something here. Run it. No, actually we don't have I want to quickly try for uh nine workers. So,",
+    "start": 19939.28,
+    "duration": 71.39999999999782,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_221",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "just enable 1809 quickly. And I just want to try it and uh see even if I get like five or 10 bumps. Um yeah, still useful but it can plateau as well. So addit I'm adding it manually. So you can add uh you should be able to see one added manually. 1 2 3 4 5 6 7 8 ninth one will work when we actually run the request I think. So wait so at 9 I should load all the talk. Yeah.",
+    "start": 20006.48,
+    "duration": 57.07800000000134,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_222",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I'm",
+    "start": 20083.84,
+    "duration": 2.1599999999998545,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_223",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Now we'll stop everything. There's some small crash. We flush all and",
+    "start": 20104.638,
+    "duration": 15.402000000001863,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_224",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Wait for a couple seconds and then hit. Okay. One, two, three, four, five, six, seven, eight. One, two, three, four, five, six, and eight. One, two, three, four, five, six, 7. Only eight. You should also update the uh dockling start command.",
+    "start": 20157.52,
+    "duration": 34.68000000000029,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_225",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, there's nine now. Four here, four here, and then the fifth one.",
+    "start": 20271.36,
+    "duration": 8.119999999998981,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_226",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, it'll take around 4 minutes. We can do something else that time. Install this if needed. So install this CD cd install this team create new session and then inside you run this concurren 89 whatever then watch",
+    "start": 20531.04,
+    "duration": 32.79999999999927,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_227",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "some of changes maps. Okay. Yeah. Afterwards job is simple. You still have to wait and see. Um um also it's like whenever you work on this job have an expectation that you know things might fail in between. No it can happen. you you don't know any reason and you would only know why it failed in the first place. So that's that's one of the reasons I wanted to finish this quick and start the process because I know it'll take a couple of days and it gives me a lot of time for me and gives me a plenty amount of time for me to you know uh debug this parallelly as well but right now I don't have any I can't afford to lose any time so that's what I'm doing with this 10 GB of 10 or like 10 how much 10 yeah 10 11 GB with buffer",
+    "start": 20584.0,
+    "duration": 45.359999999996944,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_228",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "but if I had time if I can afford to you know retry whenever I want and then you know spend a little bit more time on it what I would do is that I would actually you know get it you know just take another 5 to 60B risk increase the model's utilization a little bit just try to find a little bit of sweet just try to find a sweet spot among nine or 10 workers or whatever and then increase the batch size and then put it so you'll only have you know the model will go close like very close uh to hitting the GPU memory and then it will stop it go very close and stop very close and stop you can also set it dynamically let's say the model is already you very much close. Then what you can do is that quickly pause any",
+    "start": 20626.878,
+    "duration": 40.961999999999534,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_229",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "request or you know take a step back with any other request if you want to you know stop all the passes if you want to dynamically change it but that's a different work that's a different level of infra and it's not a problem for us because we have a lot of things on our plate to work on so um yeah but you can try that's what I'm saying why I'm saying is that you can try it you can definitely try because you might find efficiencies because see we only have 96 G 95 5 GPU 95 GB of GPU right and even that 10% of that you know extra 10 GB will have a huge boost instead of 180 pages per second you can do 210 maybe 20 30 pages uh sorry a minute 20 30 pages a minute advance if you were to compare that to",
+    "start": 20666.32,
+    "duration": 47.36000000000058,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_230",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "um if you uh if you check that I don't know that efficiency gain with 20 30 docs with that's about 20% gain 20 30% yeah 20 yeah 20% gain yeah if that's the case you'll easily you know instead of 2 and 1/2 days it'll be 2 days like you know 7 8 hours of um time being saved that's one number you can look at you can also do so many different for example what you can do so instead of processing you know we have 5GB of embeddings right I mean of course I'm I'm deprived of or you can call it I'm I'm limited on the compute available lot of the guys you know you guys probably working on startups you will get very good or decent amount of compute available and Plus, my Asia subscription is also converted to pay to go because I've util I'm done. I've used all the",
+    "start": 20710.32,
+    "duration": 49.840000000000146,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_231",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "40,000 tokens. So, I have $40,000 of credit available to me. So, after this, I'll probably wrap it out. But yeah, you get the idea. When you have more RAM, you can, you know, definitely tune and use it. Plus also try to find the sweet sweet spot that will actually, you know, give you access to, you know, the future errors. And for this, I'm just confident that, you know, I won't have any errors because we've tested most of the time. This is this is exactly how the other batch will run. For example, if you see nine concurrent docs, we see nine concurrent stuff, right? When it goes to the other batch, let's say I don't know 25, 30, whatever, 40 docs and then 9,000 3,000, we'll have the same criteria or the same distribution of RAM because we're clearing our RAM whenever it's time um it's it's um it needs to be. So,",
+    "start": 20757.6,
+    "duration": 47.92000000000189,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_232",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "we we clear all the RAM out and you have like a clear stage and you can see right now it's all cleared. It's all in 1 12 0 0 everything is very very very much the same. So yeah here you I will I will not expect I don't want this to fail but yeah in real world scenario if you want to you know sort of get that little bit extra boost you should definitely be a little bit open to fail have retry mechanisms you know to pause or whatever currently we actually have retry mechanisms over there what I'm doing is that I'm saving all the failed documents a few I would say 10% might fail and then I will run another refail uh retry for only the failed documents Yeah, apart from that I guess. Yeah, that's that's sort of with in good shape. The final doc no final two documents",
+    "start": 20803.76,
+    "duration": 50.44000000000233,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_233",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "left. Ah yeah I forgot I was talking about something else. I was talking about the embeddings. For example, you see 5GB embeddings, right? What I can do is that just to increase maybe I'm not sure if I'll do it but one possibility is to 5 G you have 5GB right just you know save this and save the chunks in JSON or something like that and then at the end once all the documents are processed you know you'll have you'll only have 5 GB extra not a big difference but then later you can actually compute the embeddings and store it that's one option still not a couple of like couple of hours of save let's say you spend 2 days it's like 2.2 to this sort of thing. So, not a big difference. You're looking you're still looking at this this sort of different that wouldn't make a big difference. If you have one",
+    "start": 20851.2,
+    "duration": 50.63999999999942,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_234",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "extra GPU, then you know you can basically manipulate dates like you add like for this exact system you were to add another two H100s. This will be completed in 7 hours or so. 6 7 hours or so. Yeah, nine is blocking. I think it's tightly blocking it a little bit. So",
+    "start": 20899.6,
+    "duration": 32.038000000000466,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_235",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Actually",
+    "start": 20952.798,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_236",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "three three documents have failed. Uh why is it disconnected? Um, I think you should put the retry back because uh I can see we have three failures. Usually there's it's only two failures, right? Or one failure. We have three failures and it didn't retry. I think uh maybe we should you should you just just get the retry code back. Just retry once more. If it doesn't uh I guess yeah before the original code was that we try it one more time. If not, we just, you know, don't retry it. Save it in a save it as purely failed or something. Yeah, because this is okay. But this is a different um error. See this? I think we should bring back the retry. Oops.",
+    "start": 20970.32,
+    "duration": 61.080000000001746,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_237",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, we have to kill this. I think we'll stick with the eight. Eight is the number I think. Okay. And also revoke the code we did with eight nine workers. We are sticking to eight because you don't I don't see any huge difference. You can see over here 8 minutes 54 seconds. That's the page sample still 167. It's not a big difference. You know what? Actually, I want to test it and see. No, we'll keep the we'll actually test it one more time and see. Flush all we have concurrency. Test it.",
+    "start": 21088.718,
+    "duration": 69.15999999999985,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_238",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Four. There's only four workers. I can only see four. Yeah. Stop and retry.",
+    "start": 21184.08,
+    "duration": 17.718000000000757,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_239",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "refresh. Yeah, this is no no reconnection issues. Watch. Wait a second. Uhoh. It'll crash. It'll crash. It'll crash. Yeah, it crashed. Okay. Yeah. 9 won't work out, guys. Yeah. Please revoke the code. Uh, and yeah, sorry for interrupting. We will revoke the code back to only eight workers. We'll be second date.",
+    "start": 21224.558,
+    "duration": 54.36199999999735,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_240",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Okay. Nice. All right, guys.",
+    "start": 21308.638,
+    "duration": 12.281999999999243,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_241",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, we'll try one more try just to verify everything is working and then we will start.",
+    "start": 21500.878,
+    "duration": 8.839999999996508,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_242",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Just call it fixing. Don't want the text.",
+    "start": 21526.0,
+    "duration": 12.919999999998254,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_243",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay. Yeah. All of this is coming from the BLM. Yeah, let it run. Just complet",
+    "start": 21568.958,
+    "duration": 25.80199999999968,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_244",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "range is slow. No, same same",
+    "start": 21636.798,
+    "duration": 8.682000000000698,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_245",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "[Music]",
+    "start": 21672.86,
+    "duration": 3.098999999998341,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_246",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "chunks. Come here.",
+    "start": 21702.878,
+    "duration": 3.80199999999968,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_247",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Okay, we just",
+    "start": 21754.638,
+    "duration": 4.281999999999243,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_248",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oops.",
+    "start": 21781.28,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_249",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "to",
+    "start": 21944.798,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_250",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "heat. Oh my god.",
+    "start": 21971.44,
+    "duration": 15.720000000001164,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_251",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "I actually think this will be a little bit slow. No errors by the way. Only this this is corrupted document error otherwise the retry. This is aaging at 166 pages per minute. Should have been 180 but it's okay. Let's finally come back and see. I can see it's eight workers. Uh eight only I Okay. Eight workers is the usual assumption. Yeah. Yeah. Doesn't matter. Still it will change very much be very it'll be very you know here and there cuz right now you have you're working with sort of P powerpoint sort of PDF that's taking a lot of time but usually should range about I think 200 average usually documents like average is low average is usually low but if you think about pages it'll definitely be high so it's 155 should have been more",
+    "start": 22003.2,
+    "duration": 62.31999999999971,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_252",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Oh no, it's actually good. We completed 183 pages per minute, which is very good. Cool. Cool. Math never fails. All right, let's start. All right, actually start the process. I think 5,000 5,58",
+    "start": 22082.16,
+    "duration": 31.477999999999156,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_253",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "All right. So, I'm going to start t-max. Before that, um, should I is there any quadrant limit or in case something goes wrong? Let's say we process 3,000 files and we fail in the middle GPU crash or whatever is going on, would would we can we can we come back and continue from the file we left on? Like if we fail on 3001, can we continue from 3001 to the rest? The answer is yes. But just to confirm in case I miss something create a new called me. Okay. So we can actually back we go source PNV pin activate. Now go to the search",
+    "start": 22125.68,
+    "duration": 56.76000000000204,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_254",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "This the path is different. So we have to fire it off with a new file. And I know for some reason you can see uh VLM is actually having some C uh data as well 60 is hovering around 67 GB 68 GB before it was different but it's okay. Okay, production it will start this concurrent date in case it fails. Okay, worst case it will fail. We'll come back and fix it. It's all good. Let's try that. Okay, cool, cool, cool. You can like watch and move three is already complete. This will if I have to detach from this uh 93 pages a minute. We let it go. And yeah, I'm going to quit the stream, but I think we've started the processing of 10,000 documents. Uh yeah, hectic few days, but figured this out. Figured it out. Uh yeah, let it run. Um I'm also",
+    "start": 22252.08,
+    "duration": 113.52000000000044,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_255",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "going out, but this is running on a T-mark, so even though if I quit, there shouldn't be any issues. I just have to detach from it properly. Where is it? Detach. Detach. Okay. Control V. Okay. Ctrl V. Okay. Let's see. Ctrl B and C. Control B. Okay. Detached. I want I can attach to it.",
+    "start": 22364.4,
+    "duration": 92.43999999999869,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_256",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "We'll actually try it one more time and flush everything cuz I did something stupid I think. Kill the server also.",
+    "start": 22532.638,
+    "duration": 9.641999999999825,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_257",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "sem concurrency 8 it's ready and here I will just run this production and call it production real Okay. Yeah. Make it start. Oops. Oops. Oops. Connection diffused. Connection diffus. What? We have to kill this. Exit.",
+    "start": 22566.878,
+    "duration": 39.48199999999997,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_258",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Yeah, 2 minutes. Maybe 2 minutes session. New session. We'll get this right this time. What else do you need here? You need to start all the services. starting all the 808. Awesome. And production file",
+    "start": 22644.32,
+    "duration": 49.159999999999854,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_259",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "Continued.",
+    "start": 22706.878,
+    "duration": 3.0,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_260",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "It started production final. Let's go for it. All right. Started everything. There we go. And here. And we can watch the progress if you want to. We, you know, quickly control B and D detach. Cool. and this. Okay. Yeah. So, it's running with a 10 GB of uh around yeah 5 to 7 GB of buffer GB buffer. And here you'll have the quadrant being saved. Where is it? It's called production final. Okay. And all the chunks are being saved over here. All right. All right. So the we actually 0.1 already done. So cool. We'll leave it for a couple of days and we'll have this ready. We we somewhat done some decent work, I would say. And yeah, catch you guys in the next stream. Uh and yeah, we'll uh we'll see. We'll talk soon tomorrow. We're going to work on domain terminologies and we're going to grab",
+    "start": 22734.878,
+    "duration": 83.7599999999984,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_261",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  },
+  {
+    "text": "4,000 to 73 3,000 domain terminologies and build a rag across that to be able to for the agent to properly query and stuff. But yeah, um yeah, hopefully hopefully we'll figure it out. All right, awesome guys. Thank you so much. It was a very challenging couple of days, three 4 days. I bashed my head over the wall, but yeah, finally we have this. So yeah. Uh yeah, thank you so much guys. Talk soon. by",
+    "start": 22815.92,
+    "duration": 24.56000000000131,
+    "video_id": "0G2ESVa9hR8",
+    "chunk_id": "0G2ESVa9hR8_262",
+    "title": "H100 Optimization & Parallel Processing at 180 Pages/Min | Scaling to 10K NASA Documents | Part 12",
+    "playlist_index": 12
+  }
+]

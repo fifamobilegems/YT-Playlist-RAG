@@ -1,0 +1,1460 @@
+[
+  {
+    "text": "So hi everyone, I'm Raj. Um, welcome to day 12 of building a production uh rack system that supports that currently supports 10,000 documents to can also scale until a system that can actually scale until 85,000 to 100,000 plus documents as well. Now this is for a fictional company called Meridian Aerospace. I'll quickly show you the fictional company. It's called Meridian Aerospace. Um, yeah. So essentially they have a lot of documents. They have 85,000 documents and they have it's from and the documents are proposal test reports safety analysis documents fail investigation records component specification and regulatory company filings they span from 1990s to the report. So basically we're actually working with real documents real 10,000 documents from NASA. You can fetch that from I mean if you look at my past sorry past videos from NASA's in NTS server national NASA's technical server and we pulled about 10,000 documents and",
+    "start": 3.2,
+    "duration": 54.8,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_0",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "currently we are currently processing those documents. So yesterday we wrapped up processing 10,000 documents at scale. How would you do that? And we looked into a lot of stuff and yeah so there's a lot of heavy use of technical jargon images formulas graphs and etc. It's quite complex and you know we using a 7 billion 8 billion parameter model to do you know dockling to do layout detection and then 8 billion parameter model to do a lot of document processing saving to quadrant and most importantly generating descriptions formatting tables generating markdowns formulas and etc. Okay so that's what we're going to do. Cool. So, I'm not able to show you the 10,000. I'm I'm trying to connect to the SSS uh server. For some reason, it doesn't open up. Um, let me try. For some reason, it's not showing up. I'm not able to connect to it. If not, I can",
+    "start": 56.559,
+    "duration": 49.84,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_1",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "show you. We are pro. We are actually done with,600 documents or something. We have about 8,000 documents left to be processed. uh in the middle as I show this live stream I'll basically show you if I get a chance if I am able to connect because it's I guess using 100% CPU and there's some glitch on it I'm not able to connect so yeah or something I'm not sure what the hell it is but yeah cool so the target this is the architecture basically this is how the document processing itself is running we have a worker layer that only runs on CPUs which runs dockling if you're not using dockling it's a pretty decent framework to do a lot of um uh like you know layout detection and etc they have dockling has it own layout detection models and etc. I we had a lot of issues faced a lot of",
+    "start": 104.96,
+    "duration": 41.520000000000024,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_2",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "issues with dockling with in terms of like you know like you know thread pool we we couldn't you know parallelly process a lot of stuff so because of that we we um um we have about I guess eight dockling servers running and then we have one VLM running and etc with parallel batching and etc. I'll go through them once I uh you should be able to see yesterday's video I'll go through I went through everything. Now today I just wanted to show you this is what we're doing. This is how the 10,000 documents are being processed. This is the exact architecture. You could see something like this in companies like OpenAI SCAI where they have a lot of stateless workers GPU where there's limited amount of GPU. We only have H100s one H100 and we're processing like 10k documents. We're doing about 120 pages 120 pages a minute. We did 200",
+    "start": 144.8,
+    "duration": 47.75999999999999,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_3",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "pages yesterday a minute but there was there seems to be a little bit of drop. I don't know why but I know it's okay. We probably in 3 4 days we'll complete it. Okay. Okay. So today we actually going to solve now we have basically solved a lot of the issues. For example the document processing pipeline is done. Now 10,000 documents are being processed and all of these tables and everything is done. Today we want to look at domain specific acronyms. Okay. So let me first talk about domain. what what is really what I mean what uh why are we really like why are we focused on domain specific acronyms um I want to first of all then start up the server and then show it to you guys what we have right now and then I can show you why we need domain specific acronyms",
+    "start": 190.08,
+    "duration": 48.15899999999999,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_4",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "essentially it's domain terminologies you get a set of 10,000 20,000 terminologies and then you usually fine tune the model now because I'm using claude for this I'm now there's two separate things right the entire docu document processing is run by open source models. So no internet connection need I mean no API calls needed and etc. Even embeddings are running locally. So that's managed. I just wanted to you know improvise on the agent part. So I'm using cloud for it. And yeah this is called cord. I'll start this up and I'm going to show you what we have right now like in terms of the server. Okay. Okay. Okay. I want to show you what UI we have. I think um uh I want to try out the agent. I've started Docker.",
+    "start": 236.799,
+    "duration": 52.60100000000003,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_5",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So, I just need to start up a few services and then I need to I would uh I can just show you the UI. Just give me two minutes. Do is running. So, I need to run all armor. Let me quickly see if I can run the models. All right. So I'm also running as well. This is used for my embedding. So I'm having a 4 billion parameter qu embeddings running on 4bit consization that should be there. So you can see this is what I'm running. API key already there and",
+    "start": 306.0,
+    "duration": 48.759000000000015,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_6",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "How should I start the API and the UI? UI of course simple. See the web npm go there. move this up here. And this is the UI we have right now. Okay. And yeah, the 10,000 documents are going on. Let it let it process. You know, we'll definitely it'll definitely take a bit of time to come back. So, we'll let it process. Let's run the API quickly.",
+    "start": 376.639,
+    "duration": 45.240999999999985,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_7",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "API is loading. Okay. Just say hello.",
+    "start": 439.12,
+    "duration": 8.519000000000005,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_8",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "What is the error? I think we need to start something else as well. Started. You can see the request that is going through.",
+    "start": 463.599,
+    "duration": 32.44,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_9",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I remember I had I so we taking a look at this after a couple of days like I don't know easily like a week back we did this so I'm totally forgot what else should I start so this is actually connecting to 8000 this is running on 8080 issue. Now we'll try hello. Okay. Cool, cool, cool. Yeah. So, um let me quickly do a quick chat with the agent and show you at what stage I'll be there in the UI and then you know, of course, the document processing is going on. Definitely needs the time. We can't uh I'm just trying to show it to you if I can, but I'm not able to connect to the server. That's a thing cuz it's I it's fully running or something or it's probably exhausted by now.",
+    "start": 524.88,
+    "duration": 56.039999999999964,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_10",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I think the server is like in full for full full it's in full process. So not able to connect to it. It's not I I'll go through them in a bit. But yeah, this is the quite this is what we have right now. Um, and I can try firing in a question, sending a quick question. And yeah, yeah, this one maybe um yeah, I'm trying to validate the performance against a commercial methodology. A basic question which I got basically generated from Germany. Germany had all all the chunks. So I had to I just copied pasted the chunks and I asked it the prop question. I can remove this. This is not needed. And let me just send this just to show you you know the sort of the tools the the tools we have and etc. We've not yet you know connected this to the 10,000",
+    "start": 601.76,
+    "duration": 56.63900000000001,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_11",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "documents and there's a bunch of work to do. Definitely the agent will fail. We want to get it right. Change up things add new functions and tools and etc. But yeah um quickly give me a list of tools that's available for the agent and give me the use cases for it. Uh not use cases just small descriptions of it. Yeah, I want to show you the the amount of tool call we have. I'll be like there's only one document in quadrant just to not ask me any question. Just go ahead. Okay, there seems to be no results.",
+    "start": 656.399,
+    "duration": 34.67999999999995,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_12",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Let me check it down. Create a collection called Oh. Uh, yeah. So I'll do I want to connect to this collection and we'll put this collection name to validization. So the in the API I want the agent to connect to this collection but seems like uh some other collection is actually connected. You can see collection meridian 10k which does not exist because I cleared a lot of stuff. So that's why you are able to see but anyway you can see the number of tools called you can see update nodes. It has its own nodes. It has its own tasks. It can search documents. It can get you know above and below certain variable like vary length of a single from do from a single document and it can get a section uh because dockling gives us section like you know like 2.3 2.5 you know in the document",
+    "start": 706.399,
+    "duration": 70.32100000000003,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_13",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "passing it gives us you know what section is this part from for example let's say you have a paragraph let's look at this document you have a big paragraph right and here you would have sub paragraphs as well and it'll give you information on which uh this whether this paragraph is part of any main paragraph or subtitle. It's not 100% accurate, but it's useful and the and the description also I guess uh it and depends on depends very on the document. For example, if you like 1970s 18 document, then you might have good retrieve a good section information. If not, you won't have good ones because the passing would quite go wrong. So, view chunk image uh to visually verify the PDF. For example, when you process, for example, especially with documents which are very old, you can have a lot of noise. You can have a lot of for",
+    "start": 774.72,
+    "duration": 46.39999999999998,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_14",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "example, let's say we are, you know, let's look at this document and we are they should have some formula, I think, and we are extracting some formula. Let's say we did miss okay, this one we missed something in the extraction for this. We have custom pipelines for formula. We have custom pipelines for tables. We also have custom pipelines for figures and etc. These should be accurate. But the whole point is that let's say in case you miss this something happens depending on the year the model can actually take a screenshot of the entire thing like it can actually look at this specific page if it wants to like a human being and it can also run parallel searches as well you know hit run searches where it can you know fire up a query and then the query would go ahead and try to and the query could",
+    "start": 819.36,
+    "duration": 42.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_15",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "be different and it basically sets the stage for the agent when you were to ask the query it's just in ground zero right it needs to know like literally it needs to know um where are you really um like where should the search happen or what sort of document base is it needs to know a space so it figures out that signal you know runs a parallel search and tries to find that and it has document get information get visual region again you know to get a visual screenshot this is get a visual chunk image sorry so this was you know what we're doing using the 7 billion parameter model uh you're basically creating text uh descriptions for it so the agents can search for it and if this were a bump in it could use the ID and then get see this image or this table",
+    "start": 859.199,
+    "duration": 47.68100000000004,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_16",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "visually. That's the old goal overall goal and yeah I want to show you show you this in action even I'm just trying to you know process this really on what's really going on cuz I'm quite lost here. So here I think what we'll do is that we'll copy this put it here we'll put tool like this we'll start the API and you can see it's connected to um tool validation and now we can perform a quick search I can just do the same thing. It's regarding some technical. We look into the search as before, but I'm just going to dump in a dummy search. So, you can actually perform tool calls and you can see what it could do. I'll be like, don't ask me any questions. There's only one document in cordon. Please look at it cuz this is just to validate, you know, um until our 10k documents come in.",
+    "start": 904.16,
+    "duration": 66.15999999999997,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_17",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "We're just trying to validate um yeah, the entire thing. And you can see we're getting document information. This is metadata. So we do metadata extraction as well. That's also part of the pipeline. For example, to a lot of these documents, for example, take this section. They have nomen culture. Nomenclature. I guess that's how you pronounce it. Uh basically they have a lot of symbols. They have a lot of metadata. What we want to do is that we want to pass we want to grab this uh accurately like we want to accurately this should be like a this should be fixed for all documents. Like if the models want the model want if the model needs to know any metadata that exists with the um uh let's say the document then the the symbols are part of it the the recall if I scroll up the initial",
+    "start": 967.759,
+    "duration": 50.08000000000004,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_18",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "this information is also part authored by whom uh you know any information on the ID um and yeah when was this document created because this document could have very bad metadata right for example you might look into a document which as which was scanned under the 2000 and you'll have the metadata of 2000 but actually documents was originally from 1960s you can have that information. So we had highly depending collecting metadata across two pages. So the first three page we use it and we also do a lot of search uh exactly like internal semantic search in sub milliseconds I think or maybe like a second or so to find the symbols nomen pleasure um and all of those stuff. So yeah uh yeah exactly. So if I were to go up you can see we've got the equations quite right. You can see the sources sources has a it has a very small bug. I",
+    "start": 1015.759,
+    "duration": 54.40100000000007,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_19",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "can see it gives you 2740. There's some rerending issue but if you were to click on this it gives you the exact sources of where it found the text from. Okay. These are various minor things that I can fix later. But yeah it also has the um it also can spawn multiple parallel agents as well. for example. Okay, before that I want to show you if I click on show notes, you can see the notes over here. This is the notes created by the agent. So it can create nodes, it can also manage tasks as well. Um something like cloud code. You can think of this as some uh sort of like cloud code. Okay. Uh so we can just split this up and we like I would encourage you to use a sub agent for this. I would encourage you to use a sub agent",
+    "start": 1068.0,
+    "duration": 47.59999999999991,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_20",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "for this. And you could see it would do some sort of work and then it'll actually fire off a research thread. Uh don't ask me any questions. Just do the job. You can see the tasks. You can manage task. It has a list of tasks. You see?",
+    "start": 1113.28,
+    "duration": 24.680000000000064,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_21",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I don't think it used to sub agent. We'll clarify it one more time. Please use a sub agent. Just go for it. Do not ask me any questions. And you can see parallel search. Now of course it didn't spawn a sub agent. I mean it's just naturally we shouldn't tell it to spawn only if it needs to do it. Uh because very straightforward query and you can also see uh it did a lot of parallel search as well for very different sort of information it was able to do it. So like stuff like that like very generalized sort of approach where you know just trying to uh just this work is very domain related very domain oriented and I I myself have to read this just uh read through the documents read through question read through not documents actually read through the use cases read",
+    "start": 1153.28,
+    "duration": 84.63900000000012,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_22",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "through the personalities in fact we actually did a lot of personality assessment if I were to show you here maybe not in this we actually had we were actually looking at two people who might use this platform called Sandra and who's a very senior research engineer and a very junior engineer. How would they really go about you are they you know what is your thinking pattern? What's their current tools? What are the traditional tools? You know how would they perform searches is you know what sort of search looks like and you know what makes the answer quite well what adjacent information would they need like could the sources just be like sources or would we also need to show something visually and all of those stuff. So there's still a lot of the work a lot of work is u I mean is is yet pending on this but in terms of UI you",
+    "start": 1236.08,
+    "duration": 44.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_23",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "can see the sources you can see the sources in in line as well but yeah this is the stage we are in I want to quickly show you the parallel search and then I want to let please spawn a dedicated investigation thread or sub agent. Okay. And you could see um it can spawn a sub agent. Yeah. and ask me don't ask me don't ask me any question",
+    "start": 1278.64,
+    "duration": 26.91899999999987,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_24",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay. And you can see a research thread and it's opened up a research thread. It has a task. It has context whatever context is actually gathered for it and then it's actually performing on. So basically it's the it's is it's the parent agent. For example, you see all all of this, right? This is that agent, but it doesn't have the capability of or to spawn a research. So it won't be we don't end up in a recursive um you know agent spawns a new agent and the other one spawns a new one like we don't want that to happen. So there's only one level of you know deep deepness like like the deepest the agent could go and we don't let the research tell to launch another researcher that's it but it has access to all the tools all the documents. It's just basically it's just",
+    "start": 1330.72,
+    "duration": 45.48000000000002,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_25",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "a clone of it really.",
+    "start": 1372.48,
+    "duration": 3.7200000000000273,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_26",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": ">> [snorts] >> Can is writing the final reply to the main agent.",
+    "start": 1409.576,
+    "duration": 12.70399999999995,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_27",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "You can see the the research thread launched the research thread and you're getting a final response which is quite accurate. All right. So this is good enough. I think this is what I wanted to show you. And um yeah, quickly if I want to if I if I quickly I wanted to quickly just dig through why do we really need to solve um domain like domain specific domain specific uh terminologies like why even bother to do it right? So I want to first of all go through that understanding and then we want to jump in directly to see how could we uh yeah how could we really u like what is the useful most useful way of using domain terminologies in this context not just letting the agent search for anything it wants to cuz it doesn't make sense to do it in the first place. So um that's what",
+    "start": 1441.039,
+    "duration": 53.68099999999981,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_28",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I wanted to look at. So let's go through the understanding. What I'm going to do is that very simple. This is the project. I'm just going to you know copy and paste to claude. I'll be like this is this bit. This is what I am working on. I'm planning to use NASA. Uh, it's called theaurus. Yeah, it's here. GitHub is actually also available. You can actually load the dictionaries from GitHub itself. It has about 18,000, maybe even more, like 18,000 more. It has taxonomy. has a u not just for rocket like in like the domain that we working right now is aerospace document but it also consists documents from you know b um astrophysics I guess earth sciences life sciences and etc. So, a ton of different domains. Uh, some of the words that I can't just pronounce, but yeah, very interesting. Uh, sort of for a field to be in, field",
+    "start": 1492.48,
+    "duration": 75.19899999999984,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_29",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "to be in. So, I'm planning to use NASA's dictionary/ thesaurus. Um and I'll be like you know um I just want to get into the I just want to really understand you know the real impact of okay for example I'm basically building a rag agent and uh I am I because I'm using know I'm I'm using a closed source models I can't fine tune the model so I'm planning to build a rag system on top of that but before I just wanted to get it very right so I wanted to understand why even domain acronyms or terminologies would really be useful at this scenario. Why would the agent need to do and why would the system how would it really help like I wanted to really understand and and also any other information because I think there's a lot of unknown known unknown unknowns for me. So make sure to give me any",
+    "start": 1564.72,
+    "duration": 55.19900000000007,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_30",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "information that I should be aware of uh when working on this uh in the agent uh because I wanted to I want to really understand uh fit it to a very proper use case and fit it to um you know uh um and sort of you know design it in a way that solves a problem in a solves a problem in a very neat and valuable way instead of just you know writing or dumping some code. So I wanted to understand all the background context how would the documents be what are general what what are the general documents like and what's the nature of them and you know why would domain acronyms be useful and you know is there any tips and tricks how people would I I'm sure it wouldn't be just search up some domain acronyms and just go ahead and dump it probably be something uh",
+    "start": 1617.279,
+    "duration": 47.92100000000005,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_31",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "different uh connected to the you know the query that we are working with or the system we are working with etc. just I want to understand the whole background context and the work that or the context that should that should be present um for me to understand and then I could probably make some decisions and feel free to share your thoughts as well. Cool. So essentially what I'm trying to you know just emphasize on is that you know I'll have a lot of information that I don't know and I do this sort of random trick always. I usually do a lot of random tricks where you know um uh just open up the space for a lot of random information because then you could actually have a good uh possibility to make some decent yeah you'll come across a lot of new information like you cuz at particularly",
+    "start": 1662.32,
+    "duration": 47.75999999999999,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_32",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "at this field I have no I have no clue about a certain terminologies why wouldn't why wouldn't you use them and I could what I can do is that I can generally you know copy this GitHub or maybe just use the API to download the 10,000 or 4,000 acronyms or whatever put it into a rag and I'll be like you know before you search you know just go ahead and searches find a meaning go ahead but that's not the real point that is something different about you know using uh you know um like terminologies in this space it's not just about the word is probably some more semantic meaning or there's some background context to it so visually I'm trying to present it on my um on my head is that document processing is done uh that's the first part that is actually done and then you",
+    "start": 1708.24,
+    "duration": 40.55899999999997,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_33",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "have the which is uh let's say your company is coming in right they they give you 10,000 documents you have process them. They have tables, formulas and whatever metadata and etc. Document processing is done. You have that and right now the document processing is uh is is actually not done. It's on process. It's it it's a um I've already done about,700 documents and there's about 8,000 documents that's left. So it'll take 2 to 3 days and we have we we've got enough time to work on something else. So in terms of a solution that's done and the requirement was quite simple as well, right? you know they they they have the 85,000 documents and that's just that's the hard part but in terms of documents most of the documents are coming from 1950s to 2000 so you need to have a way to embed them properly which we have solved",
+    "start": 1746.399,
+    "duration": 46.96100000000024,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_34",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "then that's good there's mathematical equation yes done uh actually I'll use an icon here so then because I yeah I totally forget like I'm sorry I have this uh yeah I just easily forget thing. So I'll just use an icon. We've done this tables. They give telling us you know you have we have a lot of tables. Okay. Yeah. Okay. That's done. Pro differently print documents. This is an agent sort of thing. We'll work on it but decently it's done. Heavy use of technical diagnosions. We have done the document processing and we've also used OCR and also no OCR models uh to get yeah so scan PDFs with degraded quality photocopied faxed or rescanned. So we have OCR for some of the documents as well. And yeah and natural language. Yeah, we have the basic stuff done. System must understand this and legacy system without returning garbage results.",
+    "start": 1791.44,
+    "duration": 55.83899999999994,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_35",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Engineer should be able to ask questions like what chamber failures have we seen in Berlin system operating in 2,000 psi and get relevant historical cases. Yes. And the system is 7,000. So most of the like you know in terms of document level is actually done. And now we're trying to understand why domain specific acronyms. I have no clue about this. So I've asked Claude for it and let Claude has given a reply. So let's just go through them. So this is exactly the right mindset understanding problem domain deeply before architecturing the solution. Let me walk through the core problem. I mean of course you know you can you can of course go through them with me. Why do",
+    "start": 1845.919,
+    "duration": 36.11999999999989,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_36",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah. So just to summarize, I've got a decent understanding very makes a lot of sense. We're using an open-source embedding model which means you know it's worse than open AI or qu coia or any other closed source embedding models. So uh I mean in generally it'll actually have very small amount of aerospace knowledge right. So by propolent should actually match. So this is what this is the expectations at least what what I get is that if the user were to ask a question like this the current system you know because we're using clot it can do some decent work but not 100%. It'll probably go ahead and just search for biplan if it doesn't find it'll be like you know I'm not able to find it. I was not able to find it but in fact you know bop problem would actually would actually mean very",
+    "start": 1933.279,
+    "duration": 48.6400000000001,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_37",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "much different mh or nto like it's totally different like like for me as a general odd person like just biopropolent is is is very different from mmh and nto it's totally different right I mean for me it's very different and you can see um it's nitrogen troxide or loo x rp rp1 liquid liquid oxygen rocket propellant. So you can see the level of acronym is there. It's just bio proper and the agent if you were to you know go ahead and search or what I would do is that I just fire off this in the agent and you can see it for yourself what it's actually going to be searching you can monitor the search tool right elit notes and maybe claude could be a bit smart enough and you can see and you can see over here no no no mention of like zero mention of technical jargon and I'm",
+    "start": 1978.559,
+    "duration": 56.48000000000002,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_38",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "going to just going to scroll up this idiot and yeah I'm just going to quickly yeah you see this right thrust chamber failures high pressure combustion chamber packing burpent engine fed thermal issues and psi like there is no one query that actually searches for where is it no one query that actually searches for hello x or mmh or nto this is where failure actually happens this is the this this is where domain terminal technologies but actually and this is such a clean domain to work on such a needed domain to work on. uh of course you have things on legal side, you have things on finance but not as worse as this like like where and I think this is one case and pharmaceutical companies is also one I think you know they work with a lot of medical jargon uh but generally whatever a space or a domain that is filled with",
+    "start": 2033.84,
+    "duration": 56.16000000000008,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_39",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "a lot of jargon and if you if they were to use a generalized rag system it'll most probably say you know fail just it'll just even though document processing is really great it'll just fail because they have no clue or the search terminologist have no clue about the domain expansions. So you can see one example over here and and our system essentially failed today. You can see it just failed. It was not able to find it and the embeddings I mean the thing is like this cuz if there's five documents 10 documents okay but if you have uh if you have for example with with about,500 documents in our actual code we have about 273,000 chunks. It's not joke guys 273 273,000 chunks. So in that 273,000 ch sorry 200 around 280k chunks right we'll just call 80k 280k chunks how do you go how do you go and search for the or pull",
+    "start": 2086.56,
+    "duration": 56.40000000000009,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_40",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "up the right right document like if you were to there is no miss you can't do any miss you you won't be able to you know search for trust chamber and if you don't find mm or whatever most of the time you will find documents which which sort of correlates with the the query or the query and the agent could assume it to be right but it's actually Not right. And you'll have really good retrieval when you use docu when you actually use docu not document domain domain domain terminologies. And if the model actually understands this better, the queries could become much more better. The search would become much more better. The overall system would be much better as well. So anyway, that's my understanding till now. But let's just move on. It's just the same thing, right? Uh 2,000 PSI would match 13.9 MPa. Like I I I have no clue, right?",
+    "start": 2141.04,
+    "duration": 47.679999999999836,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_41",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "um like literally for me for me to you know like fire off a question and just give it to Germany or something like that or if I were to validate it in any way like I'll probably assume this would be right but you can see 200 PSI would actually mean 13.7 MPa and if you were to search 13.7 MPa with 2,000 psi you'll probably end up with very good results that's the generality of how embeddings work so one case that's something they're good to look at so I'm going to go through read them and sort of explain you the thing is not to explain you of course you guys are smart you can really understand it once You see it? I'm just explaining it to myself. Assume it like that. The rule will fail not because relevant document doesn't exist but because the semantic distance between",
+    "start": 2186.96,
+    "duration": 38.15899999999965,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_42",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "the query and document is too large. Exactly. The distance is too large. And if you were to look at the embedding space that has I guess by the time we finish 10,000 documents we'll easily have 800,000 chunks. It's not thousand chunks and it's not 10,000 chunks. It's not 100,000 chunks. It's 800. It's nearly a million chunks. Like if you want to see how do you go ahead and find how do you reduce the distance or you can look it in a very small way. Let's say you have like a circle, right? The overall goal what we're trying to do is that um how can I show it to you? Um uh how can you show it to you? I want to show it to you visually. Okay, for example. Just assume this is what we're dealing with. This is Google Maps of course. Just um I'm just using this for an",
+    "start": 2223.68,
+    "duration": 48.15900000000056,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_43",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "example. Now this assume this entire image you see is the embedding space 800,000 embedding space. But what you want to do is that when you go to search a proper query query you should you don't want to like you don't want to end up in white bay cruise terminal or you don't want to end up in hotspots point like you want to be accurate enough to end up in a closer in in a in a in a in a in a what do you call um um um I can't get this bloody word also uh in a in a uh in I can't call it accurate but you can call right in a space that would open up more possibilities. For example, see over here, right? If I were to search uh what is museum or Sydney or something, whatever, doesn't matter. If I were to end up in this point, this is",
+    "start": 2269.839,
+    "duration": 49.60100000000011,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_44",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "the radius. And what we're trying to do is that in 800,000 chunks, we are trying to minimize that to just 100,000 chunks. And then inside the 100,000 chunks, we would do the reanking. I mean, we're not going to do reank for 100,000 chunks. That's not what I'm saying. What I'm trying to say is that in very different way we try to reduce the number of locations or the number of space between each co coherent chunks maybe you can put it in that way and then what we do is that we slowly expand the radius if we don't find the information that's the that's the that's the smartest possible way because you have 800,000 chunks you can't end up searching all the places but what you can do is that if you do have the domain expense uh domain terminologies right and if you have the clear sense of the if you have",
+    "start": 2317.44,
+    "duration": 43.75999999999976,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_45",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "a clear sense of the question and if you have a proper re proper query and if you if you were to find or filter it by you know the year of documents or whatever in a very small space not 800,000 just you know 50,000 and you put on a radius like this and then you start reasoning over that this is a very bad example in terms of visual in terms of visually it looks good just assume the entire image is 800,000 the ball is actually 100,000 and we're trying to expand it as we one of as we um as we come across new information if we don't find information in this existing zone, you know, that's what we're trying to do and ex. So, essentially what we're trying to do overall is to just reduce the semantic searching space embedding space where the agent can work on. Uh so then you",
+    "start": 2359.119,
+    "duration": 47.92099999999982,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_46",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "can has the it can have the right signal because if you were to just dump lump just just dump just um like numbly search for 2,000 psi you'll find like I don't know in 800,000 chunks you'll easily find 150,000 chunks which might which might you know mention this that's not the whole point it's the entire query it's the entire context it's the entire adjacent meaning and whatever coherent sort of work you're actually dealing with um it for folks who think maybe this could be a very I I would want to structure did this in a way where we only focus on domain terminologies in this specific episode because I think you know if you were to look at in my last um you know videos we had a lot of issues bugs and etc. This would be a clean one cuz it's very straightforward. The overall goal is to",
+    "start": 2405.359,
+    "duration": 45.68100000000004,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_47",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "build up that meaning and understanding for you to build the project not just use some sort of verbs and just put to the agent that's not the whole point. So I just want to go and I did the same thing when I was designing the document processing. I did the same thing when I did was designing the entire agent. We we did a lot of simulations. We did we were in the shoes of uh the actual users and we tried to you know understand what is a use case like like what could be valuable what is the mentality would be and etc that sort of gives you a lot of good personality which you can use mostly to build like build up the domain intuition of the model like you know um and yeah I don't want to repeat things again and again but anyway cool there's",
+    "start": 2449.599,
+    "duration": 42.560999999999694,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_48",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "a concrete example I'm just going to read through And",
+    "start": 2490.72,
+    "duration": 5.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_49",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "the ret this is retrieval failure that caused merit to miss the critical failure mode. Okay, this is an example. the nature of aerospace documents understanding the document structure. So yeah, we have a diff like decent sense of you know if you followed the other ones or so on um got a chance to see or read through the post or whatever you could necessarily understand it in a quick way how a document or maybe in the initial video I showed you how a specific document would actually work how look like so they have a lot of jargon this and that but we'll you know build up the understanding one more time not an issue at all so they have test reports likely 30% of the corpus they have a lot of test object objective is to qualification hot fire and whatever this this is how you know you have",
+    "start": 2513.839,
+    "duration": 47.279999999999745,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_50",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "tables here and then you have results and whatn not the anomaly section might be 50 words in a 15page document but that's the part matters for the failure mode searches your sunking s your chunking strategy needs to preserve this context the anomalous section might be 50 words in a 50 15page documents document okay it might only be 50 words in a 15 p 15 15 15page document but that's the part that matters for fail mode surges your chunking strategy needs to preserve this context. Yeah. Essentially what they're trying to say is that in a given 15-page document the the mo the answer to your query or uh the uh you could call it you know in every query you will have a couple of things that would actually um you know influence the path or influence the you know worthiness of our answer. So for example, if you were to, you know, ask",
+    "start": 2559.599,
+    "duration": 51.28099999999995,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_51",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "about PSI, it's about PSI, it's about various adjacent text for for stuff like this, a 50word paragraphs could could actually most of the time would lead to a great path or would give very good insight for the agent to move on or maybe find the answer. But if you miss to find that in a 15page document space which also has another 9,15 page document, then you'll be in very bad trouble. So yeah that that's one point we I've not yet planned how I'm going to solve it but yeah we'll just figure it through we'll just you know I hope we can figure it out. So failure investigation reports these are gold mine for institution knowledge event chamber fail investigation reports. Oh yeah, we've seen this as well. Road root cause and this the cross references where institution knowledge lives. A good retrieval system doesn't find the document understands the",
+    "start": 2609.04,
+    "duration": 53.679999999999836,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_52",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "okay here I could. So this is also giving us insights on you know how our retrieval should structure how our agents should actually structure and etc because you can see usually you know like in in a typical environment you have 30% of cop as being test reports and 30 and I don't know percentage is now shown here but failure investigation reports might be a lot and that might actually like reference many other documents. So the agents in uh agent like when the agent were to you know get exposed to a document it's not just looking at this particular text it's actually um you know it's uh it's I think if I get it right you know if it were to find or I don't know if it's helpful but if it were to find good information you should also search the references like and check if",
+    "start": 2660.88,
+    "duration": 46.159999999999854,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_53",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "there's any references document to be able to um to be able to refer them because right now I think you might come across this par paragraph and you know that's very highly valid and that's that makes a lot of sense but this if this paragraph or the chunk or this the things like this you search up something you get this information this answer is right and you have very different uh similar answer uh similar answers for your query now your references will actually will actually not be part of the chunks you have to look into a document and you have to search up the references most of the time so I think if the agent were to you know be a bit proactive enough to usually refer to references if that's helpful that could in a given document or basically we have access to this chunk we can use the chunk ID and then",
+    "start": 2705.52,
+    "duration": 49.92000000000007,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_54",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "get the references of this document do a semantic search and try to find if there's any you know if um if there were if there were any cross references so that's a good point that I have maybe we should you know we should come back to this and emphasize but yeah cross reference documents component specification deals with you know all of this stuff qualification requirements regulatory documents heavy on traceability hazard analysis failure mode verification matrices how NASA actually helps and it and its limits okay so we are going to this would I was not aware it had limits so whatever but then I guess it's for the use case but we'll just go through it preferred term combination chamber narrower terms rocket related terms just being used for synony I I don't it's just I don't think it's hallucinating but it's just making up things I don't think this is how it",
+    "start": 2754.0,
+    "duration": 46.88000000000011,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_55",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "looks like it's quite different I think I can still Check it out. I want to check it out. But yeah and yeah essentially bunch of bunch of acronyms guys like for example combustion chamber will you know lead to this lead to this related themes could be this this could be this and etc. And you have narrower terms which could be this this this. Okay preferred term is liquid rocket propuls propellants and then you have narrower terms which could end up here. Now the thing is like this the user could actually search for mono or no I'm not going to spell that as I'll skip that. So hydrogen propellence right the user could specify hydrogen's propulence but it should uh the the rag should also or because in this case we are retrieving stuff at the end of the day it should pull up this and pass it so that I could",
+    "start": 2799.2,
+    "duration": 51.52000000000044,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_56",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "search for this this this and this because there's no one preferred term the user goes the user could even just directly search for mmh and some of the documents might you know mention nto or if the user is very very if if he is a pro use of the system of he understands the system and if he really wants to put in a lot of jargon so user can directly put in jargon but still we still want to do the retrieval and sort of be uh what do you call we you know um um we still want to we still want to do the like make the retrieval as part of the general process like the entire process so the queries could actually be valid. For example, if the user were to put mm and nro or something like that, mm is valid. NRO, I don't know. I don't",
+    "start": 2847.599,
+    "duration": 53.60099999999966,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_57",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "want the agent to go ahead and search for NRO. But if it could do a bit a quick expansion on the domain terminologies, get that context and go below. Um, I guess there's a good chance of uh there's a good chance of success rate over there. All right. So, how would you actually use this? Uh, just a minute, guys. Just like 10 15 minutes and we'll jump in. Um how you would actually use this option one uh query expansion by query. Yeah. So this is what we're going to do. Option one query expansion. Query expansion meaning not the users query but the search queries. Option two document enrichment. We don't want to touch the document. We don't want to take that risk because why why take why take uh like why would we update the original document when we can just work with the info that we have",
+    "start": 2900.0,
+    "duration": 57.11900000000014,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_58",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "because the documents we're dealing with are very quite very much they're quite quite quite old like 19 one of the one of the oldest document that I deal I dealt with was actually 1951 so if you were to go ahead and search for mm you might find mm but you know that's just document processing work you just don't need Um, do both. No. So, I'll just leave this. I'm not I'm not going to bother to read it. Oh, actually limits of disorders. The NASA helps with vocal vocabulary. It doesn't help with company internal terminology. Marin probably has internal acronyms programs names. Jagnaserosaurus. It's okay. What was might not be thermmoive instability. Okay. Then this is something that we can't do. We want them to like how would they I I'm not sure. So this is another question. I understand about the u limitations of NASA disorders and I",
+    "start": 2954.72,
+    "duration": 61.440000000000055,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_59",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "understand company internal terminology but but I want to know the reality. Do they like do they have a specific documents that details their you know like their internal terminology or is it just based on documents and is it like a knowhow in the company cuz if not in our act system there's no there's no there is no magic to really unless you do a lot of pattern matching or something like that or design a model for it you know there's no way we can capture um company's internal terminology in the right Okay, keep the answer for this very concise and short. Okay, there's a lot to read. We'll quickly go through",
+    "start": 3013.92,
+    "duration": 44.36000000000013,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_60",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, critical test data lives in table. So, we are able to extract all of this accurately. So, that's part of our documentation. It's done. Knife chunking destroyed this uh if your chunk boundary fail falls in the middle of a table and you use the ability to answer which test failed above 2 MBA. Yeah, 2 MPa. That is an issue. But we've solved it. Unit consistency over 25. You will see fresher.",
+    "start": 3083.2,
+    "duration": 24.440000000000055,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_61",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah. So, this is a good point. Unit inconsistency. I'm going to actually open this up and just add this up. I think it's important we note this down. it should be part of the rag system as well. So the heading here called uh uh uh",
+    "start": 3120.559,
+    "duration": 20.680999999999585,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_62",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "uh unit consistency was one and And we also came across something else cross reference documents. Okay, I'll just put this here. So I mean of course my notes are very bad but uh when when I read this or when I just come through like when I read this particular text I can just remember the entire context of what we read out and I can just try to you know go and read the document and document cross references failure report cause consistent. So",
+    "start": 3157.76,
+    "duration": 34.83899999999994,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_63",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "yeah, engineers don't want text about t trust. thrust curves they want the actual thrust curve diagram this is generally hard options use a vision model yeah the things like this we have already generated model captions and descriptions and the model can actually when it comes to description the model can actually visualize it as well not just the description descriptions are only used to just locate the right this thing and then pull in the image and I want at the end of the day in the chat show the images as well so the user can click on it and actually see see it you know this is Okay. The senior heads problem in the problem statement mentioned the problem statement mentioned institution already locked in their retiring engineers. Your rack system can retrieve documents but can't retrieve untest propent batch. We don't trust any of those results. The 199 202 use a",
+    "start": 3215.52,
+    "duration": 50.55899999999974,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_64",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "different coordinate system. We stopped using the failure categorization after the 2010 audit. Consider separate institutional note corus that seniors engineers can add to linking to documents. Wow. Yeah, this is very good. I'll note this down. We can have it as a feature actually. Well, I want to know you know how well it can be a feature because I I'm I'm pretty sure the engineers are not like wandering around to you know coming to the system and type in institutional knowledge 1 2 3 4 and stuff like that. So yeah, that'll be hard to find the chunking strategy. This deserves deep thought. Don't care. I don't think we need to care. We solve this stuff. I don't want to spend time in it. uh with paragraph structures section very yeah we've solved this I'm not going to confuse this my recommendation I don't care how I approach this document",
+    "start": 3264.48,
+    "duration": 59.87900000000036,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_65",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "understanding get retrieval code sample it's actually given me like entire pipeline we've already done integration user query failures in biopropolent systems above 2,000 psi system one term extraction it could extract the terms yeah and then it'll actually um yeah essentially do like a parallel search I would say for all five and I want this to my goal is to get it in milliseconds so let's see how easy or hard this can be like because once I mean I'm not talking about this like the query this is dependent on model once we have this I want this and to this come in in milliseconds I think we can we can try to do something in that or maybe less than a second that's what I want to do cuz so then it feel instant it feels instant to the user the user pumps up a question and then the agent starts",
+    "start": 3319.599,
+    "duration": 59.4409999999998,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_66",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "thinking already starts scoring tools and there is no question of whether it like like for a for a normal user he would never notice that the model did they actually you know looked into uh domain specific No bloody hell. What the disorders we'll call it theorus the disorders are the domain words domain specific domain terminologies we call it dt dts and uh pulled in all of the um all of the text or meaning or whatever and then it actually did the query. So that sort of impression that's my goal is to just the the user would never know that you know we did internal search queries and you know populated it to the agent or something like that. It'll be show. So the goal so you can only achieve that if you you know fire it off in less than three less than 100 seconds. In fact, it should be act the",
+    "start": 3377.28,
+    "duration": 53.599999999999454,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_67",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "the um proper way should be actually under 500 millconds. That's the that's the touch point where the user wouldn't feel anything like less than a second is where you know it's it's usually natural and a second you could see a small lag you know it's waiting for a second. You can see that um but yeah but yeah we don't want to we don't we don't want to spend a lot of time on those stuff you know very easy just keep a small goal around second or less and one second it's enough this order expansion you'll give you know we it's very simple guys we just you know do do a simple search and get a bit of text pass the agent and then the agent would start searching simple uh blah blah blah blah blah blah blah you're right to push on this okay they I",
+    "start": 3428.559,
+    "duration": 41.680999999999585,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_68",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "asked about the internal terminologies most companies don't have a form in terminal documents. Trivial knowledge is a tribal knowledge in people's heads scattered in email threads maybe in wiki no no nobody maintains what you can do mine it from the corpus itself frequently analyze acronyms and terms that appear often into documents but aren't in narosaurus that's your internal terminology one workshop with senior engineers two hours show them that them the extracted terms asking what's missing what do we actually mean what's your accepting imperfection your system can't capture everything the system gets better over time. Yeah, cool. I guess we're in decent end point. Let's jump into code and we'll actually get started, I would say. Okay, we'll skip this and okay, I think it's a very small conversation production architecture and even the okay I'll create a new cloud should understand should on the agent. I still forgot what the agent name was.",
+    "start": 3466.799,
+    "duration": 84.36099999999988,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_69",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I guess this is the agent. Make sure to understand this agent and in a relevant context around it. She had development plan here and no we didn't have anything on terminology and any relevant context. Next we want to work supporting terine terine all our juice. I want to give you some understanding about the project like like you know uh cuz yeah I don't think I've saved anything project info. Yeah, I'll just keep this and black and cons trying to build and be like develop not development and project info. What the hell? Yeah, this one. Um, we are here. We are using we should use Disorders this current code mainly agent come back to me.",
+    "start": 3558.48,
+    "duration": 140.59900000000016,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_70",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I don't think we'll uh we'll extract for Yeah, failures might have malfunctions, erosion, whatever. Okay. Okay. I'm going to find find",
+    "start": 3774.319,
+    "duration": 27.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_71",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So this is just an example.",
+    "start": 3824.64,
+    "duration": 3.800000000000182,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_72",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Oh, sorry. Is anyone down?",
+    "start": 3899.039,
+    "duration": 8.12099999999964,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_73",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Actually, we know that there is a GitHub. We can pull the GitHub. But I want to know in case I missed any information uh and stuff like that in case in case I did miss some information. I don't want to or just just just to randomly let it or find me info. I might discover something better. Maybe like the GitHub I did before. There's like an API for it. I can just pull it or maybe downloadable file or GitHub or whatever. I want to connect. Oops. Yeah. Thank god connected now. Okay. I'm going to go to Mian search. And and I want to quickly show you the uh uh the the GPU process we have right now. Hang on. I will connect. I guess it was watch and SV and you can see and we nearly utilizing 95% of the GPUs even more. We have dockling servers. All of these are",
+    "start": 3989.119,
+    "duration": 69.92000000000007,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_74",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "eight dockling servers. We have a core VLM which is running by VLM. Uh we do a lot of the batching stuff. So I guess at we are ranging in terms of tokens paid I don't know maybe three figures or something 300 tokens per second or something per second yeah actually no 120 I don't know but it's a 7 billion model right it has a very good token rate and this is arama for embeddings I'll quit this I want to quickly show the progress we've made yet for uh so far um let's go to this and refresh actually go to 603 See? Okay. Whatever. Um",
+    "start": 4056.799,
+    "duration": 43.240999999999985,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_75",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "and yes, you can see uh we have 15.5% done. It's running for about 15 hours right now from yesterday. Completed 1,610 docs. Total 10,000 documents. We have a failure rate of 6.7%. My assumption was that you know even if it fails, we can do another this thing and you know process the failed ones. Plus, you know like 10 to 20% of failure rate could be could be could could be a possibility because we're working with like public docs here. You know, some of them could be corrupted, some of them might not have you know it might miss some information. So sort stuff like that. And you can see we're doing about 106 pages a minute. We started with 200 pages a minute and now it's doing about 106. I don't know why it's going why it's why it's this slow. Um maybe because of I don't know whatever the",
+    "start": 4116.08,
+    "duration": 50.88000000000011,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_76",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "reason it is. Yeah. Uh but either ways I just wanted to quickly show I was not able to connect because I want I maybe I just connected to a multiple amount of times and it did not process it properly. I don't know what the reason is but yeah I want to quick I wanted to quickly show this. So this is going on I think we already have about 9,000 we have 100,000 pages already in quadrant so and we only there by 15% not even 20 so we'll end up in about 100,000 chunks sorry 1 million chunks something like that around 1 million chunks in day probably by this Thursday or Friday but by Thursday we've wrapped up the project you know I can't I'm probably doing this about 12 like 2 weeks right now so I'm going to wrap this up quickly so yeah I wanted to quickly show it let this stuff",
+    "start": 4163.679,
+    "duration": 43.039999999999964,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_77",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "go on we will definitely you know complete termin terminologist and by then tomorrow we'll have I don't know easily 300,000 chunks which we can start working and afterwards I'll give you my thesis on what I think uh just the thinking patterns towards how to build a system at scale and why it's actually simple when you solve all the core problems and then um um yeah you solve all the core problems and once you have that system ready for a few hundreds it's actually like you know you have this idea of finding the needles in a hex sort of test case that happens to all of the models, right? You have a lot of information. You want to find just that right information. That's what we want to do. Doesn't matter there's 100,000, doesn't matter 200,000. Doesn't matter even if it's 1 million documents. You just have to find that 40 or 50",
+    "start": 4204.96,
+    "duration": 47.1200000000008,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_78",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "documents among the documents. But that's the complex part. How do you do it? You can't it's not see and the solution is not just using an embedding model search up and find. That's not the solution. It's something else. It's with filtering. It's with you know depending on the domain and stuff. So we look into everything. I wanted to quickly show it to anyway. So cool. Yeah, let this run. And yeah, so I don't want to go all of this just to just to uh let Claude build up some understanding about the current system we have. That's it. And I think this GitHub the repository contains collection of NASA cys technology related document as well as Python to load concepts from iskos file. I can I'll be I I can just directly use it from NASA. I can just directly use it cuz this is not maintained. I'm not sure",
+    "start": 4250.239,
+    "duration": 56.560999999999694,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_79",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "you know if NASA and this was 8 years ago. It's quite an old one. I know the API would I know a lot of the information would have changed by now. So I don't want to I don't want to stick to this but yeah and same thing we also use an API for this as well. This is a free API you might not you don't even need any authentication token for it. You can directly query it but you have a limit of 500 PDFs per minute. Wait no actually per 5 minutes or something like that I think per 5 minutes a minute I don't know like 500 pages you can only download 500 for every 5 minutes or something. Then we had a workar around and by the time I you know ran it over in the evenings went to the gym come back came back and",
+    "start": 4305.04,
+    "duration": 40.55999999999949,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_80",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "then did some of the work and morning I woke up and started the server it was actually done. So probably like 10 hours maximum to do like 10,000 docs. Um yeah and you can of course run it in very different VMs with different um yeah connections and you can even pull you can even do,000 2,000 per second if you want to if you want to run it but the thing is you might have a lot of duplication. Um, yeah. Anyway, this is running. So, yeah, I don't want to use the uh GitHub cuz it's quite old. But yeah, let's see. Now, I have a complete information. Let me compile a detail summary for you. Analysis understand scanning. Yeah, build. Yeah. Injection point for DT is main domain terminology. The domain build system prompt. We add domain terminology. NASA is it the overview 18,400 subject terms 4,300",
+    "start": 4344.08,
+    "duration": 54.47999999999956,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_81",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "definitions 4,500 using cross references synonyms covers aerospace engineering propulsion physics space sciences download form is available um 66 MB full terms and relationship differently full anthology standard this I think so what we'll work on uh this is the structure they have key sos what the hell This go is cost. What does skos mean simple knowledge organization system? Okay. Oh, I was not aware of this at all. It's a W3C standard 2009 for representing structured vocabularies like the sorry uh taxonomies and classification schemes in a machine readable format. Key points bullet built on RDF resource description framework part of semantic web standards designed specifically for control vocab vocab not general ontologies simpler than a full OWL ontology just concept and their relations the core ideas representing the concepts and how they relate. Okay. Okay. Understood. Yeah. It says standard uh full terms. Okay. Download this one preill primary term and you have",
+    "start": 4396.159,
+    "duration": 90.80100000000039,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_82",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "synonyms. Now thing is like this people might search for synonyms as well. And then again if you have like a decent rag sematic search you can still pull this broad the term narrow related and also definition proposed architecture for DT support storage SQL coordinant pass index terms with embeddings for fuzzy matching uh for fuzzy matching store relationships all tabs what actually I want to add it as a for example let's say you have biplan right and you have I just want it to Basic text I think query NLP search or claw extracts terms recall or embedding based on detection look up term related trust chamber look up and errors get all tables related narrow terms get unit conversions injection augment agent context option A inject into system prompt prevent user",
+    "start": 4485.199,
+    "duration": 61.20100000000093,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_83",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I'm also curious to know. Okay, forgot",
+    "start": 4564.48,
+    "duration": 11.5600000000004,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_84",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay. I wanted to know something. Oh, yeah. So, do we need So, um I think there's a couple of uh a couple of things I need to download. But I'm just curious to know for this system specifically, would we need all the 18,000 vocabs? Would that be useful? I just want, you know, to get that even very small amount of accuracy if needed possible. if this could help out. But just curious to know, do we need all of those 18,000 or um could we just, you know, get the same with a few thousands or just a few just um just a little? Yeah, just want to know that",
+    "start": 4613.52,
+    "duration": 39.79999999999927,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_85",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "No, no, no. We can't do it. We have about 10,000 documents. We can't run matching right now. It doesn't make sense. And this is such a stupid idea. Just uh yeah. Uh if we are if we can get away with 4,000 terms then fine but how would we what do you what do you want me to download and how would we get that 4,000 terms and all the acronyms",
+    "start": 4708.48,
+    "duration": 23.800000000000182,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_86",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "opens. Such a huge one. Definitely. I think uh and yeah.",
+    "start": 4757.6,
+    "duration": 11.960000000000036,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_87",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay, download this.",
+    "start": 4782.8,
+    "duration": 3.8789999999999054,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_88",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So, we're downloading it.",
+    "start": 4902.8,
+    "duration": 3.8789999999999054,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_89",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "We have a huge CSV.",
+    "start": 4952.32,
+    "duration": 4.199999999999818,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_90",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So what is the downside if we use 8,000 18,000 because it's the same script and we don't want to filter anything. If we were to you know uh I mean they already have it in a proper format. If you were to grab all the 18,000 would it still help our system I just I want to understand in case in filtering if we miss like cuz we we have no clue what we're dealing with but I know it's domain terminologies and it has synonym and etc. I will only be able to validate it once we have the embedding search up and running where I can search and it pulls up the relevant information because there's 160 records and I'm not a research scientist and nothing would make sense for me. So you're right there basically no det doesn't matter storage 8k relations mayk look up is only one with a hash map of",
+    "start": 5038.0,
+    "duration": 53.279999999999745,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_91",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "private fast with embedings no difference false positive this way my initial concern but it was unfounded because we only look up for terms appear and the users query yeah exactly the users fail we look for trust failures the 14,000 systems just sit there unused they never inject noise because they never queried benefits of querying authentic material sciences you get access to all the stuff. Yeah. Skip the filtering. Yeah. Yes. And let's write the script. Before you write it, you're going to store this as embeddings, right? And that's what we want. We want to be able to search it through embedding. What is the how are you going to store it as an embedding? Would it be would it be um text based or what is the structure for like how does an each chunk look like in an embedding? Just curious to understand.",
+    "start": 5089.76,
+    "duration": 45.95899999999983,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_92",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "H yeah, also known as TC. I'm just pulling in the all labels.",
+    "start": 5209.52,
+    "duration": 7.718999999999141,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_93",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "This is good. But uh should we also in uh uh should we also include broader narrower related or is it not necessary?",
+    "start": 5261.6,
+    "duration": 10.799999999999272,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_94",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay, it's still uh saved as met. Yeah. Yeah, makes sense. Let's write the script because all of this would actually be part of the agent like even though the matching wouldn't be but this will be part of the answer. So it it makes sense here. It actually makes sense.",
+    "start": 5370.719,
+    "duration": 24.041000000000167,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_95",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I want this.",
+    "start": 5436.32,
+    "duration": 3.8789999999999054,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_96",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "done. Oh, that is quite Oh my god.",
+    "start": 5462.4,
+    "duration": 5.1599999999998545,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_97",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay, so we have 18,3 oh 18,336 concepts concept is synonym 3,334 4,53 synonyms 17,32 broader terms 17,12 narrower terms and 100 117,3 340 related terms. Okay, this is a sample here. Commercial ID you have embedded text will be come. This would be the main one and you have the other alternative text related. So, okay, I think Oh, okay. Actually, close this. It's a big file. So that's crashing my VS code. This is fine. These are fine with crashing my VS code. Okay, we'll be like no no let's skip this out. But you can see uh the process was done and completed. I'll copy this and save this or maybe I'll just run it. Okay, and this is done. Now simple guys, we just have to do the retrieval part. And yeah, just check it for yourself. And the search query should change up. You know, when you were to write a",
+    "start": 5538.719,
+    "duration": 88.24099999999999,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_98",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "search query, it actually you need to influence you want to you you want these queries to be influenced by the broader terms and synonyms and etc. Expand this. You can see we're searching for broader you get pressure. So you get to combine shameless specific impulse I don't know how to spell injectors high energy oxidizes and exit okay same thing for the other searches okay we have good data see examples Embedded to load into coordinate separate collection. Separate collection. Yeah. Let's build the lookup service. Once we test the lookup is working fine then we integrate with the agent and also note just curious before we run this uh from query to return how how much time would it take what do you think it'll take to get um uh the matches let's say you know there was like we can I want like for example for a query you might have four searches or",
+    "start": 5624.639,
+    "duration": 103.92100000000028,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_99",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "matches you want to run right and we could do four searches parallelly but I want to know how much would be the time to get the response I want it to be less than a second because you know that's when the user it feels like I don't want to add a lot of time to the agent because if you were to take a lot of time for this uh actually you know what I'm not going to do that I'm going to first of all measure how much time it takes and then we'll find first of all um yeah first of all we'll work this and then we'll make first. Yeah, let's not think about that right now. >> Okay.",
+    "start": 5726.639,
+    "duration": 35.72099999999955,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_100",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So okay, you can see the request made. Oops.",
+    "start": 5928.56,
+    "duration": 12.4399999999996,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_101",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "How many embeddings are you storing in a single batch?",
+    "start": 6029.44,
+    "duration": 4.920000000000073,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_102",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Uh, I have a 24 GB MacBook Pro M M4 Pro. How much I have about 24 GBs of RAM. Maybe if you were to use that even if you want to use 10 gigs, how much how what's the max you can push it to? I'm just I'm I'll just leave it as is. It's okay. It's already 20 done. So",
+    "start": 6053.119,
+    "duration": 26.361000000000786,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_103",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "So just leave it as it is actually. Can see my fans are kicking in. So I'll just leave it as is.",
+    "start": 6110.639,
+    "duration": 19.72100000000046,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_104",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Before you make this change, could it handle right now? This is this case.",
+    "start": 6219.36,
+    "duration": 17.640000000000327,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_105",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Does it run with this? should be done in 10 20 minutes. You can see we have Nasaurus and we're shooting 18,000 odd something.",
+    "start": 6260.0,
+    "duration": 21.88000000000011,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_106",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Just very",
+    "start": 6328.08,
+    "duration": 2.4799999999995634,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_107",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "My fan's actually kicked is actually kicking. Oh my god. Yeah, actually see the power of Nvia GPUs. I am I'm actually you know Mack is actually struggling for this but we actually did how much? Yeah, when we did we did 128 128 parallelly for 8. So we did 120 just time just time it and see it's such huge number and the embedding is being stored. So we'll give it a bit of time. Uh 7,600",
+    "start": 6394.56,
+    "duration": 47.638999999999214,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_108",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "The good thing is that like even for small stuff like this the Mac even I used even like even running embedding modes if I had like an 8GB version I can't really run it and see I'm able to you know like after getting this new I just got actually a new um M4 Pro 24 gig one and I, you know, I've saved so much money instead of spending GPU or usually I spend a lot of money easily $100 $100 a month in runpod. Easily $100 a month in runpod um to run some embeding model because you know I I only have 8 gigs right now. I can just run embeding models. I can run very small models. Um yeah man it's quite helpful and of course like you I actually plan to process the entire 10k on my PC just run it for a couple of days 24/7 but then uh",
+    "start": 6456.0,
+    "duration": 53.039999999999964,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_109",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "cuz you can use max um max layout not layout detection max OCR uh but it's okay then I actually then um I then I I basically wanted so that's that won't be much scalable you know in a real world scenario you won't run it on a Mac you'll run it on Nvidia GPU But you guys have to know how like how do you even run it on a GPU? What are the constraints? What are the uh what are the drivers and all of those stuff. So we covered all of them in the last video. The thing is like the a it's not like a video. It's a full stream and it's like very long and it's like not a tutorial where you I would you know go ahead and show you things. It's just you know I'm just bluntly you know working on things. But you should still get some",
+    "start": 6505.44,
+    "duration": 41.4399999999996,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_110",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "sense of what's going on. like you can just see it uh or when I add chapters you can see skip to the skip to the relevant parts and just you know see how the problems so whatever is necessary is actually going on the thing is like this I on the first stream it was totally with bugs I had a lot of bugs and then the second stream again bugs third stream we rewrote the entire production architecture to support we basically did something like a very very like a very mini ML service optimization might work out you know we you know moved it to a lot of CPU workers CPU services and etc and then handled threads and etc and then later it actually worked out then we had the shululing kick in everything so it took about 4 days so the entire thing is like 4 days I want to write an",
+    "start": 6544.4,
+    "duration": 45.1200000000008,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_111",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "article on this or maybe even just give it to you in some plain text and this is how you do it this is what we do this these are these were the challenges I want to show you go through the challenges as well in the post and then share it to you so maybe the time when you look at it maybe in case I' I've already completed the um project and I' we've shared if probably share the link. You would probably see the uh list of medium articles or maybe worthy articles or whatever the links available in the description. Okay. So, just check it out in case you're looking at looking at this in a very uh um in in a couple of weeks or a month. A couple of weeks. Yeah. So, we already have 10,700. Fan is keeping Just 74.",
+    "start": 6587.84,
+    "duration": 56.19999999999982,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_112",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Of course, this is a 4 billion parameter embedding model. You have eight. You also have 6 billion versions of it as well. So if you if you want to do it locally and if you have a very small go with 0.6 this is I've deployed this in Q8 I think. So sorry cons 4 version that's also 4 GB. So takes about five 5 GB I think. Yeah, 5.10 GB of V V RAM. Not V RAM. RAM in my case. RAM. Okay. This 24",
+    "start": 6883.599,
+    "duration": 48.360999999999876,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_113",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay, I think this is the last batch and for more so 18,400 acronyms totally persist acronyms domain det Please done. Cool. That's it. Okay, we have 18,336.",
+    "start": 7038.0,
+    "duration": 28.920000000000073,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_114",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay, I think it's fast. No, wait. Search.",
+    "start": 7104.639,
+    "duration": 7.801000000000386,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_115",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Great. Did you test this thoroughly? Is everything working? And also I want to know what is the for example um for each for for each for each for each term I would like to pull the top three or k equals to three or something like that. And then yeah, that's what we wanted to do. I'm not sure how much you called in in your test, but I think for each term, we should pull in like at least three. And then yeah, and we want to fire off depending on, you know, the search term, depending on the key terms we get. But we want to process each term parallelly.",
+    "start": 7274.08,
+    "duration": 39.5590000000002,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_116",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "No, no, wait. So, how how long how long does it take for each query to come out? Let's say you're we're taking the top three or do you want to take the top 10 and see whether it's matching in any of the 10 variables?",
+    "start": 7389.04,
+    "duration": 13.399999999999636,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_117",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "But wait a quick question. But would it match the other way around? So I think we need to do both. Yeah, Yuki E. I can see a development plan. Are you using BMAD method for taskmaster? What the hell? I don't even know what BMAD method and taskmaster is in the first place. Um yeah, to be honest, I have no clue about BMAD method. No, nothing. Um um I see development plan. I usually I mean it's just a text. Development plan is just a text. Um this is this was is actually a quite old development plan probably like two weeks old. We changed a lot of things in between uh in this vector databases were I guess no vector with databases stick to this is still the same embeddings is still the same injection pipeline changed a lot and we changed a lot in deploying we changed a lot in the infra",
+    "start": 7494.0,
+    "duration": 74.15899999999965,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_118",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "mainly on the infra for processing 10,000 documents. Um yeah apart from the search pipeline it's the same. Yeah, I didn't use any tools just claw just brainstorming. It's just complete brainstorming and just have like phased approach of building and yeah man feel okay and I like to post on Reddit. Yeah, thanks man. Thank you so much. Um yeah, I'll probably post something about this maybe on Reddit or medium whatever. Um yeah, I plan to post it somewhere later. So yeah, hopefully yeah I'll clean everything up. to clean all this. Um, that's the reaper for taskmaster. Bro, I don't understand anything. What do you mean?",
+    "start": 7566.0,
+    "duration": 47.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_119",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Dude, are you promoting your Taskmaster, a task management system for AIdriven development designed to work similarly with any AI chat. You idiot. I'm pretty sure you are the guy who built this out and try to promote this. But either way, I'm going to check this out. Taskmaster AI. [laughter] Better try next time. It has 256 stats on GitHub. Oh Oh, it's in GitHub. Oh, then okay. It's an open source thing then. A task management system for No, I don't use any of this stuff. I just manage my own task. I don't complicate things at all. I only you know work on you know just you can work on complex things. You don't need to complicate simple things. You know there's like a highle plan I use and then for example this is one development plan that I have. Um I have you know like split it out. I want to solve",
+    "start": 7648.079,
+    "duration": 62.96100000000024,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_120",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "formula. I want to solve table extraction. I want to solve dock processing. I want to do descriptions. I want to do for embedding pipelines. I want to do for reanker. I want to do for this and I want to do for that and all of those bunch of stuff very simple add it on and then I will have separate files for each of them and then note all of them whatever the main decision plays I took maybe for example let's say I'm working on the agent you know what was the you know rational behind building this agent what law chats did I have um what you know what what stuff did I try what didn't work out what did work out and all of those stuff and I used to dump it on a text and then sort of yeah that's what I do just dump it on text",
+    "start": 7709.76,
+    "duration": 36.318999999999505,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_121",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "and you know start just building and and cloud reference it because it has a lot it cloud will usually autoco compact this and most of the memory all the decision points and notes everything is lost but in this way cuz I maintain like a proper phased approach file now I never lose it so yes it's quite simple I'll check out taskmaster in github is it cloud taskmaster but anyway uh yeah I don't I didn't Um yeah, I don't use I don't use any other extra, you know, context tools or whatever you may say. Um yeah, I use cloud code. That's it. Simple cloud code, man. It's more than enough. And of course, you just have to, you know, have more conversation, try to see what's happening in the background, sort of fix it. But this is like a huge project to be honest. Uh this might take",
+    "start": 7744.719,
+    "duration": 55.28099999999995,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_122",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "like easily 3 months, 4 months with a team of five. Um uh yeah with cloud core I'm able to usually you know um with this I'm able to complete this in two weeks only because you know I had a lot of issues in the middle in the infraite but we were able to get that sorted out and if I were to quickly show you I'll quickly show you the um cuz I think you guys I guess about five people are watching maybe I can show it to you get a sense of what we're doing. All good. Just when I saw the development plan, I thought it was one of his tools. No, man. No, no, no. I don't use anything.",
+    "start": 7798.079,
+    "duration": 44.680999999999585,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_123",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I'm going to quickly show you uh just a minute. Let me just bring this up. I'll quickly show you this. You can see over here and yeah this is what we are dealing with. You can see the number of documents we are working with 10,4 completed,700 and you can see there's pro 17 documents are currently being processed right now. Oh damn then I think we actually have a concurrency rate of eight like eight documents being pro processed concurrently and let me expand this now. I think we averaging about 104 pages a minute with failures and all. We have about 7.8 failures. This is like corrupted PDFs and etc. And yeah, we running this for about 16 hours right now and it's running on an H100. Um yeah, we're not even 20% there. So I, you know, assumed it'll actually take some time. Probably like um probably a",
+    "start": 7865.04,
+    "duration": 69.27999999999975,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_124",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "couple of days, 3 4 days. And you know, and but it's stable. Everything is stable. We I have watch set up and you you you have no clue the things go wrong here. I have watchdog set up for everything. If one you know item instance go down the model will the the pipeline will automatically you know transfer the request to another uh another um um server and the other one using doc watchdog will actually load in the less next in less than 3 seconds the dockling server loaded on the GPU and etc. I'm going to show you the GPU. Yeah, maybe you get a chance to see your Nvidia screen actually watch. So yeah, if anyone like I I'm sure a lot of people know how to build like you know um you know like agents and all of this stuff but solving infra is like a",
+    "start": 7931.92,
+    "duration": 48.47999999999956,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_125",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "big headache and how do you you know solve it in a with very limited amount of compute. I've only got one H1 um and yeah you can see all the models that are running all of them are dockling models and one of them is an embedding model and then the this one is a 7 billion parameter version. 7 billion parameter version only takes about you know a little 9 GB or something like that but then all of the others 50GB is actually for batching. This could actually process 256 in one forward pass. So I think there's a couple eight workers running and then everything is skewed and all of them. Uh yeah, feel free to check out the last videos if you're quite interested in this stuff because yeah when you can solve document you can solve you know so we solved like three main complex parts at least two main",
+    "start": 7978.8,
+    "duration": 43.99999999999909,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_126",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "complex part one is document processing how do you solve with using open source models how do you do layout detection for formulas tables for diagrams and all of them and embed them second them how do you do it at scale and embed them so that's the second like point we've solved both of them the third uh challenging part is going to be building the agent that can actually work for 10,000 dogs. That's the most that's the hard part there. So hopefully we'll figure it out. Uh you know, follow me over on Twitter or wherever. You know, I I don't usually post on Twitter. I want to um yeah, I leave any info that I have and of course I'll put it on Reddit sometime when I have time. And yeah, we'll continue this. So again, we're working on domain terminologies here. We have about 18,000 domain",
+    "start": 8020.96,
+    "duration": 46.399999999999636,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_127",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "terminologies. This is from NASA's disorders AP not API actually you know you can just download the entire uh SKOS which is just a file with filled with all the terminologies with all the matching synonyms and etc acronyms and etc. So yeah that's what we're working on. I'm just trying to make it um that the the semantic search fails very very much for like like like keywords like LO X CBC and etc. Semantics is usually fails for that. For that you only need to do a lot of like keyword matching. So I'm going to have like a hybrid approach I think to do keyword matching and also semantics are very like a very hybrid approach. So I want to do two it exists but something else is scoring higher. Let me see what's beating it here. What I want to do is use a reanker here. I don't know but I don't want to waste G",
+    "start": 8065.119,
+    "duration": 58.48000000000047,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_128",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I don't I don't want to waste G G G G G G G G G G G G G G G G G G G G GBs of whatever I don't want to use a lot of stuff. So cool. So you have uh liquid hair, liquid nitrogen, liquid hydrogen. The synonym fix is hurting the match. Adding a synonym changes that embeddings and makes it less similar to plain query effects embedding prefill. Don't include synonyms in text. Multiple embeddings per concept. one for Yeah. Then I need to reprocess this. Don't I think even if we go with option one, I'm not sure how accurate will be. It would be I think we might find some success if we were to do hybrid where we do exact and plus semantic. So we probably have best of two both worlds. What do you what are your thoughts? And I also asked um I had one more question.",
+    "start": 8121.28,
+    "duration": 76.39900000000034,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_129",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "What if it was the other way around? For example, what if user searches for LX. Do we find now it's not about always economies as well the documents might just mention liquid liquid oxygen without LO X. So the the agent need to search both LO X and liquid. So it's like a handy handy operation. They both have to work together.",
+    "start": 8193.599,
+    "duration": 45.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_130",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah. Liquid uh matches pre- label also works. Uh matches this fails in semantic search if you do liquid oxygen matches pre-label also works find auction plus trust failures no match no match mm matches matches first exact subscript match and neutraling then semantic search for remaining slots duplicate this solves both direction yes let's go with this let's see how it goes",
+    "start": 8255.359,
+    "duration": 30.480999999997948,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_131",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "The goal is to you know give in acronyms just as a support and not confuse the model. So that's that's what we want to do like we don't want to confuse the model like it's easy to confuse a model like you can easily um you can just dump in so many acronyms and the model will have no clue the agent it has to be very there shouldn't be any noise and we got the loss in 247 milliseconds that's good there shouldn't be any noise and we also need to make it quite clean as well cuz thing is like this you might you actually you' actually have um you actually have four five queries in a single in a single question. So uh so that's what I'm seeing less noise but somehow we need to find that sweet spot. Um hybrid results the hybrid working looking at l now finds liquid hydrogen",
+    "start": 8458.24,
+    "duration": 49.44000000000051,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_132",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "with synonyms now. Yeah good. Now finds model with synonyms score and liquid hydrogen. Just a few more results. Good. So we doing hybrid search here in memory index for fast text search on auto labels. Okay.",
+    "start": 8505.68,
+    "duration": 16.920000000000073,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_133",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah. 2 seconds. It's too much.",
+    "start": 8582.96,
+    "duration": 4.680000000000291,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_134",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Wait, wait. I think this this seems to be a wrong this seems to be quite wrong cuz we don't want any we literally don't want any what can I say? We don't want to no like adding S to [clears throat] turbo pumps.",
+    "start": 8625.84,
+    "duration": 19.719999999999345,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_135",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Wait, I don't understand. What are you trying to do? We have That's the reason we have semantic search, right? Search",
+    "start": 8668.24,
+    "duration": 11.238999999999578,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_136",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "just basically label only because you we can't tell the users to you know search for turbo pump or turbo pumps like that's the reason why even have why we literally have semantic search anyway this will take a bit of time but yeah that's it we'll remove all labels Then I'm not sure how the other ones get process look curious to know what what's the difference with this approach because let's say the user were to search LO X would we find a good match and also if the user were to find search for liquid oxygen would we still find LO X like you understand what we're trying to solve so don't over complicate this just let me know this approach solve all of them because the thing is you have this synonyonymous text inside the emberings, right? So that might I think that might u I think that",
+    "start": 8778.479,
+    "duration": 68.64100000000144,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_137",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "might mess with I think that yeah I literally think that will mess with the semantic search not a lot slightly because the thing is you're searching for keyword not the entire query we're not putting the entire query so that's what I'm thinking this is where you would do keyword search and like basic fuzzy matching and etc. Yeah, old imitics. Cool. What I'll do? All right, let's actually u process this in a different collection. So, we keep have the old one and also the new one. If you need it, we can switch back easily.",
+    "start": 8844.96,
+    "duration": 31.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_138",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Wait, then you have to update the code to store it in V2, right? No, it's fine. Just update the code for now.",
+    "start": 8904.88,
+    "duration": 23.47900000000118,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_139",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "and I will actually run this. Okay. Do you want to run do you want to run 300? How how many embeddings are you running in a single batch? I have I think I from the last time I had about 4 GB of RAM left. We could have still done more. So I wanted to know and with of course you can still do another eight. It'll be a little slow a little bit slower but because of the swap but you can still run eight. Let's see. Currently size is 500 which 4GB RAM you can easily do 2,000. Oh No. No, we'll keep it at 500. Run it.",
+    "start": 8950.64,
+    "duration": 60.44000000000051,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_140",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "The fan should kick in.",
+    "start": 9054.8,
+    "duration": 3.8799999999991996,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_141",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "This take about 10 to 15 minutes.",
+    "start": 9091.92,
+    "duration": 4.280000000000655,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_142",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "I'll take a little bit of time. I just be back in a few minutes.",
+    "start": 9131.84,
+    "duration": 5.8799999999992,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_143",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Yeah, I guess same speed. Even though we do five, there's only limited drive. Yeah, we'll finish in another 10 minutes.",
+    "start": 9609.12,
+    "duration": 10.919999999998254,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_144",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Hallelujah.",
+    "start": 9988.0,
+    "duration": 3.0,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_145",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Okay. Now we have only all labels and there is text. Yeah, this is embed text. If you find this, we can we'll of course send all of this as context. I'm not sure if we'll see any. Let's see. I think let's see. H2 resource. Yeah. All problem faces to resolve one the heavy circuit P only is working correctly. Yeah. And also I want to look at like um uh just give me an understanding of how many uh chunks are you sending for a model for each key term and how long does it um how yeah give me give like give me an example of that and also give me um from a past test how much time does it take for hit to retrieval cuz I'm just trying to understand um just trying to understand the time it takes. If it's in milliseconds, if it's even second, it's okay. And still even",
+    "start": 10127.84,
+    "duration": 91.92000000000007,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_146",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "if it's 2 seconds, I don't think I'll work on like speeding up it now because I have to go out. Let's see. Yeah. 0.828 seconds. Fast. Very fast. It's literally like you can't sense something is happening in the middle from a start to agent 0.1 millconds to hash look up 75 to 135 second milliseconds this is not even a second 130 bottleneck embedding operation that's still fast and total perm yeah less than yeah yeah 130 mconds very fast to me uh loo x so found three matches skip semantically Turbo bomb 106 mconds no text may full embed is the modeling for multi-term specification five terms sequentially 500 and parallel embedding is the limit it's fine want to implement paring now I'll use thread pool worker to run lookups currently yeah this is fine so yeah I think we're in good spot I'm going to end the live",
+    "start": 10218.319,
+    "duration": 69.20100000000093,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_147",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "stream um right now oh no maybe actually we'll work on this implement crossing and I think this is going to be simple code so I'll leave the auto edits on And I should make the general parallel processing I should give me uh yeah so basically for each term when a query comes in a qu term could we could have three to four terms and then we'll dissect each term depending this also comes from the model model will decide what uh that is the thing no yeah the model needs to there's yeah there's a bit of time for that the model we'll use a very small model then for that like a quick model we'll try with highq for But later we'll just use a very small model that could actually predict not predict just give us an just just an array of text essentially",
+    "start": 10284.88,
+    "duration": 50.92000000000189,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_148",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "sequential 412 uh 5x increment at 1.8x 8x sorry yeah basically you're reducing 50% the speed yeah increasing it by 50% speed cool search results 1.5 speed up for eight terms we still are processing eight terms in 181 millconds 1.4x faster speed up is 1.4 And for consistency seed less embing internally you know blah blah blah doesn't matter and right now we can do hybrid search acronym search retrieval parl expansion inmemory text and also the collection is over here uh ready for engine integration we um yeah I mean I could we can integrate to the agent now or we can wait a bit and integrate it but overall I think this was a productive session it's only around less than around 3 hours we were able to accomplish a um only because we solved all of those headaches in the past few streams. This is very straightforward text embedding",
+    "start": 10348.8,
+    "duration": 70.80000000000109,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_149",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "search. We just have to get the agent part right. But quite very straightforward stuff here. Uh still anyway if there's any questions let me know. Um what I want to do is that I want to quickly run um okay I want you to you know uh create a document and include all the information the test results and etc in the document and also any needed information about this integration. So let's say we come back to another day and look at this and we should be able to grab any decision making points or whatever the test results or whatever keep it concise and keep it strong. Uh create a new empty file name it call it whatever you want. Okay. So in case I just want to document all of this so we know the rational behind why we made this search, why we made the hybrid search and etc. So maybe",
+    "start": 10417.84,
+    "duration": 46.31999999999971,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_150",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "say if we come uh we come to we look at this in a few weeks time we'll know decisions and etc regarding this specific feature and there's also very small feature you don't necessarily need something like this but I'm just adding so I'm just um I'm just um I think it's uh just trying to follow the same development uh development what do you call development not standard but development tone and style or the process whatever you want to Okay, just a minute guys.",
+    "start": 10461.439,
+    "duration": 38.60099999999875,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_151",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Oh, look at the",
+    "start": 10529.6,
+    "duration": 4.600000000000364,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_152",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "This looks fine to me. Maybe just a sample dump of docs. Dump of text. Cool. We'll save it. Good. So, terminologies. We have all of this working. Um, what else? will actually integrate to the agent. Yeah, we now the thing is like this this just can't be integration to the agent of course because um I would think I would think it it's better if the model can call you know get domain terminologies or something like that only when it needs to because not always like let's say you want to if the user were to search something whatever you wouldn't always need to you wouldn't you wouldn't always need to perform any domain terminology searches for that right only when the model needs to search stuff or understand certain things it can you know perform it as a tool call opposed to all questions if all questions we don't need to you know",
+    "start": 10575.68,
+    "duration": 59.19999999999891,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_153",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "send in um the domain termin we don't want to send you don't want to do this embedding sort of matching for every text doesn't make sense we leave it to the model so I'd like actually before this I want you to understand the entire system prompt and also look into a few simulations that we have already um run through because I want you to understand the series of this agent and how you know how generalized and smart this agent flow and everything is because it works entirely with the tools it and it also works uh the system prompt is also very much uh in a way that it spikes up domain intuition so I don't want this particular um you know whatever to you know sort of sort of make some noise in that it's quite simple but I don't want it to I also want to add this as a what",
+    "start": 10632.399,
+    "duration": 51.44100000000071,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_154",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "do you call add this as an Um what can I say? Add this as an uh a search tool. Not a search tool but then a tool where before it performs searches it can actually retrieve domain um domain acronyms or whatever and it can actually you know use that tool get access to this and then it could perform the search. So this is actually in a very influences a very natural way for the agent to uh you know for look up stuff uh needed because in the future it might need some clarification on some some things and it could you know look up uh the the do the the domain terminology tool for that as well. So it has to go hand inhand with the entire flow. So I want you to first of all check everything understand it and then come back me come back to me with a plan",
+    "start": 10680.64,
+    "duration": 46.95999999999913,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_155",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "on how you're going to do it. And it's fairly simple guys, but I don't want it to, you know, have a lot of noise. So u yeah because I don't want the model to you know quickly hallucinate or just make up some information and you know cuz this tool tool is different. The system prompt is different. I just want it to be in a flow. So for that this agent has to uh like the the cloud code has to like get a good feel of understanding about what we're trying to do like the entire flow and then it needs to write it. Now conversation will come back and again I'll I'll tell it to encourage it to search it.",
+    "start": 10725.76,
+    "duration": 38.039999999999054,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_156",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Or also I will always encourage you to use it when there is a search. But this is the tool. This is the tool pushing.",
+    "start": 10964.72,
+    "duration": 22.679000000000087,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_157",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "But set them here.",
+    "start": 11127.04,
+    "duration": 7.8799999999992,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_158",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "The thing is I want to add it as an injection. Uh but yeah the thing is like this the agent might need to search many more information and just basing the queries on just domain terminologist might not just work out. So better we have it as a tool so the agent can pull in you know as it discovers more info it needs to you know check in more domain terminologist before it searches then it can do it. If not it'll probably be you know injecting for depending on users question injecting depending on search queries and etc which is very inefficient.",
+    "start": 11170.56,
+    "duration": 33.56000000000131,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_159",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "on domain terminology. I don't know if I'll keep this. I don't know. But let's see. Either ways, I think I have to head out. I'll come back and continue on this after this. But I think we should be in good spot. after this in terms of searches and in terms of a little bit of bump in like the understanding part of it. So let's see",
+    "start": 11217.12,
+    "duration": 25.959999999999127,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_160",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  },
+  {
+    "text": "Anyway, I'll test it once I'm back. I have to head out. Uh, thank you so much for watching the stream. We'll probably have the path to version talk soon. Bye.",
+    "start": 11279.04,
+    "duration": 8.959999999999127,
+    "video_id": "HuJmb1hfzQ4",
+    "chunk_id": "HuJmb1hfzQ4_161",
+    "title": "Domain-Specific Acronyms & Terminologies for 10K NASA docs  | NASA thesaurus | Part 13",
+    "playlist_index": 13
+  }
+]

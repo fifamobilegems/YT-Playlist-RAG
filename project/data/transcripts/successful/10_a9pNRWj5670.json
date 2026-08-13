@@ -1,0 +1,5247 @@
+{
+  "video_id": "a9pNRWj5670",
+  "playlist_index": 10,
+  "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+  "transcript": [
+    {
+      "text": "So hey guys, I think the live is live.",
+      "start": 6.96,
+      "duration": 4.719
+    },
+    {
+      "text": "Just came back from gym. So this is part",
+      "start": 9.36,
+      "duration": 5.359
+    },
+    {
+      "text": "for if you were to check this. Anyone",
+      "start": 11.679,
+      "duration": 5.36
+    },
+    {
+      "text": "new here, it's part I would say it's the",
+      "start": 14.719,
+      "duration": 5.121
+    },
+    {
+      "text": "continuation of day nine. So I did a",
+      "start": 17.039,
+      "duration": 4.721
+    },
+    {
+      "text": "stream before this. That's the initial",
+      "start": 19.84,
+      "duration": 4.24
+    },
+    {
+      "text": "one. Uh I think this one will be a quick",
+      "start": 21.76,
+      "duration": 4.32
+    },
+    {
+      "text": "2 or 3 hour sort of stream. That was a",
+      "start": 24.08,
+      "duration": 3.76
+    },
+    {
+      "text": "four or five hour stream. I think I",
+      "start": 26.08,
+      "duration": 3.359
+    },
+    {
+      "text": "couldn't do it cuz I had to head out.",
+      "start": 27.84,
+      "duration": 3.679
+    },
+    {
+      "text": "Now I basically wanted to do it myself",
+      "start": 29.439,
+      "duration": 3.521
+    },
+    {
+      "text": "and then do like a fresh stream from",
+      "start": 31.519,
+      "duration": 3.04
+    },
+    {
+      "text": "tomorrow but then you still we want to",
+      "start": 32.96,
+      "duration": 3.439
+    },
+    {
+      "text": "document everything right and I don't",
+      "start": 34.559,
+      "duration": 3.361
+    },
+    {
+      "text": "want to you know give surprises on the",
+      "start": 36.399,
+      "duration": 3.281
+    },
+    {
+      "text": "next video saying I fixed this issue",
+      "start": 37.92,
+      "duration": 3.44
+    },
+    {
+      "text": "this is how I fixed it and I don't want",
+      "start": 39.68,
+      "duration": 3.68
+    },
+    {
+      "text": "to go through summaries and etc. So it",
+      "start": 41.36,
+      "duration": 3.44
+    },
+    {
+      "text": "even though it's a very small recording",
+      "start": 43.36,
+      "duration": 2.719
+    },
+    {
+      "text": "or something I just wanted to you know",
+      "start": 44.8,
+      "duration": 3.919
+    },
+    {
+      "text": "keep there keep it there so you get a",
+      "start": 46.079,
+      "duration": 5.041
+    },
+    {
+      "text": "chance to see it",
+      "start": 48.719,
+      "duration": 7.16
+    },
+    {
+      "text": "and I don't think",
+      "start": 51.12,
+      "duration": 4.759
+    },
+    {
+      "text": "stream is working",
+      "start": 56.0,
+      "duration": 3.879
+    },
+    {
+      "text": "oops",
+      "start": 60.32,
+      "duration": 3.0
+    },
+    {
+      "text": "so hi everyone this is day nine part two",
+      "start": 66.32,
+      "duration": 4.96
+    },
+    {
+      "text": "I did the stream before folks who are",
+      "start": 69.52,
+      "duration": 3.04
+    },
+    {
+      "text": "new here go make sure to go ahead and",
+      "start": 71.28,
+      "duration": 3.12
+    },
+    {
+      "text": "check that out. Uh to give you a quick",
+      "start": 72.56,
+      "duration": 3.599
+    },
+    {
+      "text": "summary, we were trying we currently",
+      "start": 74.4,
+      "duration": 3.759
+    },
+    {
+      "text": "working on scaling the document",
+      "start": 76.159,
+      "duration": 4.881
+    },
+    {
+      "text": "processing system that processes",
+      "start": 78.159,
+      "duration": 7.201
+    },
+    {
+      "text": "um technical diagrams to basically any",
+      "start": 81.04,
+      "duration": 6.96
+    },
+    {
+      "text": "document that's any",
+      "start": 85.36,
+      "duration": 4.48
+    },
+    {
+      "text": "no I can let me actually show it to you.",
+      "start": 88.0,
+      "duration": 3.92
+    },
+    {
+      "text": "So this is a list of documents example",
+      "start": 89.84,
+      "duration": 3.12
+    },
+    {
+      "text": "documents we're working with. We're",
+      "start": 91.92,
+      "duration": 2.4
+    },
+    {
+      "text": "actually working with 10,000 documents",
+      "start": 92.96,
+      "duration": 3.119
+    },
+    {
+      "text": "and each of them look like this and",
+      "start": 94.32,
+      "duration": 3.839
+    },
+    {
+      "text": "we've completed the document ringing. Uh",
+      "start": 96.079,
+      "duration": 4.241
+    },
+    {
+      "text": "it's very accurate. be getting 90 to 95%",
+      "start": 98.159,
+      "duration": 4.401
+    },
+    {
+      "text": "accuracy using the 20 32 billion version",
+      "start": 100.32,
+      "duration": 4.24
+    },
+    {
+      "text": "model and you can also you're very",
+      "start": 102.56,
+      "duration": 4.08
+    },
+    {
+      "text": "flexible to switch models if you want to",
+      "start": 104.56,
+      "duration": 4.8
+    },
+    {
+      "text": "and yeah it it does table detection it",
+      "start": 106.64,
+      "duration": 4.24
+    },
+    {
+      "text": "does formula detection we're using dock",
+      "start": 109.36,
+      "duration": 4.399
+    },
+    {
+      "text": "link and also hybridly we using BLM now",
+      "start": 110.88,
+      "duration": 4.64
+    },
+    {
+      "text": "that work for a few documents right now",
+      "start": 113.759,
+      "duration": 4.081
+    },
+    {
+      "text": "I'm using my my H100 so I'm going to",
+      "start": 115.52,
+      "duration": 5.919
+    },
+    {
+      "text": "quickly show you uh just the the compute",
+      "start": 117.84,
+      "duration": 5.68
+    },
+    {
+      "text": "that I have right now it's not a lot",
+      "start": 121.439,
+      "duration": 4.481
+    },
+    {
+      "text": "just uh just one single H100 I'm trying",
+      "start": 123.52,
+      "duration": 6.919
+    },
+    {
+      "text": "to process all Okay.",
+      "start": 125.92,
+      "duration": 4.519
+    },
+    {
+      "text": "Yeah. And you can see I have an NVLM uh",
+      "start": 130.479,
+      "duration": 8.161
+    },
+    {
+      "text": "NVL H100 uh 96 variant 96 GB variant or",
+      "start": 134.319,
+      "duration": 6.081
+    },
+    {
+      "text": "model is already loaded. This is the 7",
+      "start": 138.64,
+      "duration": 3.92
+    },
+    {
+      "text": "billion parameter model. So yeah, that's",
+      "start": 140.4,
+      "duration": 3.68
+    },
+    {
+      "text": "simply it what we're trying to do is to",
+      "start": 142.56,
+      "duration": 4.88
+    },
+    {
+      "text": "process 10k documents. Now it usually a",
+      "start": 144.08,
+      "duration": 6.56
+    },
+    {
+      "text": "lot of you now yeah when if you have to",
+      "start": 147.44,
+      "duration": 6.24
+    },
+    {
+      "text": "process 10k with our all with our level",
+      "start": 150.64,
+      "duration": 4.319
+    },
+    {
+      "text": "of documents with our computer it's",
+      "start": 153.68,
+      "duration": 2.48
+    },
+    {
+      "text": "going to actually take us a couple of",
+      "start": 154.959,
+      "duration": 3.201
+    },
+    {
+      "text": "days if done efficiently if not it'll",
+      "start": 156.16,
+      "duration": 3.84
+    },
+    {
+      "text": "actually take weeks so that's what we're",
+      "start": 158.16,
+      "duration": 3.68
+    },
+    {
+      "text": "trying to do it very efficiently and to",
+      "start": 160.0,
+      "duration": 3.36
+    },
+    {
+      "text": "quickly give you a gist of what we're",
+      "start": 161.84,
+      "duration": 3.039
+    },
+    {
+      "text": "trying to do or what issue are we",
+      "start": 163.36,
+      "duration": 3.92
+    },
+    {
+      "text": "solving for the past 2 days one 12-hour",
+      "start": 164.879,
+      "duration": 4.241
+    },
+    {
+      "text": "live stream was totally debugging and",
+      "start": 167.28,
+      "duration": 4.0
+    },
+    {
+      "text": "that's I we can't say waste we learned a",
+      "start": 169.12,
+      "duration": 3.839
+    },
+    {
+      "text": "few things but then still it was totally",
+      "start": 171.28,
+      "duration": 3.679
+    },
+    {
+      "text": "debugging we was in the right th was in",
+      "start": 172.959,
+      "duration": 3.761
+    },
+    {
+      "text": "a wrong track. We were in a wrong track.",
+      "start": 174.959,
+      "duration": 4.081
+    },
+    {
+      "text": "So we completely ditching that and you",
+      "start": 176.72,
+      "duration": 4.4
+    },
+    {
+      "text": "know writing a new infra that will",
+      "start": 179.04,
+      "duration": 4.72
+    },
+    {
+      "text": "that's that that would actually support",
+      "start": 181.12,
+      "duration": 5.28
+    },
+    {
+      "text": "that's that's new infra that usually",
+      "start": 183.76,
+      "duration": 4.72
+    },
+    {
+      "text": "mimics how ML platforms inference",
+      "start": 186.4,
+      "duration": 4.08
+    },
+    {
+      "text": "platform sort of works and etc at scale.",
+      "start": 188.48,
+      "duration": 3.44
+    },
+    {
+      "text": "It's quite complicated. You have to",
+      "start": 190.48,
+      "duration": 3.28
+    },
+    {
+      "text": "write not complicated but quite a lot of",
+      "start": 191.92,
+      "duration": 4.64
+    },
+    {
+      "text": "work. I didn't plan for this. So yeah,",
+      "start": 193.76,
+      "duration": 3.92
+    },
+    {
+      "text": "essentially what we're trying to do is",
+      "start": 196.56,
+      "duration": 2.88
+    },
+    {
+      "text": "that do batch processing for each",
+      "start": 197.68,
+      "duration": 3.44
+    },
+    {
+      "text": "everything and use parallelism like true",
+      "start": 199.44,
+      "duration": 5.519
+    },
+    {
+      "text": "parallelism not um actually parallelism.",
+      "start": 201.12,
+      "duration": 5.199
+    },
+    {
+      "text": "Sorry I can't spell properly my English",
+      "start": 204.959,
+      "duration": 4.321
+    },
+    {
+      "text": "is quite bad. Um so yeah that's what we",
+      "start": 206.319,
+      "duration": 6.161
+    },
+    {
+      "text": "are trying to do but unfortunately we",
+      "start": 209.28,
+      "duration": 4.64
+    },
+    {
+      "text": "using dockling dockling is an",
+      "start": 212.48,
+      "duration": 4.0
+    },
+    {
+      "text": "open-source document processing service",
+      "start": 213.92,
+      "duration": 5.28
+    },
+    {
+      "text": "actually a framework not the framework",
+      "start": 216.48,
+      "duration": 4.56
+    },
+    {
+      "text": "developed by IBM they also have their",
+      "start": 219.2,
+      "duration": 3.759
+    },
+    {
+      "text": "own opensource models but we are only",
+      "start": 221.04,
+      "duration": 3.68
+    },
+    {
+      "text": "using dockling for layout detection and",
+      "start": 222.959,
+      "duration": 3.441
+    },
+    {
+      "text": "then we're using layout detection and BB",
+      "start": 224.72,
+      "duration": 3.599
+    },
+    {
+      "text": "boxes BB boxes essentially a location",
+      "start": 226.4,
+      "duration": 4.72
+    },
+    {
+      "text": "for a PDF so we are only using dockling",
+      "start": 228.319,
+      "duration": 4.64
+    },
+    {
+      "text": "for that no OCR nothing we're using",
+      "start": 231.12,
+      "duration": 3.92
+    },
+    {
+      "text": "visual images and etc we're using BLM",
+      "start": 232.959,
+      "duration": 3.92
+    },
+    {
+      "text": "that's why we using 7 billion parameter",
+      "start": 235.04,
+      "duration": 4.24
+    },
+    {
+      "text": "model. Now the issue here is that",
+      "start": 236.879,
+      "duration": 4.801
+    },
+    {
+      "text": "because Dockling uses a PDF of convert",
+      "start": 239.28,
+      "duration": 4.64
+    },
+    {
+      "text": "thing called sorry.",
+      "start": 241.68,
+      "duration": 6.04
+    },
+    {
+      "text": "Okay, guys. Just a bit.",
+      "start": 243.92,
+      "duration": 3.8
+    },
+    {
+      "text": "All",
+      "start": 424.88,
+      "duration": 2.0
+    },
+    {
+      "text": "right. Sorry guys. Um, someone important",
+      "start": 436.4,
+      "duration": 5.199
+    },
+    {
+      "text": "called me. Yeah. So, I don't know what I",
+      "start": 439.28,
+      "duration": 3.919
+    },
+    {
+      "text": "was mention what I was talking about.",
+      "start": 441.599,
+      "duration": 3.361
+    },
+    {
+      "text": "But yeah, essentially what what the",
+      "start": 443.199,
+      "duration": 3.681
+    },
+    {
+      "text": "issue with dockling is that it's you",
+      "start": 444.96,
+      "duration": 4.079
+    },
+    {
+      "text": "it's using a p it's it's depend totally",
+      "start": 446.88,
+      "duration": 4.719
+    },
+    {
+      "text": "dependent on this package called this",
+      "start": 449.039,
+      "duration": 6.801
+    },
+    {
+      "text": "weird package uh pdf name called pdm pi",
+      "start": 451.599,
+      "duration": 6.081
+    },
+    {
+      "text": "pdfm2",
+      "start": 455.84,
+      "duration": 3.759
+    },
+    {
+      "text": "I don't know how you spell this is it's",
+      "start": 457.68,
+      "duration": 5.919
+    },
+    {
+      "text": "pi pdfm or ppdfm or something whatever",
+      "start": 459.599,
+      "duration": 6.241
+    },
+    {
+      "text": "but then this is what you're using for",
+      "start": 463.599,
+      "duration": 4.561
+    },
+    {
+      "text": "uh the entire pdf processing view",
+      "start": 465.84,
+      "duration": 3.919
+    },
+    {
+      "text": "viewing images getting the location of",
+      "start": 468.16,
+      "duration": 3.92
+    },
+    {
+      "text": "bounding boxes and etc. Now the thing is",
+      "start": 469.759,
+      "duration": 5.361
+    },
+    {
+      "text": "like this this h this by default you",
+      "start": 472.08,
+      "duration": 5.2
+    },
+    {
+      "text": "know wherever application you use you",
+      "start": 475.12,
+      "duration": 5.519
+    },
+    {
+      "text": "can see over here they have a very they",
+      "start": 477.28,
+      "duration": 4.4
+    },
+    {
+      "text": "don't support you can do",
+      "start": 480.639,
+      "duration": 3.28
+    },
+    {
+      "text": "multipprocessing but they don't process",
+      "start": 481.68,
+      "duration": 3.519
+    },
+    {
+      "text": "they don't they have a lot of issues",
+      "start": 483.919,
+      "duration": 3.761
+    },
+    {
+      "text": "with threading so in cap you can see",
+      "start": 485.199,
+      "duration": 4.881
+    },
+    {
+      "text": "that in compatibility with threading so",
+      "start": 487.68,
+      "duration": 4.32
+    },
+    {
+      "text": "because of that even though the",
+      "start": 490.08,
+      "duration": 3.76
+    },
+    {
+      "text": "documents are itself processed",
+      "start": 492.0,
+      "duration": 5.12
+    },
+    {
+      "text": "parallelly through PDF threads in every",
+      "start": 493.84,
+      "duration": 6.56
+    },
+    {
+      "text": "GPU in the GPU basically this threading",
+      "start": 497.12,
+      "duration": 6.16
+    },
+    {
+      "text": "is actually locked locking each PDF this",
+      "start": 500.4,
+      "duration": 4.239
+    },
+    {
+      "text": "particular package locking the thread",
+      "start": 503.28,
+      "duration": 4.56
+    },
+    {
+      "text": "for everything and then basically",
+      "start": 504.639,
+      "duration": 5.28
+    },
+    {
+      "text": "serializing the entire process. So what",
+      "start": 507.84,
+      "duration": 4.079
+    },
+    {
+      "text": "essentially means is that usually to",
+      "start": 509.919,
+      "duration": 4.401
+    },
+    {
+      "text": "convert the document it takes 50 seconds",
+      "start": 511.919,
+      "duration": 4.161
+    },
+    {
+      "text": "for a 70page document 50 seconds and",
+      "start": 514.32,
+      "duration": 4.0
+    },
+    {
+      "text": "that's a very good number to be honest.",
+      "start": 516.08,
+      "duration": 6.8
+    },
+    {
+      "text": "Um but because we have this and usually",
+      "start": 518.32,
+      "duration": 6.0
+    },
+    {
+      "text": "what you want to do if you parallelize",
+      "start": 522.88,
+      "duration": 4.72
+    },
+    {
+      "text": "it parallelize it. Yeah, parallel. If",
+      "start": 524.32,
+      "duration": 5.36
+    },
+    {
+      "text": "you if you do it in parallel, you would",
+      "start": 527.6,
+      "duration": 4.32
+    },
+    {
+      "text": "actually finish three documents in 50",
+      "start": 529.68,
+      "duration": 4.24
+    },
+    {
+      "text": "seconds. That's the advant that's what",
+      "start": 531.92,
+      "duration": 4.8
+    },
+    {
+      "text": "we want. But because of this issue, the",
+      "start": 533.92,
+      "duration": 4.08
+    },
+    {
+      "text": "entire three documents would actually",
+      "start": 536.72,
+      "duration": 3.36
+    },
+    {
+      "text": "take 50 seconds. Each document will take",
+      "start": 538.0,
+      "duration": 5.839
+    },
+    {
+      "text": "50 seconds, but still it'll adapt to the",
+      "start": 540.08,
+      "duration": 5.68
+    },
+    {
+      "text": "sequential processing. In this case,",
+      "start": 543.839,
+      "duration": 3.921
+    },
+    {
+      "text": "basically your we are literally not",
+      "start": 545.76,
+      "duration": 3.68
+    },
+    {
+      "text": "processing anything sequentially even",
+      "start": 547.76,
+      "duration": 5.12
+    },
+    {
+      "text": "though we do a lot of work.",
+      "start": 549.44,
+      "duration": 6.16
+    },
+    {
+      "text": "So that's the what you call that's the",
+      "start": 552.88,
+      "duration": 4.16
+    },
+    {
+      "text": "issue we have. So because of that what",
+      "start": 555.6,
+      "duration": 3.76
+    },
+    {
+      "text": "we're trying to do because we have 96 GB",
+      "start": 557.04,
+      "duration": 7.44
+    },
+    {
+      "text": "of GPU or sorry GPU VRAM what the the 30",
+      "start": 559.36,
+      "duration": 7.2
+    },
+    {
+      "text": "billion version model itself is only 34",
+      "start": 564.48,
+      "duration": 4.479
+    },
+    {
+      "text": "34GB right and we have 50 GB odd left",
+      "start": 566.56,
+      "duration": 3.68
+    },
+    {
+      "text": "what we're trying to do is that",
+      "start": 568.959,
+      "duration": 3.361
+    },
+    {
+      "text": "initially all the documents we use",
+      "start": 570.24,
+      "duration": 4.64
+    },
+    {
+      "text": "dockling to process and then we use what",
+      "start": 572.32,
+      "duration": 4.8
+    },
+    {
+      "text": "we do that we process all the stuff on",
+      "start": 574.88,
+      "duration": 4.0
+    },
+    {
+      "text": "dockling and then we don't call dockling",
+      "start": 577.12,
+      "duration": 3.6
+    },
+    {
+      "text": "once again we have a GPU level we call",
+      "start": 578.88,
+      "duration": 3.84
+    },
+    {
+      "text": "it and then save it in the CPU worker",
+      "start": 580.72,
+      "duration": 4.32
+    },
+    {
+      "text": "and now what we'll c it up and then we",
+      "start": 582.72,
+      "duration": 4.559
+    },
+    {
+      "text": "will we will not use dockling one more",
+      "start": 585.04,
+      "duration": 3.68
+    },
+    {
+      "text": "time. Now the thing is like this before",
+      "start": 587.279,
+      "duration": 3.521
+    },
+    {
+      "text": "we had a lot of inefficiencies where",
+      "start": 588.72,
+      "duration": 3.679
+    },
+    {
+      "text": "dockling was called a couple of times",
+      "start": 590.8,
+      "duration": 3.2
+    },
+    {
+      "text": "cuz when we when you code we don't",
+      "start": 592.399,
+      "duration": 2.88
+    },
+    {
+      "text": "literally know right you know whether",
+      "start": 594.0,
+      "duration": 3.04
+    },
+    {
+      "text": "dockling is good whether I mean we don't",
+      "start": 595.279,
+      "duration": 3.281
+    },
+    {
+      "text": "plan for a lot of the treading and stuff",
+      "start": 597.04,
+      "duration": 3.12
+    },
+    {
+      "text": "at least I didn't plan for it it was",
+      "start": 598.56,
+      "duration": 2.959
+    },
+    {
+      "text": "actually like a sample project I wanted",
+      "start": 600.16,
+      "duration": 3.6
+    },
+    {
+      "text": "to work on but now at 10k documents I'm",
+      "start": 601.519,
+      "duration": 3.601
+    },
+    {
+      "text": "facing this issue this is an infra",
+      "start": 603.76,
+      "duration": 3.04
+    },
+    {
+      "text": "problem not an aim problem it's actually",
+      "start": 605.12,
+      "duration": 3.839
+    },
+    {
+      "text": "infra problem and I'm not an expert in",
+      "start": 606.8,
+      "duration": 3.92
+    },
+    {
+      "text": "infra so of course I was you know",
+      "start": 608.959,
+      "duration": 3.44
+    },
+    {
+      "text": "researching kapa trying a couple of",
+      "start": 610.72,
+      "duration": 2.88
+    },
+    {
+      "text": "other ways and people who are smart",
+      "start": 612.399,
+      "duration": 2.801
+    },
+    {
+      "text": "would easily would have figured this out",
+      "start": 613.6,
+      "duration": 3.04
+    },
+    {
+      "text": "but for me it took a little bit of time",
+      "start": 615.2,
+      "duration": 2.56
+    },
+    {
+      "text": "but still we figured figure this out.",
+      "start": 616.64,
+      "duration": 2.72
+    },
+    {
+      "text": "Not still figure it out. We're still",
+      "start": 617.76,
+      "duration": 3.28
+    },
+    {
+      "text": "working on it. But essentially what",
+      "start": 619.36,
+      "duration": 3.84
+    },
+    {
+      "text": "we're trying to do is that we have 8 95",
+      "start": 621.04,
+      "duration": 5.52
+    },
+    {
+      "text": "50GB left. And because we have 50GB",
+      "start": 623.2,
+      "duration": 7.199
+    },
+    {
+      "text": "left, we take um what we do is that we",
+      "start": 626.56,
+      "duration": 7.279
+    },
+    {
+      "text": "take uh uh we have 50 50GB left and we",
+      "start": 630.399,
+      "duration": 5.041
+    },
+    {
+      "text": "also have 30GB on the model. There's two",
+      "start": 633.839,
+      "duration": 3.041
+    },
+    {
+      "text": "ways of doing it. What we're trying to",
+      "start": 635.44,
+      "duration": 4.48
+    },
+    {
+      "text": "essentially do is that we take the 50GB",
+      "start": 636.88,
+      "duration": 5.199
+    },
+    {
+      "text": "and then we use that for dockling. So",
+      "start": 639.92,
+      "duration": 4.159
+    },
+    {
+      "text": "one dockling will have 7GB. It usually",
+      "start": 642.079,
+      "duration": 4.081
+    },
+    {
+      "text": "takes about 6GB per dockling. will at",
+      "start": 644.079,
+      "duration": 3.921
+    },
+    {
+      "text": "worst case to 7GB depending on the",
+      "start": 646.16,
+      "duration": 4.72
+    },
+    {
+      "text": "documents and pages and etc. At worst",
+      "start": 648.0,
+      "duration": 5.92
+    },
+    {
+      "text": "case 7 and if you divide that by 50 you",
+      "start": 650.88,
+      "duration": 4.48
+    },
+    {
+      "text": "can actually run seven workers",
+      "start": 653.92,
+      "duration": 2.88
+    },
+    {
+      "text": "parallely. Basically what we're trying",
+      "start": 655.36,
+      "duration": 3.36
+    },
+    {
+      "text": "to do is that we you know the thread",
+      "start": 656.8,
+      "duration": 3.84
+    },
+    {
+      "text": "lock is still there but the thread lock",
+      "start": 658.72,
+      "duration": 5.44
+    },
+    {
+      "text": "is only locked at a core level. So we",
+      "start": 660.64,
+      "duration": 5.199
+    },
+    {
+      "text": "still parallelizing it. It's still",
+      "start": 664.16,
+      "duration": 3.44
+    },
+    {
+      "text": "locked but we have four services",
+      "start": 665.839,
+      "duration": 5.68
+    },
+    {
+      "text": "running. So port 801 8034 805 whatever.",
+      "start": 667.6,
+      "duration": 5.44
+    },
+    {
+      "text": "So you get the point and then we're",
+      "start": 671.519,
+      "duration": 2.88
+    },
+    {
+      "text": "trying to parallelize this. Now the",
+      "start": 673.04,
+      "duration": 2.72
+    },
+    {
+      "text": "thing is that good thing is that initial",
+      "start": 674.399,
+      "duration": 3.041
+    },
+    {
+      "text": "docu document dockling process it will",
+      "start": 675.76,
+      "duration": 3.68
+    },
+    {
+      "text": "only run initially after we save that",
+      "start": 677.44,
+      "duration": 3.839
+    },
+    {
+      "text": "particular dockling document you know",
+      "start": 679.44,
+      "duration": 4.24
+    },
+    {
+      "text": "class we don't call it right so if you",
+      "start": 681.279,
+      "duration": 4.56
+    },
+    {
+      "text": "don't call it next time then we better",
+      "start": 683.68,
+      "duration": 4.48
+    },
+    {
+      "text": "you know get rid of the GB of that model",
+      "start": 685.839,
+      "duration": 4.0
+    },
+    {
+      "text": "and then we process dockling and then",
+      "start": 688.16,
+      "duration": 3.52
+    },
+    {
+      "text": "offload the dockling GPU and then again",
+      "start": 689.839,
+      "duration": 4.961
+    },
+    {
+      "text": "bring back WM and entirely open up 34",
+      "start": 691.68,
+      "duration": 5.44
+    },
+    {
+      "text": "gig and of course you need 50 GB for KV",
+      "start": 694.8,
+      "duration": 3.84
+    },
+    {
+      "text": "cache or parallel processing but the",
+      "start": 697.12,
+      "duration": 2.959
+    },
+    {
+      "text": "advantage here is that you can do batch",
+      "start": 698.64,
+      "duration": 3.04
+    },
+    {
+      "text": "processing and then you can make that",
+      "start": 700.079,
+      "duration": 3.681
+    },
+    {
+      "text": "efficient so easily you can do 35",
+      "start": 701.68,
+      "duration": 4.399
+    },
+    {
+      "text": "70 depending 75 70 is a big number. You",
+      "start": 703.76,
+      "duration": 4.079
+    },
+    {
+      "text": "have to find the sweet spot there",
+      "start": 706.079,
+      "duration": 3.361
+    },
+    {
+      "text": "because workers you don't want to get",
+      "start": 707.839,
+      "duration": 3.601
+    },
+    {
+      "text": "into GPU congestion as well. You should",
+      "start": 709.44,
+      "duration": 4.639
+    },
+    {
+      "text": "find the sweet spot there. Uh yeah but",
+      "start": 711.44,
+      "duration": 4.48
+    },
+    {
+      "text": "essentially that is the plan. So what",
+      "start": 714.079,
+      "duration": 4.161
+    },
+    {
+      "text": "we're trying to do first is to support",
+      "start": 715.92,
+      "duration": 4.96
+    },
+    {
+      "text": "have 8012 to 83 just basically try to",
+      "start": 718.24,
+      "duration": 4.56
+    },
+    {
+      "text": "figure this out and then once we really",
+      "start": 720.88,
+      "duration": 3.519
+    },
+    {
+      "text": "validate that's actually because we",
+      "start": 722.8,
+      "duration": 2.8
+    },
+    {
+      "text": "don't never know until you process it",
+      "start": 724.399,
+      "duration": 2.161
+    },
+    {
+      "text": "you'll never know whether it's actually",
+      "start": 725.6,
+      "duration": 2.88
+    },
+    {
+      "text": "a sequential or parallel. Once we know",
+      "start": 726.56,
+      "duration": 3.839
+    },
+    {
+      "text": "each document takes 50 and actually the",
+      "start": 728.48,
+      "duration": 3.44
+    },
+    {
+      "text": "entire three documents takes less than",
+      "start": 730.399,
+      "duration": 4.081
+    },
+    {
+      "text": "60 seconds or a minute maybe like a very",
+      "start": 731.92,
+      "duration": 4.56
+    },
+    {
+      "text": "small very small five to 10 seconds",
+      "start": 734.48,
+      "duration": 4.0
+    },
+    {
+      "text": "difference we want to try so slowly down",
+      "start": 736.48,
+      "duration": 3.919
+    },
+    {
+      "text": "if this only works we'll jump into the",
+      "start": 738.48,
+      "duration": 3.12
+    },
+    {
+      "text": "other part so that's what's really",
+      "start": 740.399,
+      "duration": 4.88
+    },
+    {
+      "text": "happening over here so yeah if if you",
+      "start": 741.6,
+      "duration": 6.239
+    },
+    {
+      "text": "want if you if you I hope you got it but",
+      "start": 745.279,
+      "duration": 4.081
+    },
+    {
+      "text": "you probably have to check on the last",
+      "start": 747.839,
+      "duration": 3.281
+    },
+    {
+      "text": "few streams at least the last stream on",
+      "start": 749.36,
+      "duration": 3.52
+    },
+    {
+      "text": "the issue we actually dealing with and",
+      "start": 751.12,
+      "duration": 3.6
+    },
+    {
+      "text": "still it's an issue we not solved it but",
+      "start": 752.88,
+      "duration": 4.56
+    },
+    {
+      "text": "hopefully I'm hoping we can solve this",
+      "start": 754.72,
+      "duration": 5.84
+    },
+    {
+      "text": "Cool. Now what's next?",
+      "start": 757.44,
+      "duration": 5.199
+    },
+    {
+      "text": "Okay. Now uh so actually if you want to",
+      "start": 760.56,
+      "duration": 3.839
+    },
+    {
+      "text": "see we have a we have something called",
+      "start": 762.639,
+      "duration": 2.961
+    },
+    {
+      "text": "production architecture here. This is",
+      "start": 764.399,
+      "duration": 2.721
+    },
+    {
+      "text": "what we're working on. And I'm going to",
+      "start": 765.6,
+      "duration": 3.919
+    },
+    {
+      "text": "quickly show you the like. So we have",
+      "start": 767.12,
+      "duration": 4.399
+    },
+    {
+      "text": "phases over here, right? This is phase",
+      "start": 769.519,
+      "duration": 4.081
+    },
+    {
+      "text": "one. This is phase two. This is phase",
+      "start": 771.519,
+      "duration": 3.681
+    },
+    {
+      "text": "three. This is phase four. This is phase",
+      "start": 773.6,
+      "duration": 3.44
+    },
+    {
+      "text": "five. Phase six and all of this phases.",
+      "start": 775.2,
+      "duration": 3.84
+    },
+    {
+      "text": "We have all of this stuff. What we",
+      "start": 777.04,
+      "duration": 6.16
+    },
+    {
+      "text": "essentially trying to do is that um we",
+      "start": 779.04,
+      "duration": 5.919
+    },
+    {
+      "text": "are we are working on each phase by",
+      "start": 783.2,
+      "duration": 3.36
+    },
+    {
+      "text": "phase. For example, this phase I have a",
+      "start": 784.959,
+      "duration": 3.12
+    },
+    {
+      "text": "document here called phase one dockling",
+      "start": 786.56,
+      "duration": 3.92
+    },
+    {
+      "text": "server and you can see the entire this",
+      "start": 788.079,
+      "duration": 4.961
+    },
+    {
+      "text": "entire document is about 1,60 lines and",
+      "start": 790.48,
+      "duration": 4.4
+    },
+    {
+      "text": "I document everything in terms of the",
+      "start": 793.04,
+      "duration": 3.599
+    },
+    {
+      "text": "plan in terms of the diagrams in terms",
+      "start": 794.88,
+      "duration": 3.84
+    },
+    {
+      "text": "of you know the issues we face why we",
+      "start": 796.639,
+      "duration": 3.841
+    },
+    {
+      "text": "changed it why are we not changing it",
+      "start": 798.72,
+      "duration": 3.6
+    },
+    {
+      "text": "what's our future plan and all of those",
+      "start": 800.48,
+      "duration": 3.84
+    },
+    {
+      "text": "stuff this essentially acts like this is",
+      "start": 802.32,
+      "duration": 4.8
+    },
+    {
+      "text": "a small hack that you can do to manage",
+      "start": 804.32,
+      "duration": 4.079
+    },
+    {
+      "text": "sort of the memory of it because what",
+      "start": 807.12,
+      "duration": 2.32
+    },
+    {
+      "text": "you have to do is that when you work on",
+      "start": 808.399,
+      "duration": 2.961
+    },
+    {
+      "text": "a stuff like this a lot of stuff change",
+      "start": 809.44,
+      "duration": 3.36
+    },
+    {
+      "text": "you you suddenly get into this you",
+      "start": 811.36,
+      "duration": 3.039
+    },
+    {
+      "text": "suddenly get into progress you suddenly",
+      "start": 812.8,
+      "duration": 3.279
+    },
+    {
+      "text": "get in a services you suddenly get on",
+      "start": 814.399,
+      "duration": 4.401
+    },
+    {
+      "text": "VLM and all of those crap will happen.",
+      "start": 816.079,
+      "duration": 4.721
+    },
+    {
+      "text": "So essentially what we are trying to do",
+      "start": 818.8,
+      "duration": 4.719
+    },
+    {
+      "text": "is that we are having like um like like",
+      "start": 820.8,
+      "duration": 4.56
+    },
+    {
+      "text": "a timeline sort of doc where you put in",
+      "start": 823.519,
+      "duration": 3.921
+    },
+    {
+      "text": "all the stuff that goes into each phases",
+      "start": 825.36,
+      "duration": 3.84
+    },
+    {
+      "text": "and lock it into a phase. So then when",
+      "start": 827.44,
+      "duration": 3.44
+    },
+    {
+      "text": "you work on second phase you just read",
+      "start": 829.2,
+      "duration": 3.199
+    },
+    {
+      "text": "the entire phase one that gives you",
+      "start": 830.88,
+      "duration": 3.12
+    },
+    {
+      "text": "relevant context in the decisions you've",
+      "start": 832.399,
+      "duration": 3.841
+    },
+    {
+      "text": "made you what was your thinking pattern",
+      "start": 834.0,
+      "duration": 4.639
+    },
+    {
+      "text": "what was your rational behind certain",
+      "start": 836.24,
+      "duration": 3.599
+    },
+    {
+      "text": "decisions you've made in terms of",
+      "start": 838.639,
+      "duration": 2.961
+    },
+    {
+      "text": "architecture and then you continue from",
+      "start": 839.839,
+      "duration": 3.841
+    },
+    {
+      "text": "that spot and this will definitely and",
+      "start": 841.6,
+      "duration": 3.2
+    },
+    {
+      "text": "you can definitely see you can't",
+      "start": 843.68,
+      "duration": 2.8
+    },
+    {
+      "text": "literally prompt this up to cloud and",
+      "start": 844.8,
+      "duration": 3.12
+    },
+    {
+      "text": "you can't tell cloud please go ahead and",
+      "start": 846.48,
+      "duration": 3.2
+    },
+    {
+      "text": "check this out to gather relevant",
+      "start": 847.92,
+      "duration": 3.12
+    },
+    {
+      "text": "context and come back you'll miss a lot",
+      "start": 849.68,
+      "duration": 3.2
+    },
+    {
+      "text": "of things you have to you have to you",
+      "start": 851.04,
+      "duration": 3.84
+    },
+    {
+      "text": "have to scope all decision points so",
+      "start": 852.88,
+      "duration": 3.44
+    },
+    {
+      "text": "it's like a small tip I want to give you",
+      "start": 854.88,
+      "duration": 2.72
+    },
+    {
+      "text": "if you're starting off building some",
+      "start": 856.32,
+      "duration": 3.28
+    },
+    {
+      "text": "decent project or decent medium size",
+      "start": 857.6,
+      "duration": 3.599
+    },
+    {
+      "text": "small complex or whatever the project",
+      "start": 859.6,
+      "duration": 3.359
+    },
+    {
+      "text": "for small projects not needed one file",
+      "start": 861.199,
+      "duration": 3.841
+    },
+    {
+      "text": "is enough for this I'm sort of following",
+      "start": 862.959,
+      "duration": 3.44
+    },
+    {
+      "text": "this maybe this might change in the",
+      "start": 865.04,
+      "duration": 2.96
+    },
+    {
+      "text": "future it is something good that you can",
+      "start": 866.399,
+      "duration": 3.44
+    },
+    {
+      "text": "follow as well it has saved me tons of",
+      "start": 868.0,
+      "duration": 4.48
+    },
+    {
+      "text": "time tons of hours in debugging but",
+      "start": 869.839,
+      "duration": 5.521
+    },
+    {
+      "text": "still I spend 12 hours in debugging",
+      "start": 872.48,
+      "duration": 4.479
+    },
+    {
+      "text": "because of the wrong planning or maybe",
+      "start": 875.36,
+      "duration": 4.88
+    },
+    {
+      "text": "the uh I'm very inexperienced in uh uh",
+      "start": 876.959,
+      "duration": 5.921
+    },
+    {
+      "text": "the infra part of it I think and yeah",
+      "start": 880.24,
+      "duration": 7.2
+    },
+    {
+      "text": "yeah cool um and uh yeah so what we have",
+      "start": 882.88,
+      "duration": 8.079
+    },
+    {
+      "text": "to do here Next is that",
+      "start": 887.44,
+      "duration": 5.839
+    },
+    {
+      "text": "what's",
+      "start": 890.959,
+      "duration": 6.801
+    },
+    {
+      "text": "pending on phase one",
+      "start": 893.279,
+      "duration": 7.481
+    },
+    {
+      "text": "what's",
+      "start": 897.76,
+      "duration": 3.0
+    },
+    {
+      "text": "true.",
+      "start": 908.48,
+      "duration": 4.32
+    },
+    {
+      "text": "So then you can so so literally what you",
+      "start": 910.32,
+      "duration": 4.48
+    },
+    {
+      "text": "can do the advantage of is that you have",
+      "start": 912.8,
+      "duration": 3.44
+    },
+    {
+      "text": "everything made you have all the changes",
+      "start": 914.8,
+      "duration": 3.599
+    },
+    {
+      "text": "of course this can change everything can",
+      "start": 916.24,
+      "duration": 7.0
+    },
+    {
+      "text": "change. So yeah",
+      "start": 918.399,
+      "duration": 4.841
+    },
+    {
+      "text": "coffee is one complete what's spending",
+      "start": 947.76,
+      "duration": 6.4
+    },
+    {
+      "text": "based on a PDF to achieve 50 second",
+      "start": 951.6,
+      "duration": 4.64
+    },
+    {
+      "text": "targets for three docs we need to do all",
+      "start": 954.16,
+      "duration": 4.16
+    },
+    {
+      "text": "of this option before option A set up",
+      "start": 956.24,
+      "duration": 5.2
+    },
+    {
+      "text": "three in instances now start two",
+      "start": 958.32,
+      "duration": 5.199
+    },
+    {
+      "text": "instances on port add simple uh round",
+      "start": 961.44,
+      "duration": 4.48
+    },
+    {
+      "text": "robin for dockling validate three docs",
+      "start": 963.519,
+      "duration": 4.0
+    },
+    {
+      "text": "and process. Let's go with actually",
+      "start": 965.92,
+      "duration": 5.8
+    },
+    {
+      "text": "option one. Okay.",
+      "start": 967.519,
+      "duration": 4.201
+    },
+    {
+      "text": "And to be honest, I've learned so much",
+      "start": 984.24,
+      "duration": 3.68
+    },
+    {
+      "text": "from claude itself. If cla if I didn't",
+      "start": 985.92,
+      "duration": 3.76
+    },
+    {
+      "text": "have claude could never this is like",
+      "start": 987.92,
+      "duration": 3.919
+    },
+    {
+      "text": "this will take me like months to figure",
+      "start": 989.68,
+      "duration": 3.68
+    },
+    {
+      "text": "out and learn. I'll probably stop in the",
+      "start": 991.839,
+      "duration": 4.481
+    },
+    {
+      "text": "middle. This is very useful. So default",
+      "start": 993.36,
+      "duration": 6.479
+    },
+    {
+      "text": "instances 0 1 0 1 0 02.",
+      "start": 996.32,
+      "duration": 5.92
+    },
+    {
+      "text": "Now again I did mention before that you",
+      "start": 999.839,
+      "duration": 4.56
+    },
+    {
+      "text": "know we this is just dummy. Three is",
+      "start": 1002.24,
+      "duration": 4.08
+    },
+    {
+      "text": "dummy. We'll find the sweet spot. We'll",
+      "start": 1004.399,
+      "duration": 3.761
+    },
+    {
+      "text": "do all of those you know managing stuff",
+      "start": 1006.32,
+      "duration": 3.84
+    },
+    {
+      "text": "later. But three works then we know it",
+      "start": 1008.16,
+      "duration": 3.84
+    },
+    {
+      "text": "works that parallel stuff is working.",
+      "start": 1010.16,
+      "duration": 4.0
+    },
+    {
+      "text": "Just simply take like very small steps",
+      "start": 1012.0,
+      "duration": 4.639
+    },
+    {
+      "text": "and you know build it out. So instances",
+      "start": 1014.16,
+      "duration": 7.0
+    },
+    {
+      "text": "you have round robin. Click on enter.",
+      "start": 1016.639,
+      "duration": 4.521
+    },
+    {
+      "text": "So even if it if one document takes uh",
+      "start": 1192.64,
+      "duration": 5.12
+    },
+    {
+      "text": "right now it takes 50 seconds with VLM",
+      "start": 1195.919,
+      "duration": 3.441
+    },
+    {
+      "text": "processing we'll estimate it takes two",
+      "start": 1197.76,
+      "duration": 4.56
+    },
+    {
+      "text": "to and depends on every page and all. So",
+      "start": 1199.36,
+      "duration": 5.28
+    },
+    {
+      "text": "even if it takes 2 minutes or 3 minutes",
+      "start": 1202.32,
+      "duration": 5.44
+    },
+    {
+      "text": "worst case 3 minutes for one document",
+      "start": 1204.64,
+      "duration": 7.159
+    },
+    {
+      "text": "then with 10,000 documents",
+      "start": 1207.76,
+      "duration": 4.039
+    },
+    {
+      "text": "and three actually no we're doing",
+      "start": 1212.88,
+      "duration": 7.0
+    },
+    {
+      "text": "parallel right then do my",
+      "start": 1214.96,
+      "duration": 4.92
+    },
+    {
+      "text": "dom command",
+      "start": 1225.12,
+      "duration": 3.559
+    },
+    {
+      "text": "3 minutes per document.",
+      "start": 1233.44,
+      "duration": 5.04
+    },
+    {
+      "text": "Uh 10 documents,",
+      "start": 1235.84,
+      "duration": 7.0
+    },
+    {
+      "text": "sorry, actually 3 minutes per document.",
+      "start": 1238.48,
+      "duration": 4.36
+    },
+    {
+      "text": "Seven documents per",
+      "start": 1243.039,
+      "duration": 5.76
+    },
+    {
+      "text": "per given time",
+      "start": 1246.799,
+      "duration": 3.841
+    },
+    {
+      "text": "or parallelly.",
+      "start": 1248.799,
+      "duration": 3.36
+    },
+    {
+      "text": "How much time will you take for 10,000?",
+      "start": 1250.64,
+      "duration": 3.12
+    },
+    {
+      "text": "That means",
+      "start": 1252.159,
+      "duration": 4.0
+    },
+    {
+      "text": "still days. We're looking at days but",
+      "start": 1253.76,
+      "duration": 4.32
+    },
+    {
+      "text": "initially we had like one of the worst",
+      "start": 1256.159,
+      "duration": 4.0
+    },
+    {
+      "text": "cases you know with all this stuff we",
+      "start": 1258.08,
+      "duration": 5.04
+    },
+    {
+      "text": "even estimated ahead of 29 days nearly a",
+      "start": 1260.159,
+      "duration": 5.52
+    },
+    {
+      "text": "month so this will actually take 3 days",
+      "start": 1263.12,
+      "duration": 6.08
+    },
+    {
+      "text": "71 hours good that's enough and I mean",
+      "start": 1265.679,
+      "duration": 5.841
+    },
+    {
+      "text": "nothing is stopping us after a day we",
+      "start": 1269.2,
+      "duration": 3.839
+    },
+    {
+      "text": "have like we'll have like 3,000",
+      "start": 1271.52,
+      "duration": 5.8
+    },
+    {
+      "text": "documents we can start working with it",
+      "start": 1273.039,
+      "duration": 4.281
+    },
+    {
+      "text": "s",
+      "start": 1277.52,
+      "duration": 3.0
+    },
+    {
+      "text": "on this.",
+      "start": 1287.12,
+      "duration": 3.32
+    },
+    {
+      "text": "Nothing is being loaded but I'm sure I",
+      "start": 1492.96,
+      "duration": 4.8
+    },
+    {
+      "text": "won't but I not now but I've usually",
+      "start": 1495.279,
+      "duration": 4.4
+    },
+    {
+      "text": "seen that once we hit start hitting the",
+      "start": 1497.76,
+      "duration": 6.2
+    },
+    {
+      "text": "request the model starts to load.",
+      "start": 1499.679,
+      "duration": 4.281
+    },
+    {
+      "text": "So instance,",
+      "start": 1603.36,
+      "duration": 3.48
+    },
+    {
+      "text": "so I'm going to make this",
+      "start": 1611.279,
+      "duration": 6.28
+    },
+    {
+      "text": "run here.",
+      "start": 1614.24,
+      "duration": 3.319
+    },
+    {
+      "text": "Huh?",
+      "start": 2132.48,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay",
+      "start": 2193.52,
+      "duration": 2.0
+    },
+    {
+      "text": "guys see the speed less than 50 seconds",
+      "start": 2205.359,
+      "duration": 6.321
+    },
+    {
+      "text": "got three of this the three three less",
+      "start": 2209.359,
+      "duration": 4.72
+    },
+    {
+      "text": "than 50 seconds for a",
+      "start": 2211.68,
+      "duration": 5.52
+    },
+    {
+      "text": "how much 2.9x speed uh less than 50",
+      "start": 2214.079,
+      "duration": 4.961
+    },
+    {
+      "text": "seconds for what is this for a 70page",
+      "start": 2217.2,
+      "duration": 4.159
+    },
+    {
+      "text": "document so just calculate the per page",
+      "start": 2219.04,
+      "duration": 4.559
+    },
+    {
+      "text": "number you go uh this is dense with",
+      "start": 2221.359,
+      "duration": 5.361
+    },
+    {
+      "text": "diagrams, formulas and etc. The land was",
+      "start": 2223.599,
+      "duration": 5.681
+    },
+    {
+      "text": "slightly slow because the loaded",
+      "start": 2226.72,
+      "duration": 4.32
+    },
+    {
+      "text": "mod was loaded first and we run again",
+      "start": 2229.28,
+      "duration": 3.92
+    },
+    {
+      "text": "with warm instances. Okay, let's try one",
+      "start": 2231.04,
+      "duration": 4.88
+    },
+    {
+      "text": "more time.",
+      "start": 2233.2,
+      "duration": 4.96
+    },
+    {
+      "text": "So this is already loaded. You can see",
+      "start": 2235.92,
+      "duration": 5.439
+    },
+    {
+      "text": "each of them uh consume about 6 GB. So",
+      "start": 2238.16,
+      "duration": 6.24
+    },
+    {
+      "text": "with 7 GB is a good number with buffer 1",
+      "start": 2241.359,
+      "duration": 7.24
+    },
+    {
+      "text": "GB you can assume it's 7GB.",
+      "start": 2244.4,
+      "duration": 4.199
+    },
+    {
+      "text": "Of",
+      "start": 2249.92,
+      "duration": 3.0
+    },
+    {
+      "text": "course, if we didn't have this dockling",
+      "start": 2255.119,
+      "duration": 4.561
+    },
+    {
+      "text": "issue with PIP PDF uh the PDF package,",
+      "start": 2257.119,
+      "duration": 4.321
+    },
+    {
+      "text": "it would have been very easy. But this",
+      "start": 2259.68,
+      "duration": 3.2
+    },
+    {
+      "text": "is a workar around. That's how you",
+      "start": 2261.44,
+      "duration": 3.44
+    },
+    {
+      "text": "should do guys. Like in like whenever",
+      "start": 2262.88,
+      "duration": 4.4
+    },
+    {
+      "text": "the things you do won't go as planned.",
+      "start": 2264.88,
+      "duration": 4.08
+    },
+    {
+      "text": "If you have to go as a plan, then you",
+      "start": 2267.28,
+      "duration": 4.0
+    },
+    {
+      "text": "should have like very good experience in",
+      "start": 2268.96,
+      "duration": 3.84
+    },
+    {
+      "text": "frameworks. And of course, I don't have",
+      "start": 2271.28,
+      "duration": 4.16
+    },
+    {
+      "text": "it. But you can't you can't for example",
+      "start": 2272.8,
+      "duration": 4.319
+    },
+    {
+      "text": "tomorrow something news come new comes",
+      "start": 2275.44,
+      "duration": 4.159
+    },
+    {
+      "text": "up. Doc releases a V2 or V3 or V7",
+      "start": 2277.119,
+      "duration": 6.0
+    },
+    {
+      "text": "whatever then yeah we lally have to",
+      "start": 2279.599,
+      "duration": 5.841
+    },
+    {
+      "text": "spend some time before you you know uh",
+      "start": 2283.119,
+      "duration": 4.24
+    },
+    {
+      "text": "for example stick to a project in big",
+      "start": 2285.44,
+      "duration": 3.76
+    },
+    {
+      "text": "very very very big projects what they do",
+      "start": 2287.359,
+      "duration": 3.681
+    },
+    {
+      "text": "is that they do like P's and then figure",
+      "start": 2289.2,
+      "duration": 3.52
+    },
+    {
+      "text": "this out but here we are not doing any",
+      "start": 2291.04,
+      "duration": 3.92
+    },
+    {
+      "text": "P's I don't have time for it so I just",
+      "start": 2292.72,
+      "duration": 4.16
+    },
+    {
+      "text": "you know straight away just improvise on",
+      "start": 2294.96,
+      "duration": 3.6
+    },
+    {
+      "text": "it and you know I'm just going in a flow",
+      "start": 2296.88,
+      "duration": 4.08
+    },
+    {
+      "text": "so whatever I think is uh good enough I",
+      "start": 2298.56,
+      "duration": 5.6
+    },
+    {
+      "text": "just go ahead and build it off that's it",
+      "start": 2300.96,
+      "duration": 5.119
+    },
+    {
+      "text": "so I don't yet have a big plan but we",
+      "start": 2304.16,
+      "duration": 4.4
+    },
+    {
+      "text": "have a goal the RFP that's what we",
+      "start": 2306.079,
+      "duration": 4.881
+    },
+    {
+      "text": "providing solution for. So here you have",
+      "start": 2308.56,
+      "duration": 4.4
+    },
+    {
+      "text": "the results success through parallelism",
+      "start": 2310.96,
+      "duration": 5.04
+    },
+    {
+      "text": "achieved nice total points 66 seconds",
+      "start": 2312.96,
+      "duration": 5.44
+    },
+    {
+      "text": "target less than 70 seconds speed up",
+      "start": 2316.0,
+      "duration": 6.16
+    },
+    {
+      "text": "2.98 nearly 3x instances used three uh",
+      "start": 2318.4,
+      "duration": 9.52
+    },
+    {
+      "text": "previous 170 improvement 61% faster.",
+      "start": 2322.16,
+      "duration": 8.64
+    },
+    {
+      "text": "So",
+      "start": 2327.92,
+      "duration": 6.24
+    },
+    {
+      "text": "yeah, we'll check the GPU",
+      "start": 2330.8,
+      "duration": 6.16
+    },
+    {
+      "text": "and you can see only how much 52 is 9.",
+      "start": 2334.16,
+      "duration": 5.679
+    },
+    {
+      "text": "Not nine actually though",
+      "start": 2336.96,
+      "duration": 6.36
+    },
+    {
+      "text": "actually five",
+      "start": 2339.839,
+      "duration": 3.481
+    },
+    {
+      "text": "66 seconds for three dos. That's a good",
+      "start": 2344.72,
+      "duration": 5.0
+    },
+    {
+      "text": "GP 50. I will say",
+      "start": 2353.76,
+      "duration": 7.16
+    },
+    {
+      "text": "same.",
+      "start": 2357.92,
+      "duration": 3.0
+    },
+    {
+      "text": "Yeah, which is Yeah, you have another",
+      "start": 2384.96,
+      "duration": 5.76
+    },
+    {
+      "text": "3.3 GB extra head to phase one is",
+      "start": 2387.119,
+      "duration": 5.361
+    },
+    {
+      "text": "complete. Ready to do phase two whenever",
+      "start": 2390.72,
+      "duration": 6.44
+    },
+    {
+      "text": "you are. Nice. Nice.",
+      "start": 2392.48,
+      "duration": 4.68
+    },
+    {
+      "text": "Yes.",
+      "start": 2398.16,
+      "duration": 3.0
+    },
+    {
+      "text": "We'll think about the other stuff",
+      "start": 2405.04,
+      "duration": 5.88
+    },
+    {
+      "text": "processing etc later.",
+      "start": 2407.04,
+      "duration": 3.88
+    },
+    {
+      "text": "Let's",
+      "start": 2424.0,
+      "duration": 3.0
+    },
+    {
+      "text": "have a go.",
+      "start": 2432.88,
+      "duration": 3.239
+    },
+    {
+      "text": "So essentially this is",
+      "start": 2474.319,
+      "duration": 3.28
+    },
+    {
+      "text": "Maybe this",
+      "start": 2478.16,
+      "duration": 3.48
+    },
+    {
+      "text": "Don't think",
+      "start": 2547.76,
+      "duration": 3.48
+    },
+    {
+      "text": "This is seven.",
+      "start": 2565.28,
+      "duration": 5.24
+    },
+    {
+      "text": "Okay.",
+      "start": 2567.52,
+      "duration": 3.0
+    },
+    {
+      "text": "What's happening?",
+      "start": 2667.599,
+      "duration": 5.081
+    },
+    {
+      "text": "Oops.",
+      "start": 2669.68,
+      "duration": 3.0
+    },
+    {
+      "text": "Actually, maybe we will look back into",
+      "start": 2779.599,
+      "duration": 5.281
+    },
+    {
+      "text": "this. just update the phase one document",
+      "start": 2782.24,
+      "duration": 4.8
+    },
+    {
+      "text": "you add this as a note we keep it very",
+      "start": 2784.88,
+      "duration": 4.32
+    },
+    {
+      "text": "concise and we look back into this once",
+      "start": 2787.04,
+      "duration": 4.16
+    },
+    {
+      "text": "we have the entire pipeline so once we",
+      "start": 2789.2,
+      "duration": 4.0
+    },
+    {
+      "text": "complete entire phase it's a matter of",
+      "start": 2791.2,
+      "duration": 5.04
+    },
+    {
+      "text": "just changing uh changing a little bit",
+      "start": 2793.2,
+      "duration": 6.159
+    },
+    {
+      "text": "here and there right for the GPU sorry",
+      "start": 2796.24,
+      "duration": 6.4
+    },
+    {
+      "text": "for the VLM and then the dockling it's",
+      "start": 2799.359,
+      "duration": 5.201
+    },
+    {
+      "text": "just for config so just add it as a note",
+      "start": 2802.64,
+      "duration": 4.4
+    },
+    {
+      "text": "in pay phase one we'll come back to it",
+      "start": 2804.56,
+      "duration": 5.68
+    },
+    {
+      "text": "once we have the entire flow and uh all",
+      "start": 2807.04,
+      "duration": 6.72
+    },
+    {
+      "text": "the phases done Right?",
+      "start": 2810.24,
+      "duration": 6.48
+    },
+    {
+      "text": "Cuz we in like a after a lot of issues",
+      "start": 2813.76,
+      "duration": 5.68
+    },
+    {
+      "text": "at least we have some part that we can",
+      "start": 2816.72,
+      "duration": 5.84
+    },
+    {
+      "text": "be still three or 4 days of run time but",
+      "start": 2819.44,
+      "duration": 4.56
+    },
+    {
+      "text": "we still have something we can work",
+      "start": 2822.56,
+      "duration": 3.84
+    },
+    {
+      "text": "around with. So let's not mess this up.",
+      "start": 2824.0,
+      "duration": 4.48
+    },
+    {
+      "text": "Update the progress move on for the",
+      "start": 2826.4,
+      "duration": 5.4
+    },
+    {
+      "text": "phase two.",
+      "start": 2828.48,
+      "duration": 3.32
+    },
+    {
+      "text": "Now before we run phase 2, I just want",
+      "start": 2899.44,
+      "duration": 4.24
+    },
+    {
+      "text": "to know one more thing. Now I saw that",
+      "start": 2901.599,
+      "duration": 4.401
+    },
+    {
+      "text": "per document took about 47 seconds to 50",
+      "start": 2903.68,
+      "duration": 5.679
+    },
+    {
+      "text": "seconds. And when we ran three you know",
+      "start": 2906.0,
+      "duration": 6.16
+    },
+    {
+      "text": "in each process I mean three hit three",
+      "start": 2909.359,
+      "duration": 6.48
+    },
+    {
+      "text": "of the documents hit three different um",
+      "start": 2912.16,
+      "duration": 6.399
+    },
+    {
+      "text": "um three different dockling services it",
+      "start": 2915.839,
+      "duration": 4.961
+    },
+    {
+      "text": "actually became 66 seconds but it should",
+      "start": 2918.559,
+      "duration": 4.241
+    },
+    {
+      "text": "have been around less it should have",
+      "start": 2920.8,
+      "duration": 4.16
+    },
+    {
+      "text": "been the single document hit right",
+      "start": 2922.8,
+      "duration": 4.4
+    },
+    {
+      "text": "that's what true parallelism is is right",
+      "start": 2924.96,
+      "duration": 3.76
+    },
+    {
+      "text": "like are we missing anything I just",
+      "start": 2927.2,
+      "duration": 4.919
+    },
+    {
+      "text": "wanted to know.",
+      "start": 2928.72,
+      "duration": 3.399
+    },
+    {
+      "text": "Before you code, just give me an",
+      "start": 2997.44,
+      "duration": 3.119
+    },
+    {
+      "text": "understanding of what we're building at",
+      "start": 2999.119,
+      "duration": 4.96
+    },
+    {
+      "text": "phase 2 and how uh this would serve as a",
+      "start": 3000.559,
+      "duration": 4.961
+    },
+    {
+      "text": "foundation of purpose for the phase",
+      "start": 3004.079,
+      "duration": 4.441
+    },
+    {
+      "text": "three.",
+      "start": 3005.52,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay, before we proceed, I think you",
+      "start": 3141.599,
+      "duration": 3.441
+    },
+    {
+      "text": "still have to update the production",
+      "start": 3143.28,
+      "duration": 4.0
+    },
+    {
+      "text": "architecture document and also phase one",
+      "start": 3145.04,
+      "duration": 3.36
+    },
+    {
+      "text": "document as",
+      "start": 3147.28,
+      "duration": 2.88
+    },
+    {
+      "text": "with all the current changes or whatever",
+      "start": 3148.4,
+      "duration": 4.0
+    },
+    {
+      "text": "the progress you've made. So essentially",
+      "start": 3150.16,
+      "duration": 4.32
+    },
+    {
+      "text": "you would need to read the entire file",
+      "start": 3152.4,
+      "duration": 4.4
+    },
+    {
+      "text": "both of you have to read both of them",
+      "start": 3154.48,
+      "duration": 3.92
+    },
+    {
+      "text": "and you have to read entire files the",
+      "start": 3156.8,
+      "duration": 3.92
+    },
+    {
+      "text": "entire code of both. So I would to save",
+      "start": 3158.4,
+      "duration": 4.64
+    },
+    {
+      "text": "context I would encourage you to launch",
+      "start": 3160.72,
+      "duration": 4.24
+    },
+    {
+      "text": "a sub agent with a goal to update them",
+      "start": 3163.04,
+      "duration": 4.4
+    },
+    {
+      "text": "with the progress we made so far and",
+      "start": 3164.96,
+      "duration": 6.68
+    },
+    {
+      "text": "then we can start phase two.",
+      "start": 3167.44,
+      "duration": 4.2
+    },
+    {
+      "text": "What if you do? What if we do seven?",
+      "start": 3223.76,
+      "duration": 6.88
+    },
+    {
+      "text": "Oh, that's a seven.",
+      "start": 3228.16,
+      "duration": 5.48
+    },
+    {
+      "text": "Hey, hi LLBH2. I just saw a message.",
+      "start": 3665.68,
+      "duration": 4.0
+    },
+    {
+      "text": "Sorry about that. I'm not sure if you",
+      "start": 3668.48,
+      "duration": 4.0
+    },
+    {
+      "text": "are watching it yet, but yeah, just all",
+      "start": 3669.68,
+      "duration": 4.96
+    },
+    {
+      "text": "good. How are you?",
+      "start": 3672.48,
+      "duration": 5.2
+    },
+    {
+      "text": "Um, yeah. So we're working on this a",
+      "start": 3674.64,
+      "duration": 4.959
+    },
+    {
+      "text": "little bit",
+      "start": 3677.68,
+      "duration": 3.679
+    },
+    {
+      "text": "having we're facing a bit of issues. So",
+      "start": 3679.599,
+      "duration": 4.48
+    },
+    {
+      "text": "we just we just solved it a few hours",
+      "start": 3681.359,
+      "duration": 5.121
+    },
+    {
+      "text": "ago and we just continuing to it.",
+      "start": 3684.079,
+      "duration": 4.641
+    },
+    {
+      "text": "Nothing much of an update. Still still",
+      "start": 3686.48,
+      "duration": 4.56
+    },
+    {
+      "text": "um in document processing",
+      "start": 3688.72,
+      "duration": 6.28
+    },
+    {
+      "text": "trying to complete it here.",
+      "start": 3691.04,
+      "duration": 3.96
+    },
+    {
+      "text": "Let us",
+      "start": 3704.64,
+      "duration": 3.159
+    },
+    {
+      "text": "take",
+      "start": 3717.52,
+      "duration": 3.88
+    },
+    {
+      "text": "Search.",
+      "start": 3718.4,
+      "duration": 3.0
+    },
+    {
+      "text": "Awesome. Now create a phase 2 document.",
+      "start": 3736.96,
+      "duration": 5.119
+    },
+    {
+      "text": "Put all of this information and let's",
+      "start": 3739.76,
+      "duration": 5.48
+    },
+    {
+      "text": "get started.",
+      "start": 3742.079,
+      "duration": 3.161
+    },
+    {
+      "text": "because we also got started something",
+      "start": 3755.119,
+      "duration": 2.881
+    },
+    {
+      "text": "like this with phase one and you can see",
+      "start": 3756.559,
+      "duration": 4.321
+    },
+    {
+      "text": "the number of the stuff the issues we",
+      "start": 3758.0,
+      "duration": 4.319
+    },
+    {
+      "text": "sort of with and it's probably thousand",
+      "start": 3760.88,
+      "duration": 3.28
+    },
+    {
+      "text": "pages and all of this context is very",
+      "start": 3762.319,
+      "duration": 3.601
+    },
+    {
+      "text": "necessary.",
+      "start": 3764.16,
+      "duration": 4.08
+    },
+    {
+      "text": "So yeah at least at this stage it's sort",
+      "start": 3765.92,
+      "duration": 4.08
+    },
+    {
+      "text": "of becoming a little bit more like a",
+      "start": 3768.24,
+      "duration": 3.44
+    },
+    {
+      "text": "medium medium size sort of project. So",
+      "start": 3770.0,
+      "duration": 3.68
+    },
+    {
+      "text": "then we have it's good we include phase",
+      "start": 3771.68,
+      "duration": 4.08
+    },
+    {
+      "text": "by phase information and this is all",
+      "start": 3773.68,
+      "duration": 5.679
+    },
+    {
+      "text": "updated most of the time it's updated.",
+      "start": 3775.76,
+      "duration": 6.079
+    },
+    {
+      "text": "So once it's um we have the phase two",
+      "start": 3779.359,
+      "duration": 4.561
+    },
+    {
+      "text": "document it starts and also you can see",
+      "start": 3781.839,
+      "duration": 4.881
+    },
+    {
+      "text": "context left until auto compresses 8% in",
+      "start": 3783.92,
+      "duration": 4.159
+    },
+    {
+      "text": "case you have you know you have your",
+      "start": 3786.72,
+      "duration": 2.96
+    },
+    {
+      "text": "initial basic plan and this is a very",
+      "start": 3788.079,
+      "duration": 3.121
+    },
+    {
+      "text": "good plan and with all of this",
+      "start": 3789.68,
+      "duration": 3.119
+    },
+    {
+      "text": "information your agent is actually",
+      "start": 3791.2,
+      "duration": 4.08
+    },
+    {
+      "text": "working on it and halfway it actually",
+      "start": 3792.799,
+      "duration": 4.481
+    },
+    {
+      "text": "there's an auto compact how do you get",
+      "start": 3795.28,
+      "duration": 3.44
+    },
+    {
+      "text": "this understanding all of this",
+      "start": 3797.28,
+      "duration": 3.279
+    },
+    {
+      "text": "understanding is missed these",
+      "start": 3798.72,
+      "duration": 3.2
+    },
+    {
+      "text": "understanding are quite important when",
+      "start": 3800.559,
+      "duration": 3.04
+    },
+    {
+      "text": "you when we build so many nuances are",
+      "start": 3801.92,
+      "duration": 3.04
+    },
+    {
+      "text": "there if you were to build a very small",
+      "start": 3803.599,
+      "duration": 3.52
+    },
+    {
+      "text": "application where there's no nuance very",
+      "start": 3804.96,
+      "duration": 3.68
+    },
+    {
+      "text": "small interdependencies between",
+      "start": 3807.119,
+      "duration": 4.48
+    },
+    {
+      "text": "components send fine. This is if if",
+      "start": 3808.64,
+      "duration": 4.8
+    },
+    {
+      "text": "something break breaks here then I have",
+      "start": 3811.599,
+      "duration": 4.081
+    },
+    {
+      "text": "to spend hours and hours figuring out",
+      "start": 3813.44,
+      "duration": 4.24
+    },
+    {
+      "text": "what to do and then delaying everything",
+      "start": 3815.68,
+      "duration": 4.56
+    },
+    {
+      "text": "delaying timeline etc. So safe is to you",
+      "start": 3817.68,
+      "duration": 5.919
+    },
+    {
+      "text": "know have face face like face by face",
+      "start": 3820.24,
+      "duration": 5.28
+    },
+    {
+      "text": "document you can call it field milestone",
+      "start": 3823.599,
+      "duration": 3.841
+    },
+    {
+      "text": "whatever you want just a document that",
+      "start": 3825.52,
+      "duration": 4.079
+    },
+    {
+      "text": "tracks",
+      "start": 3827.44,
+      "duration": 4.24
+    },
+    {
+      "text": "uh the progress you're trying to make.",
+      "start": 3829.599,
+      "duration": 4.561
+    },
+    {
+      "text": "So this is a good this is like 500 uh",
+      "start": 3831.68,
+      "duration": 5.76
+    },
+    {
+      "text": "lines of stuff. Uh basic stuff is there",
+      "start": 3834.16,
+      "duration": 6.24
+    },
+    {
+      "text": "things can change but",
+      "start": 3837.44,
+      "duration": 5.04
+    },
+    {
+      "text": "initial level of doc it's okay and we",
+      "start": 3840.4,
+      "duration": 5.399
+    },
+    {
+      "text": "can get started.",
+      "start": 3842.48,
+      "duration": 3.319
+    },
+    {
+      "text": "Service configuration task definition",
+      "start": 3872.559,
+      "duration": 5.76
+    },
+    {
+      "text": "main processing logic",
+      "start": 3876.0,
+      "duration": 5.119
+    },
+    {
+      "text": "workers task definitions main processing",
+      "start": 3878.319,
+      "duration": 5.361
+    },
+    {
+      "text": "logic workers",
+      "start": 3881.119,
+      "duration": 4.321
+    },
+    {
+      "text": "workers",
+      "start": 3883.68,
+      "duration": 4.08
+    },
+    {
+      "text": "for workers from docking input not",
+      "start": 3885.44,
+      "duration": 6.24
+    },
+    {
+      "text": "allowed from docking Singapore system",
+      "start": 3887.76,
+      "duration": 6.559
+    },
+    {
+      "text": "client first",
+      "start": 3891.68,
+      "duration": 7.439
+    },
+    {
+      "text": "test. Should I begin with clients",
+      "start": 3894.319,
+      "duration": 7.8
+    },
+    {
+      "text": "start?",
+      "start": 3899.119,
+      "duration": 3.0
+    },
+    {
+      "text": "8 8:15.",
+      "start": 3937.44,
+      "duration": 3.56
+    },
+    {
+      "text": "Oops. Sorry, guys.",
+      "start": 3948.96,
+      "duration": 3.639
+    },
+    {
+      "text": "Oh,",
+      "start": 3955.68,
+      "duration": 4.6
+    },
+    {
+      "text": "okay.",
+      "start": 3957.28,
+      "duration": 3.0
+    },
+    {
+      "text": "One more time.",
+      "start": 4005.44,
+      "duration": 3.48
+    },
+    {
+      "text": "Okay.",
+      "start": 4016.319,
+      "duration": 3.0
+    },
+    {
+      "text": "Sorry.",
+      "start": 4100.319,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay, I still again missed your message.",
+      "start": 4816.719,
+      "duration": 4.96
+    },
+    {
+      "text": "Uh, sorry about that. Hello. I'm doing",
+      "start": 4818.8,
+      "duration": 4.64
+    },
+    {
+      "text": "good. I'm designing a generalized hack",
+      "start": 4821.679,
+      "duration": 3.52
+    },
+    {
+      "text": "plan for enterprises which can expose a",
+      "start": 4823.44,
+      "duration": 4.239
+    },
+    {
+      "text": "chatbot for customers. Yeah, awesome.",
+      "start": 4825.199,
+      "duration": 5.04
+    },
+    {
+      "text": "Good stuff, mate. Is this contract work,",
+      "start": 4827.679,
+      "duration": 5.841
+    },
+    {
+      "text": "hobby or project? Actually",
+      "start": 4830.239,
+      "duration": 5.281
+    },
+    {
+      "text": "this is a",
+      "start": 4833.52,
+      "duration": 5.56
+    },
+    {
+      "text": "hobby project",
+      "start": 4835.52,
+      "duration": 3.56
+    },
+    {
+      "text": "project",
+      "start": 4840.239,
+      "duration": 5.201
+    },
+    {
+      "text": "but",
+      "start": 4842.56,
+      "duration": 4.639
+    },
+    {
+      "text": "uh",
+      "start": 4845.44,
+      "duration": 4.96
+    },
+    {
+      "text": "a complete",
+      "start": 4847.199,
+      "duration": 6.96
+    },
+    {
+      "text": "real world project. Yeah guys, so easily",
+      "start": 4850.4,
+      "duration": 6.759
+    },
+    {
+      "text": "uh",
+      "start": 4854.159,
+      "duration": 3.0
+    },
+    {
+      "text": "this at least 100 plus K",
+      "start": 4862.32,
+      "duration": 5.879
+    },
+    {
+      "text": "easily.",
+      "start": 4872.08,
+      "duration": 3.76
+    },
+    {
+      "text": "Of course, 100K is nothing for a project",
+      "start": 4874.0,
+      "duration": 4.88
+    },
+    {
+      "text": "like this.",
+      "start": 4875.84,
+      "duration": 6.64
+    },
+    {
+      "text": "building for solving rocket science bro",
+      "start": 4878.88,
+      "duration": 5.76
+    },
+    {
+      "text": "easily I would if I were to actually you",
+      "start": 4882.48,
+      "duration": 3.679
+    },
+    {
+      "text": "know build maybe like code for a",
+      "start": 4884.64,
+      "duration": 3.519
+    },
+    {
+      "text": "customer probably do like 250k for a",
+      "start": 4886.159,
+      "duration": 4.401
+    },
+    {
+      "text": "system like this yeah and if there I",
+      "start": 4888.159,
+      "duration": 4.08
+    },
+    {
+      "text": "have other employees and stuff like that",
+      "start": 4890.56,
+      "duration": 3.599
+    },
+    {
+      "text": "I'll easily do and I have access to a",
+      "start": 4892.239,
+      "duration": 3.521
+    },
+    {
+      "text": "lot of you know members and teams as",
+      "start": 4894.159,
+      "duration": 5.121
+    },
+    {
+      "text": "well and etc but yeah",
+      "start": 4895.76,
+      "duration": 5.28
+    },
+    {
+      "text": "um yeah definitely will take this much",
+      "start": 4899.28,
+      "duration": 3.76
+    },
+    {
+      "text": "of time",
+      "start": 4901.04,
+      "duration": 3.52
+    },
+    {
+      "text": "and not this much of time definitely it",
+      "start": 4903.04,
+      "duration": 2.56
+    },
+    {
+      "text": "will take months if you're working with",
+      "start": 4904.56,
+      "duration": 3.119
+    },
+    {
+      "text": "a big team here I'm just the only guy",
+      "start": 4905.6,
+      "duration": 4.0
+    },
+    {
+      "text": "who's working on I make the decisions",
+      "start": 4907.679,
+      "duration": 3.841
+    },
+    {
+      "text": "all make the scaling all all as quick as",
+      "start": 4909.6,
+      "duration": 5.88
+    },
+    {
+      "text": "possible. I'm just going to move on.",
+      "start": 4911.52,
+      "duration": 3.96
+    },
+    {
+      "text": "Anybody",
+      "start": 4934.159,
+      "duration": 3.0
+    },
+    {
+      "text": "All right, let's try this.",
+      "start": 5026.08,
+      "duration": 4.2
+    },
+    {
+      "text": "Whenever it reads this 200 accurately",
+      "start": 5068.0,
+      "duration": 6.0
+    },
+    {
+      "text": "lines, you know for a fact that's",
+      "start": 5070.88,
+      "duration": 4.64
+    },
+    {
+      "text": "it's",
+      "start": 5074.0,
+      "duration": 4.08
+    },
+    {
+      "text": "not accurate. It's actually reading not",
+      "start": 5075.52,
+      "duration": 5.44
+    },
+    {
+      "text": "the full thing. Let's check unified",
+      "start": 5078.08,
+      "duration": 5.04
+    },
+    {
+      "text": "chunk",
+      "start": 5080.96,
+      "duration": 5.679
+    },
+    {
+      "text": "source. Unifi chunk is a huge file. See",
+      "start": 5083.12,
+      "duration": 6.519
+    },
+    {
+      "text": "626.",
+      "start": 5086.639,
+      "duration": 3.0
+    },
+    {
+      "text": "I know I tried. So 200 + 4 is 47. So I",
+      "start": 5093.679,
+      "duration": 6.761
+    },
+    {
+      "text": "tried everything I think.",
+      "start": 5096.639,
+      "duration": 3.801
+    },
+    {
+      "text": "Also confirming that you read the entire",
+      "start": 5116.48,
+      "duration": 4.48
+    },
+    {
+      "text": "unified chunker, right?",
+      "start": 5118.32,
+      "duration": 4.48
+    },
+    {
+      "text": "Like the full file because all the",
+      "start": 5120.96,
+      "duration": 3.6
+    },
+    {
+      "text": "context is very necessary. If you read",
+      "start": 5122.8,
+      "duration": 5.64
+    },
+    {
+      "text": "the entire file, then fine.",
+      "start": 5124.56,
+      "duration": 3.88
+    },
+    {
+      "text": "What?",
+      "start": 5325.679,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay.",
+      "start": 5363.6,
+      "duration": 2.88
+    },
+    {
+      "text": "Okay. Why don't",
+      "start": 5410.88,
+      "duration": 3.96
+    },
+    {
+      "text": "All right.",
+      "start": 5431.6,
+      "duration": 3.16
+    },
+    {
+      "text": ">> Yeah.",
+      "start": 5439.199,
+      "duration": 3.0
+    },
+    {
+      "text": "How did you learn all of this? Do you",
+      "start": 5445.199,
+      "duration": 3.361
+    },
+    {
+      "text": "have a system you follow for it? No, no,",
+      "start": 5446.88,
+      "duration": 3.839
+    },
+    {
+      "text": "no. Actually I worked on I worked on my",
+      "start": 5448.56,
+      "duration": 4.159
+    },
+    {
+      "text": "own startups previously and I still work",
+      "start": 5450.719,
+      "duration": 3.52
+    },
+    {
+      "text": "on a currently I work on a startup",
+      "start": 5452.719,
+      "duration": 4.241
+    },
+    {
+      "text": "called Introplex",
+      "start": 5454.239,
+      "duration": 5.521
+    },
+    {
+      "text": "um yeah so worked this is actually",
+      "start": 5456.96,
+      "duration": 4.8
+    },
+    {
+      "text": "building stuff for enterprises so you",
+      "start": 5459.76,
+      "duration": 5.52
+    },
+    {
+      "text": "know check it out onremi enterprise for",
+      "start": 5461.76,
+      "duration": 5.76
+    },
+    {
+      "text": "onrem AI so essentially I learned",
+      "start": 5465.28,
+      "duration": 3.76
+    },
+    {
+      "text": "building a lot of stuff I worked on a",
+      "start": 5467.52,
+      "duration": 3.44
+    },
+    {
+      "text": "lot of startups and you know at hobby I",
+      "start": 5469.04,
+      "duration": 3.36
+    },
+    {
+      "text": "love to learn a lot of the things that's",
+      "start": 5470.96,
+      "duration": 2.96
+    },
+    {
+      "text": "how I build there's no any courses I",
+      "start": 5472.4,
+      "duration": 2.799
+    },
+    {
+      "text": "follow there's no no such thing like",
+      "start": 5473.92,
+      "duration": 3.92
+    },
+    {
+      "text": "that I'm a self engineer so that's what",
+      "start": 5475.199,
+      "duration": 3.44
+    },
+    {
+      "text": "I",
+      "start": 5477.84,
+      "duration": 2.319
+    },
+    {
+      "text": "How do you recommend I go about",
+      "start": 5478.639,
+      "duration": 2.961
+    },
+    {
+      "text": "designing my own pipeline man? It",
+      "start": 5480.159,
+      "duration": 2.961
+    },
+    {
+      "text": "depends on what you're working on, what",
+      "start": 5481.6,
+      "duration": 3.52
+    },
+    {
+      "text": "scale you're working on um and what sort",
+      "start": 5483.12,
+      "duration": 4.24
+    },
+    {
+      "text": "of documents you work with and etc. Uh",
+      "start": 5485.12,
+      "duration": 4.0
+    },
+    {
+      "text": "feel because there is no one thing that",
+      "start": 5487.36,
+      "duration": 3.52
+    },
+    {
+      "text": "I can give you depends on a lot of the",
+      "start": 5489.12,
+      "duration": 3.039
+    },
+    {
+      "text": "project. But I would say you know if",
+      "start": 5490.88,
+      "duration": 2.88
+    },
+    {
+      "text": "you're working with enterprise your",
+      "start": 5492.159,
+      "duration": 3.921
+    },
+    {
+      "text": "scale is very important that's what we",
+      "start": 5493.76,
+      "duration": 3.84
+    },
+    {
+      "text": "are currently trying to handle. We're",
+      "start": 5496.08,
+      "duration": 3.2
+    },
+    {
+      "text": "trying to process 10k documents that",
+      "start": 5497.6,
+      "duration": 4.0
+    },
+    {
+      "text": "scales to 85,000 to 100,000 documents",
+      "start": 5499.28,
+      "duration": 4.399
+    },
+    {
+      "text": "but right now we working with one H100",
+      "start": 5501.6,
+      "duration": 3.52
+    },
+    {
+      "text": "you can see and then you know just",
+      "start": 5503.679,
+      "duration": 3.04
+    },
+    {
+      "text": "wrapping your heads around and this is",
+      "start": 5505.12,
+      "duration": 4.96
+    },
+    {
+      "text": "totally an infra infra sort of an issue",
+      "start": 5506.719,
+      "duration": 5.44
+    },
+    {
+      "text": "so yeah that's what we working on and I",
+      "start": 5510.08,
+      "duration": 4.0
+    },
+    {
+      "text": "would recommend you you know understand",
+      "start": 5512.159,
+      "duration": 3.841
+    },
+    {
+      "text": "what they need just go don't go don't",
+      "start": 5514.08,
+      "duration": 4.88
+    },
+    {
+      "text": "plan out based on anything else no",
+      "start": 5516.0,
+      "duration": 5.36
+    },
+    {
+      "text": "understand their",
+      "start": 5518.96,
+      "duration": 4.88
+    },
+    {
+      "text": "problem what the solution should",
+      "start": 5521.36,
+      "duration": 4.4
+    },
+    {
+      "text": "probably look like try to generalize it",
+      "start": 5523.84,
+      "duration": 3.359
+    },
+    {
+      "text": "and then build the system from the",
+      "start": 5525.76,
+      "duration": 3.2
+    },
+    {
+      "text": "problem space. Don't go and jump. Hey,",
+      "start": 5527.199,
+      "duration": 3.761
+    },
+    {
+      "text": "this will be useful for you. This will",
+      "start": 5528.96,
+      "duration": 3.6
+    },
+    {
+      "text": "be useful for you. No, don't do that.",
+      "start": 5530.96,
+      "duration": 3.36
+    },
+    {
+      "text": "You know, just try to see what the",
+      "start": 5532.56,
+      "duration": 2.88
+    },
+    {
+      "text": "problem is. And if you're working on a",
+      "start": 5534.32,
+      "duration": 3.6
+    },
+    {
+      "text": "clear problem, it's should be quite easy",
+      "start": 5535.44,
+      "duration": 5.6
+    },
+    {
+      "text": "for you. Um, unified chunk of workers.",
+      "start": 5537.92,
+      "duration": 5.04
+    },
+    {
+      "text": "And of course, it's a big conversation.",
+      "start": 5541.04,
+      "duration": 3.28
+    },
+    {
+      "text": "It's it's totally a different",
+      "start": 5542.96,
+      "duration": 3.04
+    },
+    {
+      "text": "conversation. Uh, if you were to give me",
+      "start": 5544.32,
+      "duration": 5.28
+    },
+    {
+      "text": "a lot of info, uh, adapted for to work",
+      "start": 5546.0,
+      "duration": 5.84
+    },
+    {
+      "text": "on this thing use. Yeah. No dockling",
+      "start": 5549.6,
+      "duration": 5.039
+    },
+    {
+      "text": "inputs. Good. This is good. We're using",
+      "start": 5551.84,
+      "duration": 6.56
+    },
+    {
+      "text": "the doc document returned by our initial",
+      "start": 5554.639,
+      "duration": 7.04
+    },
+    {
+      "text": "phase one calculate the section area",
+      "start": 5558.4,
+      "duration": 5.2
+    },
+    {
+      "text": "data classes go will take care of all of",
+      "start": 5561.679,
+      "duration": 7.721
+    },
+    {
+      "text": "this dissolve from a battle tested code.",
+      "start": 5563.6,
+      "duration": 5.8
+    },
+    {
+      "text": "Okay.",
+      "start": 5572.4,
+      "duration": 6.44
+    },
+    {
+      "text": "One more thing. M",
+      "start": 5575.36,
+      "duration": 3.48
+    },
+    {
+      "text": "I'm tasked to develop a pipeline having",
+      "start": 5587.76,
+      "duration": 5.6
+    },
+    {
+      "text": "access to any information on company.",
+      "start": 5589.92,
+      "duration": 6.4
+    },
+    {
+      "text": "What the hell?",
+      "start": 5593.36,
+      "duration": 5.44
+    },
+    {
+      "text": "Company loss. How's startup? Oh, how is",
+      "start": 5596.32,
+      "duration": 4.72
+    },
+    {
+      "text": "the startup going? Yeah, quite well.",
+      "start": 5598.8,
+      "duration": 3.359
+    },
+    {
+      "text": "You're working with a few enterprise",
+      "start": 5601.04,
+      "duration": 2.88
+    },
+    {
+      "text": "customers and etc. Startup is good. And",
+      "start": 5602.159,
+      "duration": 4.08
+    },
+    {
+      "text": "to answer your first question to develop",
+      "start": 5603.92,
+      "duration": 4.08
+    },
+    {
+      "text": "a pipeline before having access to any",
+      "start": 5606.239,
+      "duration": 3.281
+    },
+    {
+      "text": "information",
+      "start": 5608.0,
+      "duration": 3.679
+    },
+    {
+      "text": "manually depends on what scale I working",
+      "start": 5609.52,
+      "duration": 3.6
+    },
+    {
+      "text": "what what's the number how many",
+      "start": 5611.679,
+      "duration": 5.321
+    },
+    {
+      "text": "documents are you dealing with",
+      "start": 5613.12,
+      "duration": 3.88
+    },
+    {
+      "text": "Oh yeah man. Tuki is I think uh and what",
+      "start": 5635.199,
+      "duration": 5.841
+    },
+    {
+      "text": "document are you dealing with? I don't",
+      "start": 5639.44,
+      "duration": 3.199
+    },
+    {
+      "text": "understand company for what is it like",
+      "start": 5641.04,
+      "duration": 4.24
+    },
+    {
+      "text": "finance dogs or like general contracts",
+      "start": 5642.639,
+      "duration": 4.401
+    },
+    {
+      "text": "or what is it you have like I mean is it",
+      "start": 5645.28,
+      "duration": 4.0
+    },
+    {
+      "text": "a law firm or what what is it? Just give",
+      "start": 5647.04,
+      "duration": 6.52
+    },
+    {
+      "text": "me a little bit of info on that.",
+      "start": 5649.28,
+      "duration": 4.28
+    },
+    {
+      "text": "Oh, it's a charity.",
+      "start": 5661.52,
+      "duration": 6.32
+    },
+    {
+      "text": "Uh, cool. I have I'm new to this. I",
+      "start": 5664.48,
+      "duration": 5.44
+    },
+    {
+      "text": "mean, I'm I don't know. So, just give me",
+      "start": 5667.84,
+      "duration": 3.52
+    },
+    {
+      "text": "an information. What sort of documents",
+      "start": 5669.92,
+      "duration": 3.2
+    },
+    {
+      "text": "do charity company works with? Like work",
+      "start": 5671.36,
+      "duration": 3.839
+    },
+    {
+      "text": "with like for legal companies is law",
+      "start": 5673.12,
+      "duration": 4.4
+    },
+    {
+      "text": "firm legal documents. They're very you",
+      "start": 5675.199,
+      "duration": 4.241
+    },
+    {
+      "text": "have client information and it has a lot",
+      "start": 5677.52,
+      "duration": 4.24
+    },
+    {
+      "text": "of uh they're mostly you know well well",
+      "start": 5679.44,
+      "duration": 4.719
+    },
+    {
+      "text": "created you know with the lawyers and",
+      "start": 5681.76,
+      "duration": 4.479
+    },
+    {
+      "text": "etc. they have stamps etc for financial",
+      "start": 5684.159,
+      "duration": 3.361
+    },
+    {
+      "text": "docs there's a lot of financial",
+      "start": 5686.239,
+      "duration": 2.721
+    },
+    {
+      "text": "information they have a lot of tables",
+      "start": 5687.52,
+      "duration": 3.76
+    },
+    {
+      "text": "they have a lot of excels and stuff like",
+      "start": 5688.96,
+      "duration": 3.759
+    },
+    {
+      "text": "that so what documents are you dealing",
+      "start": 5691.28,
+      "duration": 3.04
+    },
+    {
+      "text": "with charity what is the use case I'm",
+      "start": 5692.719,
+      "duration": 3.121
+    },
+    {
+      "text": "just trying to understand basically give",
+      "start": 5694.32,
+      "duration": 3.04
+    },
+    {
+      "text": "me an information what are you trying to",
+      "start": 5695.84,
+      "duration": 3.92
+    },
+    {
+      "text": "enable what is the solution what is your",
+      "start": 5697.36,
+      "duration": 4.08
+    },
+    {
+      "text": "solution so I can backtrack it and see",
+      "start": 5699.76,
+      "duration": 3.6
+    },
+    {
+      "text": "okay this is what you what what's the",
+      "start": 5701.44,
+      "duration": 3.44
+    },
+    {
+      "text": "problem you're solving where the money",
+      "start": 5703.36,
+      "duration": 4.72
+    },
+    {
+      "text": "goes towards check oh yeah then I think",
+      "start": 5704.88,
+      "duration": 4.56
+    },
+    {
+      "text": "you're dealing with some finance stocks",
+      "start": 5708.08,
+      "duration": 2.88
+    },
+    {
+      "text": "tax and just like that I would say a",
+      "start": 5709.44,
+      "duration": 3.52
+    },
+    {
+      "text": "pipeline for 2k docs I would say would",
+      "start": 5710.96,
+      "duration": 3.679
+    },
+    {
+      "text": "you can use something like dockling to",
+      "start": 5712.96,
+      "duration": 3.84
+    },
+    {
+      "text": "do a lot of like you know detection and",
+      "start": 5714.639,
+      "duration": 4.56
+    },
+    {
+      "text": "stuff and then you know embed it you can",
+      "start": 5716.8,
+      "duration": 4.8
+    },
+    {
+      "text": "go with quadrant not sure you know if",
+      "start": 5719.199,
+      "duration": 4.241
+    },
+    {
+      "text": "you're hosting it as a service in their",
+      "start": 5721.6,
+      "duration": 3.44
+    },
+    {
+      "text": "company but whatever quadrant should be",
+      "start": 5723.44,
+      "duration": 4.16
+    },
+    {
+      "text": "fine and I think agent wise you should",
+      "start": 5725.04,
+      "duration": 6.08
+    },
+    {
+      "text": "be able to watch my video on agent um um",
+      "start": 5727.6,
+      "duration": 4.96
+    },
+    {
+      "text": "it should be one of these exposing",
+      "start": 5731.12,
+      "duration": 3.68
+    },
+    {
+      "text": "chatbot to users to reduce help oh",
+      "start": 5732.56,
+      "duration": 3.52
+    },
+    {
+      "text": "that's what I wanted to know exposing",
+      "start": 5734.8,
+      "duration": 4.0
+    },
+    {
+      "text": "chatbot to users to reduce help exactly",
+      "start": 5736.08,
+      "duration": 4.639
+    },
+    {
+      "text": "then you have to then you have to embed",
+      "start": 5738.8,
+      "duration": 4.8
+    },
+    {
+      "text": "all the website their",
+      "start": 5740.719,
+      "duration": 5.601
+    },
+    {
+      "text": "uh documents whatever and then design",
+      "start": 5743.6,
+      "duration": 4.48
+    },
+    {
+      "text": "the prompt and the system prompt the",
+      "start": 5746.32,
+      "duration": 4.399
+    },
+    {
+      "text": "entire agent in a way that you know give",
+      "start": 5748.08,
+      "duration": 4.24
+    },
+    {
+      "text": "give the agent access to all the tools",
+      "start": 5750.719,
+      "duration": 3.201
+    },
+    {
+      "text": "that a human would have you know",
+      "start": 5752.32,
+      "duration": 3.359
+    },
+    {
+      "text": "accessing documents or maybe even",
+      "start": 5753.92,
+      "duration": 3.44
+    },
+    {
+      "text": "elevating the conversation if the AI is",
+      "start": 5755.679,
+      "duration": 2.96
+    },
+    {
+      "text": "not able to help then you should be able",
+      "start": 5757.36,
+      "duration": 3.44
+    },
+    {
+      "text": "to elevate it or you know bring back a",
+      "start": 5758.639,
+      "duration": 3.761
+    },
+    {
+      "text": "human or something like that and then",
+      "start": 5760.8,
+      "duration": 4.32
+    },
+    {
+      "text": "help uh ch yeah and also yeah just have",
+      "start": 5762.4,
+      "duration": 4.08
+    },
+    {
+      "text": "I think then it's fairly easy for you",
+      "start": 5765.12,
+      "duration": 3.2
+    },
+    {
+      "text": "you have text based information helpline",
+      "start": 5766.48,
+      "duration": 3.679
+    },
+    {
+      "text": "stuff like usual text based then you",
+      "start": 5768.32,
+      "duration": 3.6
+    },
+    {
+      "text": "just embed them and make sure you design",
+      "start": 5770.159,
+      "duration": 3.201
+    },
+    {
+      "text": "an agent that gives",
+      "start": 5771.92,
+      "duration": 3.2
+    },
+    {
+      "text": "um that you know does a bit of research",
+      "start": 5773.36,
+      "duration": 3.44
+    },
+    {
+      "text": "and then comes back in opposed to a",
+      "start": 5775.12,
+      "duration": 3.92
+    },
+    {
+      "text": "fairly bad answer.",
+      "start": 5776.8,
+      "duration": 4.56
+    },
+    {
+      "text": "Yeah, true. Security is an issue. But",
+      "start": 5779.04,
+      "duration": 3.76
+    },
+    {
+      "text": "that's what I'm saying. What you can to",
+      "start": 5781.36,
+      "duration": 3.44
+    },
+    {
+      "text": "do is to have confidence course or",
+      "start": 5782.8,
+      "duration": 4.08
+    },
+    {
+      "text": "something like that with the agent. If",
+      "start": 5784.8,
+      "duration": 5.439
+    },
+    {
+      "text": "it was if if if the agent is going be",
+      "start": 5786.88,
+      "duration": 5.6
+    },
+    {
+      "text": "beyond a certain threshold, if the agent",
+      "start": 5790.239,
+      "duration": 6.721
+    },
+    {
+      "text": "is going beyond um um a g a certain",
+      "start": 5792.48,
+      "duration": 5.84
+    },
+    {
+      "text": "limit, you just, you know, stop the",
+      "start": 5796.96,
+      "duration": 4.32
+    },
+    {
+      "text": "chat. you know you and you'll escalate",
+      "start": 5798.32,
+      "duration": 4.64
+    },
+    {
+      "text": "it to a human or something like that",
+      "start": 5801.28,
+      "duration": 3.6
+    },
+    {
+      "text": "that could I don't know how what do you",
+      "start": 5802.96,
+      "duration": 4.08
+    },
+    {
+      "text": "mean by security here I think these are",
+      "start": 5804.88,
+      "duration": 4.239
+    },
+    {
+      "text": "helpline stuff right helpline",
+      "start": 5807.04,
+      "duration": 3.92
+    },
+    {
+      "text": "information and etc you just have one",
+      "start": 5809.119,
+      "duration": 4.721
+    },
+    {
+      "text": "quadrant that is that only exists that",
+      "start": 5810.96,
+      "duration": 4.719
+    },
+    {
+      "text": "only has all of this basic information",
+      "start": 5813.84,
+      "duration": 3.6
+    },
+    {
+      "text": "you wouldn't probably share any you",
+      "start": 5815.679,
+      "duration": 4.161
+    },
+    {
+      "text": "probably won't embed any public or any",
+      "start": 5817.44,
+      "duration": 4.32
+    },
+    {
+      "text": "sorry any personal information right cuz",
+      "start": 5819.84,
+      "duration": 5.2
+    },
+    {
+      "text": "it's exposed to the users",
+      "start": 5821.76,
+      "duration": 4.959
+    },
+    {
+      "text": "um yeah but still you can still deal",
+      "start": 5825.04,
+      "duration": 3.28
+    },
+    {
+      "text": "with you can what you can do is that",
+      "start": 5826.719,
+      "duration": 3.681
+    },
+    {
+      "text": "write a rapper in front you know remove",
+      "start": 5828.32,
+      "duration": 3.839
+    },
+    {
+      "text": "any person information anything you want",
+      "start": 5830.4,
+      "duration": 3.92
+    },
+    {
+      "text": "to remove before it gets stuck to",
+      "start": 5832.159,
+      "duration": 3.921
+    },
+    {
+      "text": "quadrant you know go ahead use a VLM go",
+      "start": 5834.32,
+      "duration": 3.919
+    },
+    {
+      "text": "ahead use a GPT you're only pressing 2K",
+      "start": 5836.08,
+      "duration": 4.639
+    },
+    {
+      "text": "documents so you can afford that and you",
+      "start": 5838.239,
+      "duration": 4.161
+    },
+    {
+      "text": "know go for it and of course man of",
+      "start": 5840.719,
+      "duration": 6.4
+    },
+    {
+      "text": "course yeah sure uh yeah document worker",
+      "start": 5842.4,
+      "duration": 6.4
+    },
+    {
+      "text": "orchestrate the full document pipeline",
+      "start": 5847.119,
+      "duration": 5.361
+    },
+    {
+      "text": "call HTTP annotate formulas uh call VLM",
+      "start": 5848.8,
+      "duration": 6.24
+    },
+    {
+      "text": "http build chunk CPU generates embeding",
+      "start": 5852.48,
+      "duration": 4.719
+    },
+    {
+      "text": "so wow beautiful",
+      "start": 5855.04,
+      "duration": 5.119
+    },
+    {
+      "text": "nice And we're not using dockling uh in",
+      "start": 5857.199,
+      "duration": 4.48
+    },
+    {
+      "text": "terms of like you know like a dockling",
+      "start": 5860.159,
+      "duration": 3.601
+    },
+    {
+      "text": "instance for this for sure and this",
+      "start": 5861.679,
+      "duration": 4.0
+    },
+    {
+      "text": "should be quite efficient and we'll",
+      "start": 5863.76,
+      "duration": 3.919
+    },
+    {
+      "text": "basically see how long will it take for",
+      "start": 5865.679,
+      "duration": 4.801
+    },
+    {
+      "text": "single document to finish phase one and",
+      "start": 5867.679,
+      "duration": 5.281
+    },
+    {
+      "text": "then jump into phase two and here we",
+      "start": 5870.48,
+      "duration": 4.4
+    },
+    {
+      "text": "want to do batching as much as possible.",
+      "start": 5872.96,
+      "duration": 4.0
+    },
+    {
+      "text": "So how like like you know we're going to",
+      "start": 5874.88,
+      "duration": 5.04
+    },
+    {
+      "text": "use VLM's batching and you know that's",
+      "start": 5876.96,
+      "duration": 4.96
+    },
+    {
+      "text": "what the GP is entirely designed for you",
+      "start": 5879.92,
+      "duration": 4.56
+    },
+    {
+      "text": "know we'll we'll use it to the ultimate",
+      "start": 5881.92,
+      "duration": 5.279
+    },
+    {
+      "text": "potential.",
+      "start": 5884.48,
+      "duration": 5.04
+    },
+    {
+      "text": "and process a single end to end task.",
+      "start": 5887.199,
+      "duration": 3.681
+    },
+    {
+      "text": "This is the main task of document",
+      "start": 5889.52,
+      "duration": 3.52
+    },
+    {
+      "text": "processing. Call dockling annotate",
+      "start": 5890.88,
+      "duration": 4.72
+    },
+    {
+      "text": "formula. Call VM build chunks. Generate",
+      "start": 5893.04,
+      "duration": 4.72
+    },
+    {
+      "text": "embeddings stored in quadrant. These are",
+      "start": 5895.6,
+      "duration": 5.32
+    },
+    {
+      "text": "the arguments.",
+      "start": 5897.76,
+      "duration": 3.16
+    },
+    {
+      "text": "What why you why do you prefer claw in",
+      "start": 5905.44,
+      "duration": 4.08
+    },
+    {
+      "text": "your de workflow? Dude, co-pilot is",
+      "start": 5907.199,
+      "duration": 5.361
+    },
+    {
+      "text": " bro. I'm sorry, but copilot can't",
+      "start": 5909.52,
+      "duration": 4.639
+    },
+    {
+      "text": "handle this project. And I don't even",
+      "start": 5912.56,
+      "duration": 3.76
+    },
+    {
+      "text": "think and I've used I've used what do",
+      "start": 5914.159,
+      "duration": 5.361
+    },
+    {
+      "text": "you call I've used um codeex as well.",
+      "start": 5916.32,
+      "duration": 5.28
+    },
+    {
+      "text": "It's not near to claude. Claude just",
+      "start": 5919.52,
+      "duration": 4.08
+    },
+    {
+      "text": "gets it, you know. I I don't know. I",
+      "start": 5921.6,
+      "duration": 3.44
+    },
+    {
+      "text": "don't know how to put that in a way. You",
+      "start": 5923.6,
+      "duration": 3.039
+    },
+    {
+      "text": "know, you'll have benchmarks in cloud",
+      "start": 5925.04,
+      "duration": 3.28
+    },
+    {
+      "text": "codeex bet and all of those crap. But",
+      "start": 5926.639,
+      "duration": 3.52
+    },
+    {
+      "text": "cloud just works for, you know, complex",
+      "start": 5928.32,
+      "duration": 5.12
+    },
+    {
+      "text": "stuff like this and I'm and yeah, I just",
+      "start": 5930.159,
+      "duration": 4.881
+    },
+    {
+      "text": "have the max subscription and it gives",
+      "start": 5933.44,
+      "duration": 3.6
+    },
+    {
+      "text": "me access to cloud gives me access to",
+      "start": 5935.04,
+      "duration": 4.88
+    },
+    {
+      "text": "now co-work as well and also access to",
+      "start": 5937.04,
+      "duration": 5.119
+    },
+    {
+      "text": "cloud code unlimited",
+      "start": 5939.92,
+      "duration": 5.88
+    },
+    {
+      "text": "and yeah",
+      "start": 5942.159,
+      "duration": 3.641
+    },
+    {
+      "text": "um there's I mean of course intelligence",
+      "start": 5945.92,
+      "duration": 3.759
+    },
+    {
+      "text": "that that's that's one single answer",
+      "start": 5947.92,
+      "duration": 3.92
+    },
+    {
+      "text": "that I can give you. Cloud code is the",
+      "start": 5949.679,
+      "duration": 5.281
+    },
+    {
+      "text": "best and I would recommend for anyone to",
+      "start": 5951.84,
+      "duration": 5.839
+    },
+    {
+      "text": "get a subscription and you know you you",
+      "start": 5954.96,
+      "duration": 4.96
+    },
+    {
+      "text": "clock would never let you fail to be",
+      "start": 5957.679,
+      "duration": 5.241
+    },
+    {
+      "text": "honest.",
+      "start": 5959.92,
+      "duration": 3.0
+    },
+    {
+      "text": "uh embed task process documents define",
+      "start": 5965.6,
+      "duration": 6.72
+    },
+    {
+      "text": "salary workers executes in uh task thin",
+      "start": 5968.48,
+      "duration": 6.4
+    },
+    {
+      "text": "functions quick processing dockling and",
+      "start": 5972.32,
+      "duration": 4.799
+    },
+    {
+      "text": "chunk no embeddings dockling and chunk",
+      "start": 5974.88,
+      "duration": 4.48
+    },
+    {
+      "text": "only we will try vm for sure useful for",
+      "start": 5977.119,
+      "duration": 4.961
+    },
+    {
+      "text": "testing the pipeline etc and all this",
+      "start": 5979.36,
+      "duration": 7.56
+    },
+    {
+      "text": "again first we'll run the initial tasks",
+      "start": 5982.08,
+      "duration": 4.84
+    },
+    {
+      "text": "Oops. I thought this was a command",
+      "start": 6010.56,
+      "duration": 4.84
+    },
+    {
+      "text": "walker.",
+      "start": 6019.119,
+      "duration": 3.0
+    },
+    {
+      "text": "And we're going to start with a 70 page.",
+      "start": 6035.52,
+      "duration": 6.159
+    },
+    {
+      "text": "What's the easiest rack project you",
+      "start": 6040.0,
+      "duration": 3.76
+    },
+    {
+      "text": "worked on? I don't know. When I started",
+      "start": 6041.679,
+      "duration": 4.161
+    },
+    {
+      "text": "off, I was building agents, not",
+      "start": 6043.76,
+      "duration": 4.399
+    },
+    {
+      "text": "necessarily like rag. Now here you you",
+      "start": 6045.84,
+      "duration": 4.56
+    },
+    {
+      "text": "just call it rag, but it's actually it's",
+      "start": 6048.159,
+      "duration": 4.321
+    },
+    {
+      "text": "an agentic system. I mean, you have",
+      "start": 6050.4,
+      "duration": 4.799
+    },
+    {
+      "text": "retrieval on top of it. Um I think the",
+      "start": 6052.48,
+      "duration": 5.679
+    },
+    {
+      "text": "easiest one that I worked for was for um",
+      "start": 6055.199,
+      "duration": 6.081
+    },
+    {
+      "text": "an insurance company",
+      "start": 6058.159,
+      "duration": 5.04
+    },
+    {
+      "text": "but still that was quite complex as",
+      "start": 6061.28,
+      "duration": 4.919
+    },
+    {
+      "text": "well.",
+      "start": 6063.199,
+      "duration": 3.0
+    },
+    {
+      "text": "Sorry, I had to message someone. Was",
+      "start": 6143.04,
+      "duration": 5.72
+    },
+    {
+      "text": "there any questions?",
+      "start": 6145.36,
+      "duration": 3.4
+    },
+    {
+      "text": "Cool. Cool.",
+      "start": 6149.28,
+      "duration": 3.32
+    },
+    {
+      "text": "Verify for verify workers don't have for",
+      "start": 6153.92,
+      "duration": 5.279
+    },
+    {
+      "text": "imports and all of this stuff.",
+      "start": 6156.48,
+      "duration": 4.239
+    },
+    {
+      "text": "Yeah. So essentially what we're testing",
+      "start": 6159.199,
+      "duration": 4.241
+    },
+    {
+      "text": "is I don't think we're using VLMs. Test",
+      "start": 6160.719,
+      "duration": 4.561
+    },
+    {
+      "text": "full processing. Oh, okay. We're doing",
+      "start": 6163.44,
+      "duration": 3.12
+    },
+    {
+      "text": "it. Okay. We're passing everything",
+      "start": 6165.28,
+      "duration": 3.439
+    },
+    {
+      "text": "through. Cool. Let's give it a shot and",
+      "start": 6166.56,
+      "duration": 4.24
+    },
+    {
+      "text": "see. And you can see on the right. Uh I",
+      "start": 6168.719,
+      "duration": 4.4
+    },
+    {
+      "text": "don't think you can see it, but let me",
+      "start": 6170.8,
+      "duration": 5.2
+    },
+    {
+      "text": "put this over here",
+      "start": 6173.119,
+      "duration": 6.161
+    },
+    {
+      "text": "and put bash in the middle over here.",
+      "start": 6176.0,
+      "duration": 5.44
+    },
+    {
+      "text": "Somewhere here.",
+      "start": 6179.28,
+      "duration": 6.2
+    },
+    {
+      "text": "Okay. And you can see",
+      "start": 6181.44,
+      "duration": 4.04
+    },
+    {
+      "text": "Yeah. And you can see Nvidia over here.",
+      "start": 6197.84,
+      "duration": 4.16
+    },
+    {
+      "text": "We have, let me expand this a little bit",
+      "start": 6199.679,
+      "duration": 6.601
+    },
+    {
+      "text": "more. See it fully.",
+      "start": 6202.0,
+      "duration": 4.28
+    },
+    {
+      "text": "This is the three workers of Doppling",
+      "start": 6209.04,
+      "duration": 3.04
+    },
+    {
+      "text": "and we have the entire model loaded and",
+      "start": 6210.48,
+      "duration": 4.239
+    },
+    {
+      "text": "you can see you have to see this will",
+      "start": 6212.08,
+      "duration": 4.559
+    },
+    {
+      "text": "you have to see some flu fluctuations on",
+      "start": 6214.719,
+      "duration": 5.48
+    },
+    {
+      "text": "this. Let's see.",
+      "start": 6216.639,
+      "duration": 3.56
+    },
+    {
+      "text": "Cool.",
+      "start": 6221.36,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay, it's starting to bump up. You can",
+      "start": 6225.6,
+      "duration": 4.519
+    },
+    {
+      "text": "see",
+      "start": 6227.119,
+      "duration": 3.0
+    },
+    {
+      "text": "Now I can see pictures, images,",
+      "start": 6678.32,
+      "duration": 6.2
+    },
+    {
+      "text": "formulas, text and etc.",
+      "start": 6680.08,
+      "duration": 4.44
+    },
+    {
+      "text": "Yeah,",
+      "start": 6696.88,
+      "duration": 3.359
+    },
+    {
+      "text": "yeah, that's what I'm saying. I saw this",
+      "start": 6698.719,
+      "duration": 4.52
+    },
+    {
+      "text": "somewhere.",
+      "start": 6700.239,
+      "duration": 3.0
+    },
+    {
+      "text": "Yeah, I saw that.",
+      "start": 6704.4,
+      "duration": 3.799
+    },
+    {
+      "text": "So now we'll know how how long will it",
+      "start": 6709.04,
+      "duration": 3.599
+    },
+    {
+      "text": "take for a single dock and probably it",
+      "start": 6710.8,
+      "duration": 5.12
+    },
+    {
+      "text": "will take the same for the other docks.",
+      "start": 6712.639,
+      "duration": 6.281
+    },
+    {
+      "text": "All right.",
+      "start": 6715.92,
+      "duration": 3.0
+    },
+    {
+      "text": "The initialization itself is taking like",
+      "start": 6762.239,
+      "duration": 4.161
+    },
+    {
+      "text": "40 seconds because I can see dockling",
+      "start": 6764.88,
+      "duration": 3.759
+    },
+    {
+      "text": "initialize three instances like this",
+      "start": 6766.4,
+      "duration": 5.199
+    },
+    {
+      "text": "itself is 50 but again doesn't matter",
+      "start": 6768.639,
+      "duration": 4.801
+    },
+    {
+      "text": "this will load once when we do this",
+      "start": 6771.599,
+      "duration": 7.08
+    },
+    {
+      "text": "processing and then it'll run for days.",
+      "start": 6773.44,
+      "duration": 5.239
+    },
+    {
+      "text": "Okay, man.",
+      "start": 6812.239,
+      "duration": 6.121
+    },
+    {
+      "text": "We'll be there in a little bit.",
+      "start": 6814.48,
+      "duration": 3.88
+    },
+    {
+      "text": "What's the hell?",
+      "start": 6825.599,
+      "duration": 3.481
+    },
+    {
+      "text": "Oops. It's taking a lot of time.",
+      "start": 7022.48,
+      "duration": 5.04
+    },
+    {
+      "text": "4 plus minutes. Anyway, we can do a lot",
+      "start": 7030.159,
+      "duration": 4.801
+    },
+    {
+      "text": "of sequential stuff. Not to worry about",
+      "start": 7033.36,
+      "duration": 4.6
+    },
+    {
+      "text": "that.",
+      "start": 7034.96,
+      "duration": 3.0
+    },
+    {
+      "text": "And you have all our running for",
+      "start": 7075.119,
+      "duration": 6.201
+    },
+    {
+      "text": "embeddings. So",
+      "start": 7077.679,
+      "duration": 3.641
+    },
+    {
+      "text": "still we have a lot of stuff left.",
+      "start": 7081.76,
+      "duration": 5.16
+    },
+    {
+      "text": "What would make sense is keep it at",
+      "start": 7088.639,
+      "duration": 4.801
+    },
+    {
+      "text": "seven. Try to have a good number of",
+      "start": 7091.76,
+      "duration": 3.52
+    },
+    {
+      "text": "seven and then try to increase the",
+      "start": 7093.44,
+      "duration": 4.56
+    },
+    {
+      "text": "parallel count of this. Okay. We can",
+      "start": 7095.28,
+      "duration": 6.879
+    },
+    {
+      "text": "still use it at 30 GB, right?",
+      "start": 7098.0,
+      "duration": 5.92
+    },
+    {
+      "text": "And this is fixed, right? This five is",
+      "start": 7102.159,
+      "duration": 3.761
+    },
+    {
+      "text": "fixed. So you can run three at the same",
+      "start": 7103.92,
+      "duration": 4.239
+    },
+    {
+      "text": "time. Five is sort of fixed. But yeah,",
+      "start": 7105.92,
+      "duration": 3.759
+    },
+    {
+      "text": "we'll try. We'll see what are the",
+      "start": 7108.159,
+      "duration": 4.52
+    },
+    {
+      "text": "options.",
+      "start": 7109.679,
+      "duration": 3.0
+    },
+    {
+      "text": "I think there still are some issues with",
+      "start": 7422.719,
+      "duration": 4.96
+    },
+    {
+      "text": "cloud code being processed or something.",
+      "start": 7425.84,
+      "duration": 3.44
+    },
+    {
+      "text": "So",
+      "start": 7427.679,
+      "duration": 4.601
+    },
+    {
+      "text": "yeah.",
+      "start": 7429.28,
+      "duration": 3.0
+    },
+    {
+      "text": "So it restarted it and running it on my",
+      "start": 7433.44,
+      "duration": 4.92
+    },
+    {
+      "text": "site.",
+      "start": 7435.36,
+      "duration": 3.0
+    },
+    {
+      "text": "Sorry guys,",
+      "start": 7494.8,
+      "duration": 5.76
+    },
+    {
+      "text": "I got a call and I have to ping my",
+      "start": 7497.84,
+      "duration": 5.72
+    },
+    {
+      "text": "brother.",
+      "start": 7500.56,
+      "duration": 3.0
+    },
+    {
+      "text": "No problem.",
+      "start": 8214.639,
+      "duration": 3.161
+    },
+    {
+      "text": "I will be in phase three.",
+      "start": 8218.319,
+      "duration": 6.16
+    },
+    {
+      "text": "Sure. Please update the progress.",
+      "start": 8221.92,
+      "duration": 4.799
+    },
+    {
+      "text": "That's good.",
+      "start": 8224.479,
+      "duration": 4.321
+    },
+    {
+      "text": "777 is proing. And what we'll do is that",
+      "start": 8226.719,
+      "duration": 3.521
+    },
+    {
+      "text": "even if you were to cut it by let's say",
+      "start": 8228.8,
+      "duration": 4.559
+    },
+    {
+      "text": "we took finish 66 by 60 that's still 3.7",
+      "start": 8230.24,
+      "duration": 4.479
+    },
+    {
+      "text": "minutes. You can easily bump it down to",
+      "start": 8233.359,
+      "duration": 3.04
+    },
+    {
+      "text": "2 minutes. You can keep documents at 2",
+      "start": 8234.719,
+      "duration": 3.521
+    },
+    {
+      "text": "minutes and I think we'll reach our goal",
+      "start": 8236.399,
+      "duration": 4.32
+    },
+    {
+      "text": "much faster. If you would did even seven",
+      "start": 8238.24,
+      "duration": 6.0
+    },
+    {
+      "text": "documents parallelly for",
+      "start": 8240.719,
+      "duration": 5.041
+    },
+    {
+      "text": "3 minutes per documents we can still",
+      "start": 8244.24,
+      "duration": 4.319
+    },
+    {
+      "text": "finish it in about 3 days. We'll yeah",
+      "start": 8245.76,
+      "duration": 4.879
+    },
+    {
+      "text": "it'll still take 3 days I'm sure. But",
+      "start": 8248.559,
+      "duration": 4.08
+    },
+    {
+      "text": "yeah hopefully we'll make we'll try to",
+      "start": 8250.639,
+      "duration": 5.361
+    },
+    {
+      "text": "make it 2 days. Oh, I mean, no, let's",
+      "start": 8252.639,
+      "duration": 5.04
+    },
+    {
+      "text": "not plan a lot, but you know, even 3",
+      "start": 8256.0,
+      "duration": 3.679
+    },
+    {
+      "text": "days without error, if you can process",
+      "start": 8257.679,
+      "duration": 3.92
+    },
+    {
+      "text": "3,000, 10,000, it's okay because even",
+      "start": 8259.679,
+      "duration": 3.92
+    },
+    {
+      "text": "with one day, we'll have another 3,000",
+      "start": 8261.599,
+      "duration": 3.201
+    },
+    {
+      "text": "documents, right? That's more than",
+      "start": 8263.599,
+      "duration": 4.92
+    },
+    {
+      "text": "enough for us to work with.",
+      "start": 8264.8,
+      "duration": 3.719
+    },
+    {
+      "text": "Just curious, should we try uh the same",
+      "start": 8374.88,
+      "duration": 9.0
+    },
+    {
+      "text": "thing for three parallel workers and see",
+      "start": 8378.479,
+      "duration": 5.401
+    },
+    {
+      "text": "Yeah, because I just want to see for all",
+      "start": 8395.359,
+      "duration": 3.841
+    },
+    {
+      "text": "of this stuff with Elm if you were to",
+      "start": 8397.52,
+      "duration": 4.0
+    },
+    {
+      "text": "process all three, how much will it take",
+      "start": 8399.2,
+      "duration": 3.92
+    },
+    {
+      "text": "and see if there's any difference in",
+      "start": 8401.52,
+      "duration": 4.56
+    },
+    {
+      "text": "numbers. Just just just curious to know.",
+      "start": 8403.12,
+      "duration": 6.12
+    },
+    {
+      "text": "That's it.",
+      "start": 8406.08,
+      "duration": 3.16
+    },
+    {
+      "text": "Yeah, it's okay. The thing is I totally",
+      "start": 8548.64,
+      "duration": 6.0
+    },
+    {
+      "text": "forgot VM we still serializing. So 3x",
+      "start": 8550.72,
+      "duration": 6.08
+    },
+    {
+      "text": "long. I totally forgot about it. I",
+      "start": 8554.64,
+      "duration": 4.64
+    },
+    {
+      "text": "thought Yeah. So that's all in phase",
+      "start": 8556.8,
+      "duration": 5.2
+    },
+    {
+      "text": "three then.",
+      "start": 8559.28,
+      "duration": 4.32
+    },
+    {
+      "text": "We'll wait and see. So we can document",
+      "start": 8562.0,
+      "duration": 3.359
+    },
+    {
+      "text": "the time and then we can compare it once",
+      "start": 8563.6,
+      "duration": 4.879
+    },
+    {
+      "text": "we complete phase three.",
+      "start": 8565.359,
+      "duration": 7.241
+    },
+    {
+      "text": "This will go on for a bit.",
+      "start": 8568.479,
+      "duration": 4.121
+    },
+    {
+      "text": "Maybe it's actually stuck.",
+      "start": 9088.479,
+      "duration": 7.321
+    },
+    {
+      "text": "Shouldn't take this much time.",
+      "start": 9091.2,
+      "duration": 4.6
+    },
+    {
+      "text": "It's fine. Uh, we'll move for the next",
+      "start": 9291.04,
+      "duration": 5.12
+    },
+    {
+      "text": "one. We We know how much time it takes,",
+      "start": 9293.359,
+      "duration": 6.841
+    },
+    {
+      "text": "right? So, we'll move for the next one.",
+      "start": 9296.16,
+      "duration": 4.04
+    },
+    {
+      "text": "Who's",
+      "start": 9480.16,
+      "duration": 3.0
+    },
+    {
+      "text": "Okay. So, I think we can complete phase",
+      "start": 10387.6,
+      "duration": 4.64
+    },
+    {
+      "text": "four before the before the stream and we",
+      "start": 10389.52,
+      "duration": 4.879
+    },
+    {
+      "text": "can actually jump into uh jump into",
+      "start": 10392.24,
+      "duration": 5.64
+    },
+    {
+      "text": "phase four tomorrow.",
+      "start": 10394.399,
+      "duration": 3.481
+    },
+    {
+      "text": "No, sorry m",
+      "start": 11049.279,
+      "duration": 3.721
+    },
+    {
+      "text": "All",
+      "start": 13200.399,
+      "duration": 2.0
+    },
+    {
+      "text": "right, guys. So, I just noticed it that",
+      "start": 13214.64,
+      "duration": 9.44
+    },
+    {
+      "text": "I had my audio totally down. Oh my god.",
+      "start": 13217.52,
+      "duration": 9.04
+    },
+    {
+      "text": "Sorry about that, guys. Really sorry",
+      "start": 13224.08,
+      "duration": 4.08
+    },
+    {
+      "text": "about that. I don't know how much we",
+      "start": 13226.56,
+      "duration": 3.6
+    },
+    {
+      "text": "missed you. So basically just to give",
+      "start": 13228.16,
+      "duration": 5.04
+    },
+    {
+      "text": "you some context the processing is",
+      "start": 13230.16,
+      "duration": 5.04
+    },
+    {
+      "text": "working",
+      "start": 13233.2,
+      "duration": 4.32
+    },
+    {
+      "text": "already and fine we have salary we have",
+      "start": 13235.2,
+      "duration": 5.199
+    },
+    {
+      "text": "um red with this for caching we have the",
+      "start": 13237.52,
+      "duration": 4.32
+    },
+    {
+      "text": "processing everything monitors",
+      "start": 13240.399,
+      "duration": 4.161
+    },
+    {
+      "text": "everything working nice tomorrow phase",
+      "start": 13241.84,
+      "duration": 5.04
+    },
+    {
+      "text": "four vm batching and etc we should be",
+      "start": 13244.56,
+      "duration": 3.679
+    },
+    {
+      "text": "able to complete it in a few hours and",
+      "start": 13246.88,
+      "duration": 2.72
+    },
+    {
+      "text": "move on for the next deployment. Okay,",
+      "start": 13248.239,
+      "duration": 3.921
+    },
+    {
+      "text": "just you know get the um testing all of",
+      "start": 13249.6,
+      "duration": 4.32
+    },
+    {
+      "text": "those failures ready and then you know",
+      "start": 13252.16,
+      "duration": 3.52
+    },
+    {
+      "text": "push it up where the model can start",
+      "start": 13253.92,
+      "duration": 3.519
+    },
+    {
+      "text": "processing documents and we can work on",
+      "start": 13255.68,
+      "duration": 4.32
+    },
+    {
+      "text": "any of the rest of any of the stuff that",
+      "start": 13257.439,
+      "duration": 5.601
+    },
+    {
+      "text": "is available for us to work on. Right.",
+      "start": 13260.0,
+      "duration": 5.12
+    },
+    {
+      "text": "Thank you so much guys. Talk soon and",
+      "start": 13263.04,
+      "duration": 3.52
+    },
+    {
+      "text": "sorry for the audio issue. Totally",
+      "start": 13265.12,
+      "duration": 3.6
+    },
+    {
+      "text": "forgot about that that I you know put",
+      "start": 13266.56,
+      "duration": 4.08
+    },
+    {
+      "text": "the audio gain a little bit low cuz I",
+      "start": 13268.72,
+      "duration": 3.759
+    },
+    {
+      "text": "wanted to talk to my brother. All right",
+      "start": 13270.64,
+      "duration": 3.44
+    },
+    {
+      "text": "guys, thank you so much. Be silent. Good",
+      "start": 13272.479,
+      "duration": 3.681
+    },
+    {
+      "text": "night.",
+      "start": 13274.08,
+      "duration": 2.08
+    }
+  ]
+}

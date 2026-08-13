@@ -1,0 +1,1676 @@
+[
+  {
+    "text": "[clears throat] So, hi everyone. Welcome to day 13. Uh, I think we're going live. Okay, we're already live. See our audio working. So, hi everyone. Welcome to day 13. And um this series is about building a production rag system or an agentic rag system. You you can call it that way. um that can process 85,000 plus documents and of course like 100,000 plus documents and also um yeah I mean that's simply a rack system that can uh that's sort of like a search sort of like a search agent that can look in through thousands of documents um and especially I want to show you quickly the amount of documents we're working with uh I'll just quickly show you the doc so I want to quickly give an intro uh about the project and then we'll move on I think that's So I'm going to pull up my notion so I",
+    "start": 5.239,
+    "duration": 58.281000000000006,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_0",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "don't I don't uh confuse anyone here. So this is the fictional project that we are working on. It's called Meridian Aerospace. It's again fictional company which is an aerospace engineering consultancy company that have has that have about 180 employee and they have a lot of you know um aerospace documents like documents from NASA documents from SpaceX documents from the internal documents the research documents technical reports and etc and those document would most most of the time it's proportional test reports safety analysis documents fail investigation reports and the documents are from 1990s and this the you can look it as if as this is an RFP like something that's given uh from the client for us to us and yeah so this is the use case engineer currently spend four to 6 hours per project searching through archives to find relevant historical test data failure modes and compliance precedence",
+    "start": 60.16,
+    "duration": 58.72,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_1",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "critical institution knowledge is locked in the heads of senior engineers approaching a retirement last quarter they missed a relevant failure mode during a safety review because the historical data was buried 1997 documents. So this is one use case of them. They are having a lot of problem. Um usually in a rocket you if you were to work with a company in the aerospace you know aerospace industry the documents they deal with are quite quite old. I mean they're complex in the first place and they're also very old. They're from the '90s '90s and the few few documents that we are already working with actually from the 1951. So how it's nearly 75 years of you know uh storage of timeline of a document. So the documents are very different and there's scan copy some of them are handwritten notes. Some of them do not have metadata. They have very complex",
+    "start": 117.119,
+    "duration": 49.441,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_2",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "diagrams and etc. So that's what we are solving and we've actually solved those. So let's quickly check in what the features that we have already done and what we're going to do today and the goal of the next few days. So just to give you uh you know quick gist we building this for about two weeks right now in a two in probably two days I want to complete everything and then share all the repo the code and etc. But yeah uh the documents are 40% scan copy. So we have a lot of OCR VLMs being used and etc. Heavy use of technical jargon. They have a lot of jargon domain terminologies. For example, LO X would mean something. MmnN would mean something. NTO would mean something for me and for someone in the aerospace domain is completely different. And more than the difference of acronym acron like synonyms and",
+    "start": 164.879,
+    "duration": 49.041,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_3",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "acronyms um the domain terminologies would actually differ as the document changes. For example, a word that is you know let's assume you you're searching for chamber combion. Chamber combion would actually be written as stability combion in a paper that a paper that is um from 1990s to 1960s. So you'll have a lot of difference in uh in keywords in words and etc. So you if you want to find it if you want if you want to find if you want to have a system that can accurately accurately search for information then you should be able to understand the domain terminologies a lot better as well. So that's what we also solving that's what we solved yesterday and we're continuing that today. I'll go through them. We are working with 18,414 embedded um domain terminologies. Usually I used to fine-tune the model with all of the terminologies but in",
+    "start": 211.2,
+    "duration": 55.75999999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_4",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "this case we actually are using claude. So because of that we are um building a hybrid search that this keyword and also semantic search under 240 milliseconds. So it's like split instant and you know goes into the agent. Um I'll get into what we are doing right now in a bit. So that's that we're currently working on it. Mathematical equations that's solved. We have formulas. A document processor can process formulas, tables, uh technical diagrams, images and etc. So that's done. Tables done. Cross reference documents, it's an agentic sort of thing. That's what we are going to do. So the project value is about $70,000. But in a real world scenario, the project value minimum would be $250,000. So the entire project that I'm building right now, and I'm I'm not taking any shortcuts here. Last 5 days, we were having issues processing 10,000 documents. I'll show that to you with",
+    "start": 264.639,
+    "duration": 54.64099999999996,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_5",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "only one H100 one GPU and we're 50% done with that. Around 5,000 documents are already done. We have we have another and we have about 500,000 tokens something 500,000 odd tokens already in quadrant. So we solved that and the infra building an infra with one H100 is really such a pain and I've we've basically figured that out you know I have I have no experience on infra just you know just using plot to understand certain things understand understand go into deep levels um check each and every small part you know and split that up in the compute with it GPU CPU and etc. So last four videos are on that. What you can do is that you can send it to Gemini sorry Gemini or I think it's called um note yeah it's called notebook LM notebook but yeah I didn't use it for a while I think it's called notebook. You",
+    "start": 316.0,
+    "duration": 53.03899999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_6",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "can basically pass in all of the videos. These are 7 hour 8 hour videos. Pass in get a summary and then start asking questions how did you know then what are the challenges we face and how did we solve it and etc. because those I I don't expect you to you know watch the entire uh 8 hours video for four or five times. It doesn't make sense. So yeah, that's the stage we are in. So I want to quickly show you before I move on the current uh stage the current progress we are in processing documents. So you can see over here uh we have about 17% of failure rate. Failure rates are normal. For example like um u in 10,000 docs I guess already we have,800 already failed. I hope we'll end up with 7,000 or something like that and we have like 3,000 fail but we can try another uh you",
+    "start": 367.36,
+    "duration": 47.75999999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_7",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "can we can try this percentage of fail is too much. We'll definitely try it in a bit once the entire processing is done. But yeah, you can see the progress here. We have 10,400 documents. 5,552 51% is already done. I think the failed,800 is actually um wouldn't be a big of an issue because we actually processing it. Uh we're retrying a lot of these documents. So I think we'll have more documents. We have about 3,002 3,029 in pending. So I think we'll have about 7,000 documents and we will also do a retry as well. But you get the point. This is for 10,000 docs. This is just the infra uh for processing it. We've already done 36 hours and 20 minutes and 30 seconds. So uh it's running for more than a day, like a day and a half. And you can see we're doing about 110 pages a minute. We started",
+    "start": 413.36,
+    "duration": 51.360000000000014,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_8",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "with 200 pages a minute and then of course with a lot of um um a lot of GPU congestion and uh RAM overloads you know a lot of this stuff retrying and etc with the pages being much more dense with formulas more more queries on VLM and etc. You can still expect it to I was expecting it to perform with 150 at least so it's 110 it's okay we've already done by 50%. Um and yeah uh that's just the you know update so this is still going on. I can look up to cordon but cordon would probably have about 500,000 chunks or something like that and I hope this would be completed in the next 36 hours. So it's going to be 29th and 30th by you know your US morning by Friday you know this should be done that's the hope and at least we",
+    "start": 462.4,
+    "duration": 46.31999999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_9",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "should have a 7,000 documents with a 30% failure rate failure rather than normal but you know 30% is a huge number uh because a lot of these documents actually I pull I actually pulled all of these documents from NASA's NTS so you can do it you can do it as well you have a query limit of 500 per 5 minutes or minutes or something like that I worked it out I just put it on the night you know downloaded everything by day. So it took about 7 to 8 hours to go through entire 10,000 documents of PDF. And the PDF looks something like the PDF looks something like this. Uh where is it? Oops. Stop like something like this. So very very long PDFs. The average PDF just see the average PDF itself the average pages in a PDF is actually 67 when I compare it to the entire 10,000 documents. you",
+    "start": 506.319,
+    "duration": 53.281000000000006,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_10",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you could easily see there is no way a document is going below 10 uh below 50 pages. It's not like a page or two documents. It's very long documents. They have a lot of tables, scan copies. Uh they have images. Can you see like this image and etc. The formulas here we all we have custom pipelines to accurately extract everything like we're not dependent on dependent on any passing done by the framework using dockling by the way and yeah and yeah that's what I'm saying. Um yeah accurately we were able to pass this. There's a lot of uh a lot of jargon we extracted as well like symbols no main clure and uh a lot of other a removing noise as well. Can you see this confidential statement? We removed all of this noise. Uh so then the uh docu the the pipelines can focus on things",
+    "start": 558.0,
+    "duration": 48.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_11",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "that actually matter like you know this we did a lot of stuff. I'll leave definitely a post first of all I forgot what we did in the first place because we did a lot of things. I look into the code use cloud code and sort of try to get a full info on you know what are the challenges we face and how I solve it because more than how more than because you guys have to know the information on whether you know how you sol it's not you know we have it's not a straightforward approach and you'll definitely hit roadblocks and challenges. So you need to be able to you know just take a different different path of thinking like a different sort of thinking and then try to um solve this sort of challenges and we did a lot of stuff on painting images and then painting tables and doing heat",
+    "start": 604.32,
+    "duration": 42.15999999999997,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_12",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "maps uh seeing the pixel density of white and black and putting a line automatically using pyarch and all. We did a lot of those stuff. Not Python. So I guess Pi Python or something like that some package. But yeah, you get the point. We did a lot of graphs. Did a lot of variations in graphs and etc boundaries. I leave a lot of them. So this is a quick you know um you know like a gist or whatever. First 10 minutes I want to spend just to show you what's going on. What is the progress made? And it's also a reminder for me cuz I tend to forget a lot of things and forget a lot of things quick um forget a lot of things um as I progress. We're already there by you know 7 uh we've already this is day 13 I guess 13 or 12",
+    "start": 643.92,
+    "duration": 42.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_13",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I'm not sure but yeah already 2 weeks so I just want to keep track of the progress we've made so far and then we are on track to this Friday all right guys so let's quickly go ahead and see our agent in action I let's go ahead and start the web And for the document processing, we're using a 7 billion 8 billion parameters quench new 8B version. I've loaded it up on FP8. So floating point8 for hopper because we using H100, but depending on your GPU, you can go with whatever setting you want. I would recommend you go with quantization 8 at least quant 8 or maybe if you're low in, you know, GPU, go with quant 4 using Olama. Uh I did it from VLM because I do have the high uh VLM basically gives you raw access to the GP like you can do a lot",
+    "start": 683.76,
+    "duration": 53.759000000000015,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_14",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "of batching stuff. You want to write some custo custom you want to work in tensor level it helps you you know um uh work on something work work on at least on that stage at that uh level. So yeah it's not yeah so I totally forgot. Cool. Yeah. Um, I just wanted to mention the settings as well because you might think, you know, which with one H100, how am I really using a VLM in the first place and processing 10,000 docs? It's only because I'm doing it on FP8 FP8. So, there's a small accuracy bump in terms of, you know, the architecture behind the hopper. And also, you also uh it's not it's not the full precision mode, right? So, you'll only have very less I I think for the 8 million parameter the just the model. Oh, I can show it to you. I can show you",
+    "start": 736.32,
+    "duration": 52.07899999999995,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_15",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the um the terminal actually. Let me quickly connect to my do",
+    "start": 785.279,
+    "duration": 17.321000000000026,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_16",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "And here I can expand this a bit and you can see my GPU usage almost 100% we at 87 using 95 I've kept the buffer and most of the time it goes above the buffer. This is the model consu and it's consuming about 69 70 GB of VRAM and it's a 7 billion parameter model again. So because that's so that 7 billion parameter model itself is only 10 GB. It should only take 10 GB but this is for the KV cache. So in the entire batching and we are processing 256 in a one given given given go like you know in one single forward pass. So I think 256 is on one parallel um no one one shot so one batch. So let's say you have to have 256 requests. You don't need to concurrently do all you you don't need to sequentially do a lot. You can",
+    "start": 826.8,
+    "duration": 48.639999999999986,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_17",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "basically batch it and just and batching also in in the sense of one forward pass. So you collect all the 256 and then do it in one single code. That's the mo that's the most efficient way of doing it. This is what a lot of the companies behind cloud openai and a lot of the consumer companies do because they have a lot of low the things they have they can serve consumers very much with a very limited amount of compute is only because most of the consumers or you know like you know general consumers they are not going to use 100k tokens right they usually going to use maximum 10,000 20,000 you know 30,000 that's what they deal with like basic chatbot queries so then what they can do is it collect all of your queries and batch it so whenever you you know go to GPT and",
+    "start": 873.6,
+    "duration": 39.678999999999974,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_18",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "type in something right your process is actually not a single sequential process. is actually batched your your request is actually running with another I don't know a million users like million API million batches done [clears throat] and then your you know the entire batch whatever the uh whenever your request sort of completes you'll get that back but it's not like a sequential process it's basically like a batch so that's why you see sometimes when you type in shpd or claude you know sometimes you get a quick reply or sometimes it takes a while a little bit it's not because of the model loading etc model everything is fast it's serving millions of users it's just that you know they have a batch let's say 500 requests per this request and yours your yours was your your request was probably in the 499 it's waiting the the the",
+    "start": 911.519,
+    "duration": 44.080999999999904,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_19",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "batch is waiting until those two requests come in so someone on um um Ethiopia or someone from Russia or someone sorry not Russia someone from US or someone it doesn't matter I mean of course it matters because they have geolocations as well to serve your needs much faster like in terms of like in terms of computer I think at least but overall the whole point is is that it it'll it'll definitely be batched. So you'll have like a you know like 20,000 requests being batched depending on the GPU it can if it can handle 20,000 requests in a single batch you can still do it and then your request is that's that's one of the reasons why you see a small drop in performance because it's waiting until all of the other requests come in to go to a new batch. So that's how with limited amount of GPU these",
+    "start": 954.24,
+    "duration": 42.958999999999946,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_20",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "guys achieve or serve millions of users like millions of concurrent users and etc. It's it's mere computer. It's just infra nothing on model level level to be honest. And uh yeah, if you um if you want to go through all the videos, you'll get a good chance. If you're building like a consumer app, you want to you only have very limited amount of compute and you want to scale it to a lot of users, watch my videos. You can literally, you know, scale it 10x to 20x and also plus the speeds and etc. So yeah, cool. I just want to you know just show it show give you a sort of sense and also get you know get myself some sort of sense cuz um sometimes um I I would probably miss a lot of for example if I don't look at this GPU consumption you know some of this Python so when",
+    "start": 994.639,
+    "duration": 44.72099999999989,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_21",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "when so you see this right or the eight python servers these are dockling servers using layout detection so that's why we only able to process eight I could have done in a thread but dockling uses a py a pdf issue and it didn't it couldn't support it has a lot of issues with threads and etc and uh it locks the thread to a particular process and just a nightmare uh I regret using dockling in the first place I could have used some other you know layer detection and yeah but either ways we've done it so we sort of had a workar around if not we probably would have been done by 7 8 hours or something like that but I hope like most of the companies you're working with I'm sure you know half of them would be startups half of them will be wellunded you know companies with a",
+    "start": 1036.88,
+    "duration": 43.67900000000009,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_22",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "lot of compute so you can just get a B200, you know, a couple of B200s if you have the money and just, you know, instead of paying uh instead of paying um like um $3 or something like that an hour for two H100s, you just get one B200 and then just do it in two two days. It's only $5. So, the math will round up either ways if you have good, you know, access to good compute and you you would probably need to and always use the best GPUs available. use uh keep a buffer of 10% or something like that for you know unexpected surprises and then have watchd dogs that could monitor even we have watchd dogs here as well. So all of these eight servers are monitored by watch. So in case something fails the other request will go to this uh this server or this PPP uh this",
+    "start": 1078.88,
+    "duration": 48.88000000000011,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_23",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "server and the other one will be booted up in less than 3 seconds. So we have watchd dogs as well. So um yeah cool. So I wanted to let you know on that cuz sometimes when you watch this video initially you'll be like you know what the hell is this idiot doing? I don't even understand you know what we're building a basic chatbot that's it chatbot with tools you know that's not the case right that's what I wanted to quickly give you guys an intro on the past videos past progress and etc and we'll move on right now terminate all right so I want to start the server now this is uh first of all I'll uh show you the you know fire up a query and then show you the chatbot end of the day it is a chatbot So, I'll show you the quick the the bot",
+    "start": 1125.84,
+    "duration": 48.75999999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_24",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "right now and then 10. Okay. So, get high. Okay. Nice. So, yeah, just a gimmick. UI uh is so um like I'm very bad at UI and etc. But this UI looks very good is only because I used uh Claude's uh skill pack skill uh um info. Yeah, basically Claude skill on front end skills and it sort of uh gave me pretty good uh UI. This is like very decent uh compared to other UF built like the initial initial UI itself and plus the components the buttons etc is very much standardized. looks very neat for like a like a like a like a like the domain that we are working with. The fonts sort of talk a very different um they they mean a lot. So um this looks good. I'm going to quickly show you uh the uh and if you want to look at how we did the agent in the",
+    "start": 1170.08,
+    "duration": 73.3599999999999,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_25",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "first place I guess it was day four or five four and five I think day four this is part one part part four or five day four or five check that we went through a lot of things like theory behind you know understanding users perspectives the users and you know generally it's not about coding right coding is it's now easy you can code with cloud code it's nothing but what do you code like you you need to have some meaning of code you need to build something solid if you you want to build something solid, you need to have a super crucial idea on the users they're using the platform and etc. So we did a lot of like simulations, user simulations and etc before even we touched the agent before even we touched how a system basically we brainstormed and looked at how a system could actually should",
+    "start": 1241.44,
+    "duration": 43.200000000000045,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_26",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "actually work for a particular user. So definitely worth checking out if you just want to you know check on the agent part not the document processing and all the infrastructure if you don't want to if you want to avoid all those noise 45 go ahead and check it and I want to put this request I'm trying to validate a performance code against the methodology in this report I need to verify the exact equations they need for the combustion parameters first find the formula to calculate the afterburn equation ratio it should be simple fuel tier ratio I expected yeah so basically I'm just trying to find some formulas Okay, I'm just going to fire this off. It's asking like because that's the only thing important right now this just for testing and you can see you can search it can get adjacent chunks meaning like up and up",
+    "start": 1282.4,
+    "duration": 58.23999999999978,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_27",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "and down chunks view image can view verify uh you know like for example formula might be corrupted in some sense sometimes so it could actually take an image of the PDF and verify that as well it can update it has its own notes as It can also have it has its own tasks as well. So you can see sources here. If I click on it, you can see the entire sources and then you also have C sources here. And if I scroll up, you can see all the and it all. Yeah. Yeah. Basic stuff. Basic stuff. Just a bunch of tool call and you have the responses. Cool. Now what I'm working on right now is save actually open up for you guys. So here you see NASA thesaurus V2 right? NASA thesaurus is a publicly available standardized sort of maybe you can look you know",
+    "start": 1338.24,
+    "duration": 55.19999999999982,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_28",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "assume it to be like an Oxford dictionary like a dictionary with all of the domain terminologies from NASA that you know in not just NASA but then generally in the space in the aerospace industry earth sciences industry astrophysics industry and all of those scientific sort of research industry and that's related to you know you know space and etc aerospace and just space and um uh uh space research and etc. They have very much standard. They have a lot of standardized domain terminology and they have a lot. For example, if I to scroll down uh you can see this concept ID 37805 actually means a European Airbus A300 aircraft international cooperation. Wait, this is a very bad example. So as I did mention not just aerospace dogs but also you know anything related to space research you know aeronautics and etc. and aborted missions would actually mean aborted paratus abort uh",
+    "start": 1392.0,
+    "duration": 57.51999999999998,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_29",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "trajectories destruction engine failure escape rockets escape capu capsules and etc. So when the agent would when the agent moves or maybe the when the agent actually uh let's say you fire up a query you know let's take this example over here I'll finish it in 2 minutes I want to before I jump into code so uh what trust chamber failures have we seen in a bipolent systems operating over 2,000 PSI? Now this 2,000 PSI would actually have a different meaning as well. Yesterday we were checking on to the cl we we were checking on claw and etc and we came with a number of 360- n or something like that there's a good number I think I can show it to you and yeah see this uh query processing 2000 API so you can't directly search for 200 APIs cuz over 25 years all of the unit",
+    "start": 1447.2,
+    "duration": 60.40000000000009,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_30",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you'll have a lot of unique inconsistency and this is one like you might use PSI, you might use MPA, you might use KPA or ATM or whatever N, KN, inches, mmcms, whatever the dimension stuff would have changed. So you need to be able to like uh you need to be able to um search if you don't find information, you need to have that right domain level knowledge to be able to search properly because you're not searching ABC. You're not searching for bananas here or you're not searching for apples and bananas or mangoes like that. These are quite different and a very uh a much more better example would be if I were to scroll up you can see LO X would actually mean liquid hydrogen I think liquid nitrogen uh let's see yeah bipolarent oxidizers would actually mean and specific oxidizes mmh NTO N204 M1 M2 and etc x",
+    "start": 1506.4,
+    "duration": 55.43999999999983,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_31",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "yeah and all of this stuff so some of the words that you know doesn't like I don't even know the meaning of certain words but yeah I can understand but I do know that you know there's a lot of domain terminologies and the model is could also be a generalized person like me in case but it still needs to you know search up keywords at this level for example if you were to say boproplant I think uh you might need to pull up loo x or ldx I think or it's liquid niggen I'm not sure but yeah you get the point it's all about getting the right terminologies and searching them in the documents even though the user was to were to mention um liquid something the model should actually search for liquid something plus loo x then only you'll end up in the right you",
+    "start": 1560.24,
+    "duration": 42.6400000000001,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_32",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "know you'll end up in the right documents if not you know you'll never find liquid liquid nitrogen could be mentioned in some sort of basic paper and loox would be different the embedding models have no clue l has connection towards liquid nitrogen maybe it'll you know have a little bit of clue in terms of like connection points but only for big models we using a 4 billion parameter model that to you know four quant four quant option. So then we can't expect a lot from a membering model like this. You know the prediction could be very much worse. So because of that we need to put a lot of work in this. So what I've done here is that that was so domain terminology is done. We already have it in corded. You can see 18,6 306 or something like that. We have two options. Let's say I were to type in the",
+    "start": 1601.12,
+    "duration": 47.840000000000146,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_33",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "same query, right? I typed in something before. I'm trying to validate the blah blah blah blah blah blah blah blah blah blah blah blah. And what I can do is that I can let I run a small model to actually extract the key patterns and then perform a search hybrid search getting to how we do the search quick search in quadrant get the terminologies and then give back to the model now you if I were to go ahead and run this like you know go ahead and run this as an as a second message it's very inefficient to run the coordinate of course even when it's in milliseconds it wouldn't make sense to run it on this particular text because it's conversation. Just because a user would you just because you have a user message you can't assume that it will have a lot of key jargon. Now the second thing is",
+    "start": 1646.559,
+    "duration": 52.641000000000076,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_34",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "that let's say the user were like the user user was to u type in a message and the message is on the way we we you know if I were to type in this particular message let's say we extract the keywords and inject the specific domain terminologies but this is only dependent for this particular message right like there could be much more much more like this is one Like this is one action. Just assume one action and the agent takes a 10 to 20 actions. If you were to do it in this approach in terms of action, you'll only inject for one action and afterwards the agent will only have to work with that specific you know text just that specific text which is very inefficient. Like the agent might search a lot like it might search come across a lot of information. You might come across a ton",
+    "start": 1696.24,
+    "duration": 52.48000000000002,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_35",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "of information and it can actually search lot search a ton and it can actually uh you know come that's how the agent would work right that it's not going to work in a single structured way. It'll search a lot of things. So whenever whenever it comes across new information we just need to expose it to new terminologies. So this seemed very inefficient for me. If it was fine- tuning then it's a different story that this seemed very inefficient for me. So that's why I added this as a tool call. So the agent basically is sending this um this thing >> stoometric stoometric stoometric stoometric >> okay stoometric I'm sorry um these words are quite new to me so stoometric I think um and then um yeah I can hear it from Google I think for me >> stoometric Yeah, this ratio and of course um you have airfuel ratio,",
+    "start": 1747.36,
+    "duration": 61.039000000000215,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_36",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "combustion parameters and etc. And you can see over here for each resource we giving them the synonyms and also related names for it. Of course, it's not a very good you it's not a it's got it's not a proper uh test case here. I'll show it to you when we have for example see this oxygen consumption it brings up some irrelevant stuff as well respiration occimemetry because we don't have so note that we don't just have space stuff we also have very different domain stuff with earth sciences biological stuff and that could come in you know there's a lot of noise here as well but that's the overall point the agent would need to have access to a search like this so then it can actually pull in the right uh keywords like the right domain terminologies and then use that to work towards it and at this",
+    "start": 1806.799,
+    "duration": 46.96100000000001,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_37",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "particular case I don't think it's quite helpful but you know it's as a tool is quite helpful um depending cuz we can't predict we can't assume that this is the use case the user might use it we just have to make it so it's more generalized and could work for any scenario and if there were noise it should be be it should be intelligent have to filter the noise and just use the information that's available so that's the whole point but I you can see over here for combustion parameters we only have one for off the ben relevance ratio sorry you have only one but what I want is that whenever you work on something like this you'll have a bunch of other keywords like you'll have a lot of keywords like this the the third one would make or you know let's say we only",
+    "start": 1852.32,
+    "duration": 42.71900000000028,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_38",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "fetch for five the third one online would actually make more relevancy than the first one uh oh not relevancy um would make more sense than the first one so what I have to do is that and overall you get the point right now we have all of this stuff right now domain terminology just wrap up domain terminologies and we'll start on a few uh a new cloud conversation to see how we can make this efficient for 10k locks. Okay. Sorry.",
+    "start": 1892.64,
+    "duration": 36.679999999999836,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_39",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "And also I think the prompt itself is bad. So I would say uh so let's fix that now.",
+    "start": 1944.0,
+    "duration": 8.240000000000009,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_40",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Oh, hey guys. I just saw your messages. Sorry about that. I'll go quickly go through them. Um, sorry, I didn't have the chat open. So, hey man, just came across your live and account. Are the recording saved? Yeah, man. It's actually saved. I'll uh um I'll send the live now. So, check this. Go to live and everything is save. We're building this for about 4 days right now. So, FX Tatya Winchu, I think if I spell your name right, here's the link. Go ahead and watch the previous recordings. Paul Singh, hi, I've been following your live stream for this project. Very helpful. very helpful to get on an undepth look on someone's approach to kind of this project. Exactly. That's what I wanted to do. Thanks for tuning in. the the overall goal is to just really like really show you you know what like you",
+    "start": 2012.0,
+    "duration": 49.59900000000016,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_41",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "know like what how what does it take to build a project like this and it takes a lot of work a lot of thinking and a team to build something like this but with cloud code you know god's grace I think we able to build this u in a few weeks time but usually these projects should take 3 months with a you know five to six member team and of course even on a real even with cloud code it will take a lot of time but this is something you know we we avoiding a lot of the noise and doing a lot of simulations and having conversations with CL and then you know building it through but in a real world scenario you will have a lot of calls and I encourage you to you know have a lot of call get as much as information as possible before you jump",
+    "start": 2058.72,
+    "duration": 36.95899999999983,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_42",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "into code and understand the domain as much as possible so that's exactly what we're trying to do overall this is what we are trying to do um I wanted to um so yeah this is sort of it I think uh uh I'll have the GitHub repo in a few in in some time maybe you guys can check it out Then apart from that, I think we're good enough. Um, what else? I plan to Yeah, I look at someone's Yeah. Uh, I'll have I think some posts or medium articles or something. Um, like so you get a good quick gist. Okay, this is the problem. This is how you solve it. And you just go ahead and make the changes. watching like the 7 hour recording because I've spent half the time debugging stuff like and you can see the the the errors that I faced just live and how I solve the",
+    "start": 2093.679,
+    "duration": 49.60099999999966,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_43",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "thinking patterns and etc. Hopefully that will help some of you guys. And your second question is there any way you might share your repo to make it easy to follow. I might share the repo. I'm not sure if I I'm just working on it. I would at least share the repo on document processing pipelines and I want it to be open source as well. So yeah, give me a follow on Twitter. Uh, and I'm not active on Twitter. I want to post something. I think you have to find a time for it. So, yeah, just go ahead and um give me a follow on Twitter and you if I were to post any live repos, you'll get it from there. Okay. Awesome. Thank you guys. I'm just going to thank you for your questions. I'll just monitor the comments going forward and yeah, we'll just continue.",
+    "start": 2141.68,
+    "duration": 47.2800000000002,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_44",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "And currently, if we Yeah, man. Sure. Currently for each term the agent looks up. We fetch three top notches for the aggregate this thing.",
+    "start": 2185.599,
+    "duration": 13.239999999999782,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_45",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Wait, I don't understand. But you have to",
+    "start": 2216.24,
+    "duration": 4.59900000000016,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_46",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah. So this is how I want to have cuz we need to have access to this uh concept keyword as well because before it was actually merging all of this to one single keyword which is very wrong. Right now this is what we I think will will be used. So I'll be like just to validate this. Um, now I'm just testing the domain terminologies tool. So, just call the domain terminologies tool and give me an output. And if I confirm, proceed to the next stuff. And please don't ask me any questions. Okay. Can you can see a small um it was a bit slow. I don't know why. Just a second slow. I saw that. Okay. Okay. This is good. Is this useful for you? I'm just trying to understand, you know, is it really useful for the agent? Because agent is going to perform it,",
+    "start": 2439.28,
+    "duration": 67.59999999999991,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_47",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "right? So, I'm just trying to get get its perspective because that's the natural way of because you don't want to you don't want to force the you know agent to use this always use this always. I want you to use a search query etc. That's not the case. You just have to say you know be in the shoes and if you think if you this would actually help you in this way and use it for this particular scenario and then if you were to remove all of those examples and like you know like few short examples and just generalized a pattern that should help out and that's how you know we from day one we only focused on generalized domain intuitive uh yeah um uh that that was the goal of building that's sample agent. So, uh that's one of the reasons we research through a lot of",
+    "start": 2504.96,
+    "duration": 48.159000000000106,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_48",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "simulations. I'll quickly show you the simulation. So, when I say simulations, it's not about like I'm not doing like you know like doing stuff like in a matrix or something like that. It's quite simple actually. You you have your understanding of what you're building and then what you do is that you create personalities. Okay, for example, is you have aerospace company and you're working with aerospace companies have you know junior employees, senior employees and etc. So you want to understand how junior employees would work and then what you do is that instead of asking how would a junior employee work I want to I want to understand the day-to-day if without asking that you create personalities to those you know let plot generate personalities you know that's just the personality with 25 years of experience you know they've been you know been 90% there for all of the research stuff",
+    "start": 2551.839,
+    "duration": 42.96100000000024,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_49",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "they've created been there for the failures been there for the success been there for whatever the stuff um you know is there and then you have that personality and then you create simulations for each personality. So you can see here phase one understanding and planning and uh so let's say um simulation in the sense that you know if Sandra were to you first of all you have to get all the personality right and then you will be like if Sandra were to use this platform how um if Santa were to use this platform how would she use it what are the steps she would take and etc and we come up with a very small query and we would see how the agent would need to sort of work on. So you can see agent will do this uh it will have a notes pad. It'll have this will",
+    "start": 2593.359,
+    "duration": 46.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_50",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "search this stuff. This is the agent's reasoning. It'll update the task and this is the agent's actions. The key this is the key findings. This is the action etc. So you do simulations for each query. So the overall goal is to understand how the agents of how the agent's nature should be. It's not a general search system. There's so many functionalities. there's so so many um you know um function not functionality so many intricate parts so you want to get those right by seeing the simulations usually in a real world scenario what I used to do is I go to the company and I see how the employees actually used a platform in the first place like how are you guys really using what is your traditional search system I sit near them and just see how they traditionally search you know what is their roadblock and even if I can't sit",
+    "start": 2637.839,
+    "duration": 48.96100000000024,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_51",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you know with them I you can't usually sit with them these guys are very busy for sure. They're not going to, you know, never going to pamper you or spoon feed you with a lot of stuff. But have a ton of conversations, you know, randomly ask questions, randomly try to understand. Don't go with, you know, the the bullet points of things you want to know. Of course, go with them, but also try to be, you know, ask random questions and, you know, of course with  and Claude, you can do a lot of simulations. You can understand their you can understand their work and etc. So you know have a lot of calls have a lot of information dump it in your brain to dump it into cloud and then get key points and whatever before you jump in the first code. So this is what one",
+    "start": 2685.28,
+    "duration": 39.92000000000007,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_52",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "simulation I had about three simulations done for very very different scenarios with clause understanding and etc. So this just helped me to craft the initial system prompt because system prompts plays a crucial role. A lot of people I don't know why they want to build they want to do they want to like whenever they see you know you want to make the agent look great the first thing they do is to go ahead and you know add the tools and you know making uh do all of these stupid complex things like adding semantic layer adding graphs adding this adding that dude get into system prompt and get your system prompt right I want to show you my prompt right like this system prompt basically influences the do the influences the model to think like an actual aerospace engineer because you don't need to go ahead and",
+    "start": 2723.44,
+    "duration": 48.7199999999998,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_53",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "prompt every single thing for this scenario do this for this scenario do this you don't need to the model already knows how you know person X in aerospace company would actually work and how the documents are usually structured and etc and you can see the system you're an expert research agent embedded within aerospace a consultant in this team blah blah blah blah blah you're not a search engine you're a reasoning agent that uses search as one of your tools when your user presents a You engage your full domain knowledge and engineering intuition before during the investigation. You understand the physics, the failure modes, the regulatory context, operational realities and unspoken concerns. Your knowledge of aerospace engineering, propulsion systems, fluid dynamics, related domains are part of who you are. Use it. When a user describes the system symptom, you should already be forming hypothesis based on understanding of",
+    "start": 2770.079,
+    "duration": 50.080999999999676,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_54",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "what typically causes such symptoms. When they me measure pressure value you should you should have the intuition of whether that's a nominal or concerning. When they reference a component you should understand how it function and what it fails and what its failure modes are. So if you were to you know if you were to you know dump in system from dump in examples for each scenario you'll be dead like you can't get it right and you don't want to spoil the agent with a lot of noise. So what you try to do is that you understand you create simulations and you try to see what does it take to you know for the agent to do it is it is it uh I mean of course like I there's a lot of moving components but one of the most important component here is getting the system",
+    "start": 2818.0,
+    "duration": 42.720000000000255,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_55",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "point right so usually a lot of people spend a lot of time I don't know adding tools going to semantic layer using graphs and just because engineers like to work on very complex stuff no and um and of course very people who are quite smart they also want work on a lot of you know complex stuff and figure this out this and that but usually it's so simple you get your system promp prompt right you have the good flow in tools you have the good document processing of course everything is like a pillar for the pillar for a system like this but getting your system prompt right will actually give uh um would actually make wonders to be honest because you'll just it just gets it like and it needs I of course needs to be in a flow you know and I want I want want a single person",
+    "start": 2858.319,
+    "duration": 47.20100000000002,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_56",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "to design it. I usually design it myself so I understand the entire perspective because if you were to give in a team not sure what sort of stupid actions will they'll do they'll have their brains they'll you know come up with their intuition their way of doing it and etc. Of course, you have to do it together, but try to, you know, be in a uh yeah, try to be in a flow. That's what I say, you know, flow. I'm not able to explain what a flow would mean. Uh but try to be in a flow. get into a good flow and then try to craft your uh system in a in the most um what do you call um uh most efficient way possible starting with the processing and then you know skyping we can because the thing is like this when you mention stuff like this right",
+    "start": 2903.119,
+    "duration": 41.92099999999982,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_57",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you present a question you engage in full domain knowledge and because you're basically like the models are already trained on engineering documents like you don't need to go ahead and tell these documents are like this these documents are like this this document is like this this document like this you don't need to like you don't need to go ahead and sell everything to the model. What you can say is that you know this is this sort of domain. So you would know use your domain intuition on how the documents are structured and how what's the nature of the documents and if you were to say that then those trained information will get actually just looking even if you look at like neurons in the brain level we don't know what's happening in between but when you put this information I'm pretty sure all the training data or the personality shapes",
+    "start": 2943.359,
+    "duration": 44.16100000000006,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_58",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "or the personality data or whatever when you put like when you when you use words like this it'll actually spike up the domain intuitions and it'll actually have that loaded in the model. Okay, then you'll be like, okay, 1970s documents are usually like this. You know, they'll have a lot of issues in formulas. We have to go ahead and take an image. Understood? Stuff like that. So, you know, get this right and you'll pull off most of most of um yeah, most of the hard parts. So, get me a better strategy of finding exact equations. Uh your metric concerns you need really. Okay. So, I think I want to try this one more. No. So you can see over here for one this thing we have like very different matches mass ratios we have u stuff like this and I want to see if it actually is going to use this so I'll",
+    "start": 2985.52,
+    "duration": 47.63999999999987,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_59",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "uh I'll just send this don't ask me any questions just get started and it's searching it's not using any domain terminologies here because I've not hardcode it to use it you know like use it before in any search but I want to you know because I'm not doing any injection right now I want it to have you know use I want it to literally um look into that so I'll be like um show me the system prompt or the tool prompt and etc for actually I'll see that and you can see over here on domain terminology you have access to NASA NASA's thesaurus a compressive collection of 18,000 aerospace domain concepts synonyms I said the lookup terminology tool can help you expand your search. Actually the thing is like this I don't want to expand your search before searching look up technical terms but still it did miss it. I didn't",
+    "start": 3034.079,
+    "duration": 61.039999999999964,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_60",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "search for it. If you encounter an unfamiliar economy in terminal look it up. The thing is like it needs to use it always discover related related terms that might lead to I'd be like so the model didn't use it right. So I just want to know uh the be honest here. It's totally okay but let me know why didn't you use the look up the domain terminology tool. So I just want to understand why didn't you maybe didn't like there was no reason to use it. This is probably a very simple query that's why you didn't use it. Oops.",
+    "start": 3093.839,
+    "duration": 34.92100000000028,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_61",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I made a judgment call. It wasn't necessary and I should be clear. Why? When I read your question, you were already using precise domain terminology after burner equalency ratio. Okay, that's the thing. I semantic hit perfectly with come back immediately. Okay. So, can you give me can I'll you know um um verify equation. Yeah. Can I use it up front? So what I'll do is that trying to validate this this string first find the formula used calculate to calculate the okay the thing is like this I'm testing the can do it here itself the above is the query I am using to test claude I mean my agent but uh I guess we All the thing is like that the the agent doesn't even use the look up the domain terminologist tool because I think um or it did confirm that it didn't have the need for it because",
+    "start": 3141.599,
+    "duration": 64.64100000000008,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_62",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "because why it didn't have the need for it because we already gave like very clear information or very clear jargon right so what I want to do is that give me an updated query that of course the same task but then just remove a lot of the domain terminologies and just be vague and hopefully the model should be able to figure out the right the goal is that model should be able to figure out the Take acronyms for it. Automin for it. So I'll get back um a query that is quite vague. I'm trying to validate the performance code against report and to verify equations that used to follow ratio. This means okay. So what changed? How much extra fuel is being burnt in the reheat section? Nice. Now the thing is like this you can't go ahead and search this right like how much extra fuel is being",
+    "start": 3204.88,
+    "duration": 57.36000000000013,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_63",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "burnt in reheat section you can't search this in NASA's uh domain you not have this this has to come from training data and that's why finetuning becomes more important much more accurate in this sense because you can capture those nuances still you know just go ahead and give it a try and you can see the updates it's updating its task it's running paralle search. I don't know why it no I don't want this will be like please use the domain terminologies too. What did it search for? You can see after burner reheat. Let's see what did we get for reheat. heat gain entropy whatever. Let's see the parallel search queries.",
+    "start": 3259.92,
+    "duration": 66.35999999999967,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_64",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "burning efficiency. Yeah, I think after burner equivalent equivalence rat ratio. Could you see this? And let's search if we got that right. So the I can see this is truncated uh the in the agents agents uh tool call I see this to be truncated but I want to see everything please don't truncate it but I can see after burn equalence ratio where maybe it came in through um because we didn't mention anything on after burn equivalence ratio at all at all uh but maybe it pulled in from uh maybe it was part from it was part of the terminal technology look up or it was probably from the model's training. Either way, you know, as long as you end up in the right spot, that's enough.",
+    "start": 3360.64,
+    "duration": 54.919000000000324,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_65",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay, this is part of the training. I think it came in from the training and I don't think this is helping much. Uh generally it's not really helping a lot in the sense of you know it'll actually help because model we're using a good model right now plot right so it so it has good understanding of like when to avoid noise and when to use it you know by default it should have that. So I'm not going to reprompt it and you know hardcode this but I can see I'll be like here be honest here did the domain terminologist really changed the way you performed the search or was it merely not useful? Be honest no problem at all. I'm just going to directly ask it cuz I mean uh um Claude is only using it. I think no is the answer at least for this particular use case.",
+    "start": 3437.68,
+    "duration": 48.91899999999987,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_66",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "to it wasn't useful in this case. I already knew relationship after burn relations I had already understood when I constructed my product. I was already using the light right language. Yeah. Yeah. So why I'm doing this is that you know if you were to work with a open source model that is not quite aware about terminologies you can still you know in in a good spot you'll probably end up uh yeah sorry you'll end up in a good spot for a model that is quite not uh quite unfamiliar with the acronym and etc. actually um uh this is quite simple query but I want to try a query that like has LO X should be able to pull LO X or something like that. Uh like maybe for this maybe what I'll do is that I'll just try with Dr. Claude and",
+    "start": 3487.92,
+    "duration": 59.24000000000024,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_67",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Please use the lookup tool domain terminologies and don't ask me any questions.",
+    "start": 3590.48,
+    "duration": 7.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_68",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Was the domain terminology tool helpful for you? Did it give you uh any new info or like did would would have like could have this influence your search in any in a positive way. Most I already know. Okay. Yeah, cool. The thing is like this cuz it's clawed, right? It knows every damn damn thing. It's pretty good, I think. So, because of that, you leaving it as it is. Uh, but yeah, you can see if you were to go with an open source model, you know, definitely like info on like this would actually be helpful, right? Overall, I think we're in a good spot. We have domain terminologies done. We have about 18, 366 domain terminologies I'm already done. And I also want to check my document process. How long have we done? So let's see. CD",
+    "start": 3634.88,
+    "duration": 96.83999999999969,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_69",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "All right. So anyway, um I think we uh I want to quickly show you the amount of documents we already have. So source V and V again trying to activate that and then see the search PC this. Okay. So here is this. You can see we already 56.8% done. We have about um we have about we've already processed 5,000 documents. We we working with 10,000 odd documents and this system can actually scale for more than 100,000 documents. That's the entire goal. We have one H100 and we're doing about 112 pages a minute and we're doing a lot of document processing and etc for the folks who are right now watching and etc. So yeah, I think we have another we'll complete the entire thing in about I don't know uh in few uh in a few days like to today or tomorrow like end of tomorrow or the day after",
+    "start": 3744.799,
+    "duration": 67.2800000000002,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_70",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "and we should be fine. So if you if anyone is interested go look up my past videos on GPU and getting this stuff paralleliz like you know all the GPUm stuff and etc for 10,000 docs and that's at cordon we have about 500,000 chunks I think right now which should give us a good good point for us starting point for us to start the agent the thing is I'm not happy with domain terminologies uh so what I will do is that I'm going to quickly send um I'm going to quickly send this particular the simulation of whatever the information we had here for example this looks very good I just want claw to understand why we're doing the domain terminologies because I'm not happy with the way we have structured the problem so I'll be go I'll be going to simulations",
+    "start": 3809.28,
+    "duration": 48.88000000000011,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_71",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Just save it like this.",
+    "start": 3873.359,
+    "duration": 3.880999999999858,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_72",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Perfect.",
+    "start": 3890.48,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_73",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "because I'm not quite happy with the this uh the happy with the system prompt. We have access to this and this and it's just such a noise. Such a damn noise. I just don't want that. The thing is the model doesn't use it and we are not forcing it to use it because like if the model knows about it then why why use it. Uh so let me through the document give you an expment what the document imagines expansions a trust chamber combustion this bipolar image and all failures anomalies this would generally be useful what we actually got from your test synonyms you get medical terms skytric no synonyms found after burner equalence ratio only match after burners advances errors true broad covers all aerospace not propulsion specific and missing critical terms that propulsion engines actually use documents his own warning. The NASA will always help it with compar starting",
+    "start": 3953.839,
+    "duration": 56.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_74",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "another complete solution. Honest answer the semantics has already handled this model embedding this model might capture trust compar without explain knowledge in the prompt already gives it guidance to think about synonyms. Um yeah, if the agent's reasoning could be better. Yeah, I think yeah. Yeah, I think we we should do two things. One is 18,000 is a lot and I think it's creating a lot of noise because you're having medical terms and all of this unwanted terms you know which is of course creating a lot of noise. If if we were to fine-tune the model then fine but you know if we were at this particular scenario we need to get only we need to just get the we need to filter it based on only propulsion sort of terms and like space related like whatever the domain we're working on something very something that's very",
+    "start": 4007.039,
+    "duration": 58.07999999999993,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_75",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "much um focused on that. So we need to be able to filter that and we need to process that. So we need we'll we'll go through how we'll do that next. And also I think um we're doing like exact keyword match exact keyword search and also hybrid maybe what we should do is that we should augment the uh the the search. So instead of actually searching just a term in in embeddings we'll actually expand it with whatever the knowledge cla and then you know search that based on that you know we might end up in a better position. So those are the two things I want to work on. Uh let me know your thoughts. Yeah, because I think even though we have 18,000, I think it's a lot of noise. We have aircraft and really and because it's it's the thing is like this embedding models will be much much",
+    "start": 4062.559,
+    "duration": 54.23999999999978,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_76",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "accurate when you have a lot of text. If you were to do like simple text like European Airbus and then you have another Airbus, it'll have a lot of match, right? Like embedding models aren't is not trained much for very singular information, not for very small information, not for text. That's why you have keyword matching for basic text or fuzzy matching or whatever the matching you want similarity or whatever. But for embeddings you are trying to relate it to like a meaning of maybe a paragraph or something that's quite quite what do you call quite detailed. So then what we need to do is that we need to reduce to one thing I can think of is that you just reduce it to very specific propulsion related parent terms and then you also make sure that the query is also augmented. So you filter the propulsion the problem 18,000",
+    "start": 4114.48,
+    "duration": 47.600000000000364,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_77",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "general also creates medical oxygen viation. Yeah, because it's still noise right the emitting also going to suffer from this and method hierarchal filter both relationships only keep the propulsion related parents medium key method keywords filter keep terms containing propulsion keywords in preferable manual manual curation have clawed Oh, good. Actually, I sgest. Yeah, with Claude's knowledge is expands it and then we get you know better acronyms I think because we can use the training knowledge here. Okay, please update this into the domain specific u terminologies document and let's work on all of the steps starting with step one.",
+    "start": 4160.319,
+    "duration": 76.20099999999911,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_78",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah, I'm not sure how are we going to how are we really going to uh filter it based on the right proportion because I don't think there's any keywords or tags. Um, so okay, I should have saved the research uh I don't think this will be useful. We'll just run it off. But I think what is actually useful is uh what is actually useful is um what is actually useful. It's only we we just have to load those right 2,000 or 4,000 words. That's it. That's what we want to do. Uh no point analyzing this, I think. I think I can be wrong.",
+    "start": 4280.8,
+    "duration": 71.07999999999993,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_79",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "No, I think this is so manually. Uh yeah, can you see all of this keywords? It's only basing this basing all of this based on this keyword. Now the thing is like this. Okay. So we have engine types, components, propellence, specific propellence. So okay. So it's basically we are trying to just filter out in the in the current 18,000 you know with acronyms with medical stuff and all of those noise because we are not fine-tuning the model and we cannot find we wanted to reduce the noise in an embedding space because we are not working on uh we not working with paragraphs. So usually the embeddings would struggle to get something accurate here and you wouldn't like for very very small like couple of text keyword is fuzzy matching would work but for embeddings in semantic search you would just need to filter it as low as possible and then augmented",
+    "start": 4370.96,
+    "duration": 60.400000000000546,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_80",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "search but we'll give it a shot. We'll give you a shot and see you know this is worth trying. Uh has propulsion keyword has propulsion concept filter thesaurus analyze filtered say filter. Yeah. So just filtering in the 18,000 trying to get something that's only as relevant for our you know aerospace/ propulsion sort of documents because usually it's NASA documents and we're not going to deal with a lot of medical stuff. That's [snorts] a very very odd use case. So yeah. Okay. This is a good number. 18,226. However, some expected terms of filtering. Good. I think yeah, we just need to change that up.",
+    "start": 4429.44,
+    "duration": 43.88000000000102,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_81",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So, we'll end up with about 4,000, I think. And then we can chunk it anytime. I mean, if you want to switch back, it's still there. We still have both of the 18,000. The initial one, the version two, and it will be version three, I think.",
+    "start": 4493.679,
+    "duration": 17.64100000000053,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_82",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I'm top level the sentence. Okay.",
+    "start": 4530.719,
+    "duration": 11.479999999999563,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_83",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I think this time we found much more. We have 300 3,581 four questions. Most we verify the output and check for problems. So test. So I think end up will end up about 4,000 words or something like that.",
+    "start": 4560.159,
+    "duration": 15.881000000000313,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_84",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I think we should have better weather here. A bit more down. Okay. Now verify oxygen consumption. And also guys, if you have any questions, you know, feel free to drop in. I'm happy to share any info that I have or any like if you're confused on anything, feel free to question or send me a question and I can give you more info. But yeah, right now we have 5,575 concept 80% reduction and let's you know we'll definitely see how it would um you know uh come out. So Ram Ram Ramandep Singh okay hi I wonder hi man hi I wonder how you would deal with rolling back changes to your DBS and how do you reflect updates deletes in the data you have your graph no so I'm not using any graph here it's purely semantic search I'm not using graph rag here so that's one thing how",
+    "start": 4662.0,
+    "duration": 63.600000000000364,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_85",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "do you roll back changes your DBS um so for quadrant of course uh I manage backup usually when I do for this use case I I don't backup. We usually have backup. You usually have three backups usually in very different regions. And if one were to go down, just pull in back from that and you know, you usually have a backup. You can pull that up. But in terms of updates now, initial basic updates like adding a document or update adding a document or filtering document that's totally okay. That's quite simple to be honest. But actually updating a document uh sorry updating like for example usually in the companies that we work with you have 10 documents and five of them will be draft and seven of them will be drafts and no wonder you'll just you know have you'll index it you'll you know create metadata and everything and",
+    "start": 4722.8,
+    "duration": 48.878999999999905,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_86",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you'll save all those all those stuff in your quadant or whatever whatever the DB you're working with and then you have the actual production file coming in that's the actual file now in a sense that we see in a sense of in a sense of relevance you would only actually need you you don't need to focus a lot on the drafts but this new document would actually be the production one that's one use case you see a lot you see a lot of this in legal documents and and not usually in legal documents and if you were to work with legal documents in scale um definitely you have this issue we use a lot of pattern matching we use a lot of file name conventions you we use a lot of uh like pre-processing in terms of check analyzing the first three page pages analyzing the last three pages and all",
+    "start": 4769.6,
+    "duration": 47.11899999999969,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_87",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "of those stuff and then we try to put that up and try to create metadata for that. Yeah, sure sure man. Anyhow, uh good luck. So I think ingest filter propulsion and create a new collection called proportion disorders. So this will be the V3. We already have two versions. I will create another one and we'll run it. And yeah, so I'm going to run this.",
+    "start": 4814.64,
+    "duration": 31.558999999999287,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_88",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay, you should have it here in recussion. nothing but we'll have better and second uh we'll have uh but we'll uh it'll take a bit of time to process all of this right so we'll jump we don't not want to waste time we'd be like and I'm running it already until it comes back we'll actually work on uh step two okay Ramip Singh I'm actually going through a similar problem but your use case involves documents to be injusted reested again in case update Yeah, that's the thing. Now I have a custom pipeline for it. Let's say now they very depends on very scenarios, right? Depends on very much the scenarios. But let's say a new document is actually coming in. You can have a quick filter to see what similar documents of like for example let's say you know uh you it's a contract right X um um um Raj X",
+    "start": 4861.199,
+    "duration": 57.44000000000051,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_89",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "um Randep Singh partnership or something like that. That's the contract and you have various different drafts for it and you have metadata initially processed to your what do you call to your quadrant you already have that unique data process your quadant now when a new document comes in instead of reingesting it directly you can have a pipeline in in in between or you know in the front where it checks the first three pages or the last three pages and gives you a proper metadata using the metadata you can try to find very much related documents. Now, of course, this is an agentic process. You need an agent or you at least need a very small model to work on this. But then the model will identify whether this document is related to this specific document and I'm pretty sure you're not you're pretty sure I'm you're only working with",
+    "start": 4916.239,
+    "duration": 45.28099999999995,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_90",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "thousands of documents. I don't think you're going to that 10,000 range. If that's the case, you can utilize a very small model and do that, you know, initial filtering or check using a model uh to see you mean something like git diff. No, no, no. I'm not talking about git diff at all. Um what I'm trying to say is that no you can't do gif right for example like I'm I'm not sure what documents you're working with let's assume it's legal documents right you can't accurately predict the changes like for example like a small change just a number would change let's say your you you were buy the like the production version might have uh a contractual valuation of 10,400 instead of 10,000 that 400 is is not a big difference but still the production version or the most recent recent version is actually 10,400 then what you have to do is that you",
+    "start": 4959.76,
+    "duration": 49.68000000000029,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_91",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "want to do some sort of initial pipeline to be able to scan something like gif you can do it if you can but I'm not sure how you you know you know uh like use that understanding in um in a legal sense or whatever the domain sense if it was like code files you can do like a get different that's that could that could be quite quite easy but yeah for legal docs you have to even you have to you have to first of all get that base amount of understanding whether this doc because I'm pretty sure the file name would change you can you know use it with that and you probably can you know dep depending on the document you're dealing with in a legal doc you know initially you will have the dates being changed as well with that you can find the difference so depends depends on",
+    "start": 5007.92,
+    "duration": 40.79899999999998,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_92",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "document by document you' want to it'll really depend and the the the the issue is that you don't have one single solution that would actually solve all of this. So um yeah um you just have to do a ton of manual work here but yeah uh that's what I'm saying for to be reested depends on if for example for a space documents and etc. Uh exactly yeah we have exactly that's what I'm saying you just have to base it on document metadata and also have like a very small model that can find let's say one document comes in right like again the same example randep x raj partnership and then what you do is that go ahead and search for similar documents and if you find like a good relation okay that is actually another contract that is Raj and SEP let's pull that up and let's pull that up and just",
+    "start": 5046.08,
+    "duration": 47.51999999999953,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_93",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "analyze the first few pages and try to understand between dates you can use the dates to identify what is the uh what is what is the um first of all you already formed the connection second of all you'll understand okay this date was on the November 30th now this is on the December 31st so this is the recent one and then you can update the document metadata saying this is the recent one and this can be done only by that initial filtering model you have the agent model you have so that's one way I can think of right now u yeah you can have various different ways to be honest oops I think we rewrote the V2. Oh no, we have it here which is updating the agent. Yeah, sure. Sure.",
+    "start": 5091.6,
+    "duration": 49.3199999999988,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_94",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah. Thanks man. Thanks. Thanks for that. And also follow me on Twitter. Just search up Rajan Gopin and you might find an account with the same profile image. I don't want to put any links over here. But yeah, you can just go ahead and search it up and you can give me a hit on Twitter in case sometimes I might release if I release the GitHub or if I release anything, you know, you'll be notified. That's it.",
+    "start": 5155.92,
+    "duration": 29.5600000000004,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_95",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay, good. You can see old 18k terms we we never for we never find we found anything but on the new 3.5k filtered terms we found liquid oxygen lox hydrocarbon engines thrust chamber pressure basically found um we have a very good very good result after this like so this is also one so this is also you know a lot like a lot of people like for example finetuning you can have a lot of data but when you're working on stuff like this in terms of at least in like domain specific terminologies. A lot of people think you you need to have a lot of information. You need to have you know 20,000 30,000 40,000. Now the thing is like sometimes even the the most simplest approach the most the most simplest approach will actually work and technically speaking the most simplest approach will only work here because the",
+    "start": 5202.8,
+    "duration": 51.599999999999454,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_96",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the like you can see the uh the embeddings itself is liquid oxygen. It's not a paragraph. So embeddings will fail. Your embedings will succeed only if it's a paragraph and if it has contextual meaning. for stuff like oxygen hydrocarbon engines embeddings shouldn't have much of a much of a strength like it doesn't have a good weight there so I I mean for like two like for stuff like liquid oxygen like two or three words you one you want to do like augmented search or second do direct keyword search that will only match and I think we doing keyword search anyway but overall the clean 3.5k per text was actually working right for our scenario so I'm quite happy about it so we'll move on for the next one medical terms No medical systems all results are propulsion related and bit synonym coverage and we'll we filtered",
+    "start": 5251.28,
+    "duration": 47.76000000000022,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_97",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "most of what we want to do and I want to verify I wanted to verify one more thing u was yeah second is augmented so we'll fix this up and uh next move on to augmentation ideas let the agent provide more context of semantic search. Let me update the tool to accept optional context. Okay. Yeah. So this should come through the agent. Yeah. So it'll so assuming you know the semantic search works pretty well for this because you have the thing is still I'm not sure embeddings will have it might have a decent boost up but not a big because it's not big paragraphs, right? So but still that should be a a good boost to be honest. So hello X we're removing all this unwanted stuff and might keep an unfamiliar domain show. Okay the thing is I want to make the system prompt still much more smaller",
+    "start": 5296.32,
+    "duration": 67.60000000000036,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_98",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "because I don't want to give like domain terminology should be a big thing to focus on this particular thing we have very important things to like focus on. So I'll just make this concise a bit later. uh calling it okay instead of calling plot within tools we enable augmented search the tool description instead of this examp but I want you to verify this in the first place cuz it can you know it's cloud in the first",
+    "start": 5362.4,
+    "duration": 30.6800000000012,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_99",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay.",
+    "start": 5520.56,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_100",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "All right, let's continue. And also I wanted to know what's your choice behind using Python. Wait what? Is that is it I don't know like why why choose the question should be why choose anything else in the first place? Why not Python? I mean I'm doing I mean the things like this for all of this model stuff you know you might need to train the model. you might need to um do like the Python is all the libraries and everything supports Python. It's a very good question to ask but there is no reason to use another model for me like so sorry another language I I don't find anything there's there's no there is no u there is no need for me to in the first place use anything else and Python is quite stable and I mean I mean um yeah I think I've answered your question",
+    "start": 5535.76,
+    "duration": 58.79999999999927,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_101",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "it's just a choice and all of the libraries packages I use you know models the frameworks everything is um everything gives more priority to Python you know that's like the initial uh but also like you know like in case I want to train the model right I I want to you know fine-tune models and etc you you I wouldn't want to do it in NodeJS I wouldn't want to do it in JavaScript like why in the first place and also bit biased as well you know I you know got started with Python as a language sort of I guess first language and then Um I've been just with that uh sticking to that. Cool. I don't have a proper answer for you. It's just choice man. So pass full concepts 18,336. Um okay cool. But I want you to verify this. Okay, not not found excluded. Yeah,",
+    "start": 5592.32,
+    "duration": 69.68000000000029,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_102",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "that's what this is a lot of good good amount of noise removal here. LO X weak matches and now you're matching LOX hydrocarbon engines which is good. Combustion combustion temperature combustion control oxidizer rocket oxidizer and liquid oxidizer. So when the model were to when the model was to per if the model is going to perform search instead of oxidizer will actually search for rocket oxidizer or liquid oxidizer and they will be more helpful in a scenario where you're running an open source model which is le which has the level of intelligence is much less and it would need access to domain terminologies and etc to do that extra level of push in search cloud of course it knows everything and you can assume it works very well and you can see the time difference a couple of seconds. At least more than a second. Oops, sorry.",
+    "start": 5659.92,
+    "duration": 50.19999999999982,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_103",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Control auto to expand and verification results. Uh before 18K now you get this com parameters you get commercial test two proportional terms working. LO X liquid oxygen trust chambers oxidizers hydrogen high hydroine. Okay, whatever specific impulse turbo machinery um test three augmented search models improvement uh test augmented models improvement okay created heat converion context mixture problem context yeah augmentation helped but isn't dramatic the main is filtered correction eliminating yeah filter collection eliminating noise yeah it's just a bump so just even a little bit push in our case should be more than enough so I'm going to go ahead and test the agent one more time to see if it can pull in any um Yeah. Okay. Give me a query that I can send to the agent",
+    "start": 5711.28,
+    "duration": 60.19999999999982,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_104",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay, I don't think this is the right query or something that could I don't know. Uh, make sure to look use the lookup domain terminologist tool and then get back to me with the response. I just want to verify what it does.",
+    "start": 5794.8,
+    "duration": 14.519999999999527,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_105",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "I think it looks good. I think looks good. So for after burner reheat combustion fuel. After burner reheat combustion fuel, we got after burners exhaust system in infrared suppression. So see that's a good one I think. And burning process burning time and your erosive burning. I can see the parallel search being fired. And yes, fire search has some of the stuff it got from um uh from the uh from the lookup. Either way, so I think it looks good. It's fine for now. I also want when you Yeah. So I want the model to So the thing is like this. I want the model to be I don't want I think it filters noise. So it's automatically doing a lot of filtering in noise. It's not exactly using those terminologies. Only using terminologies which seems to be which you know seems quite quite uh quite in",
+    "start": 5823.92,
+    "duration": 58.960000000000036,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_106",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the line of the query. So I'm not going to go ahead and prompt it. I'm going to keep the prompt as it is. Um okay. What else? And it found the right uh right answer. So that's okay. So I think domain terminology is actually solved. uh cuz we're continuing it from yesterday. All right. So, this is good. Now, I think we have the initial set of code that is quite stable that could run on any disting etc. Now, I want to expose the current documents we have. I think we have about 5,000 documents already. Let me actually connect to let me see 13 connect to cordon through the IP I have",
+    "start": 5880.48,
+    "duration": 50.759000000000015,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_107",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Anyway, I'm going to first of all connect um to SSHs Thank",
+    "start": 6064.96,
+    "duration": 15.800000000000182,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_108",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the folder. Cool. Now I can just check quadrant quickly. S input 63. And let's check for quadrant. And you can see we have 827,18 chunks there. That's a lot of chunks. And what I can do is that uh can I connect to this code? Yeah, actually I can. Sorry. Like I want to I want you to connect for a different coordinant. I want to pass in the port of it. That's the final collection name. Make sure to update the agent but keep the other one commented so we can switch back when we need it. Just keep it as local host.",
+    "start": 6098.239,
+    "duration": 76.60100000000057,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_109",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So we'll make the change and then we can directly start quering it from here. This is when reankers will be useful. I'm I think I right now I have reanker disabled. That's what I think I want to add it. And then yeah we'll just start with a very scratch pad. You know we solve document processing. We'll install domain terminologies. We have installed tables, formulas, images, whatever. And we've solved infra 10K docs. We've solved GPU sub. We've solved everything. Now at the final part, how are we going to solve an agent that can actually work like with with limited amount information? What how could it actually work in a given embedding space of 1 million chunks. I think it'll be more than 1 million I think by the time we finish it. But yeah, we have to now this is what we want to do. But yeah, I will",
+    "start": 6195.44,
+    "duration": 48.5600000000004,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_110",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "take a very simple approach here. just start off with a very small, you know, start off with what we are building and and we we'll take it from there. Yeah.",
+    "start": 6241.6,
+    "duration": 11.078999999999724,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_111",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "And of course, I think we'll work on how to make this sort of fast and etc. But quadrant like we're not going to do anything. Uh we're not going to write any rappers around. Corinth itself is very fast. I guess the the peak was that it can work with 1 million um chunks or 1 million something in milliseconds or something. That's what what uh that if I'm if I'm right that that was the benchmark or something. I don't know. I don't necessarily know um um accurate enough. I'm going to check that out. Okay. Okay. Do not ask me any questions. Oops, there's an error.",
+    "start": 6266.56,
+    "duration": 67.15899999999965,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_112",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "H we have something in post 8,000 because we are uh doing a tunnel right so we'll start this port in a different port 8 8 we just make something like this like API is running to port 5435. Update the agent.",
+    "start": 6382.48,
+    "duration": 26.840000000000146,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_113",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "No, I mean the front end. The front end uh should call the back end API, right? And the back end API right now is in port 5435 cuz 8,000 can't be started because we have dockling servers running on 8,000. We're doing a tunnel. So it'll definitely forward port put forward the request here. So we'll just start it in a different port and we'll try it and see. Okay, try one more time. Okay. Hello. Okay. Search for LO X. Don't ask me any questions. And see, we didn't still get a response from Quadrant. And I think we won't get a response. No, actually we got a response but quite slow. I found 20 looks related results around the archive archive. Uh we'll thanking we'll we'll yeah we'll search about this. find me the full information and read the document information and you can see the metadata that this",
+    "start": 6431.76,
+    "duration": 109.35899999999947,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_114",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "documents have sections detected. See like see just see I mean this I don't know I don't know what documents this is in the first place but you can see we have a lot of sections we have the document structure we you can see the entire you know this is this is a TOC and this document doesn't have a TOC we extracted this metadata this is coming from metadata in 800,000 chunks okay I do I have no clue I've never done never done any custom workloads you can view the images as well oh right right you can't view images because it's in a different server Then we need to do like B 64 I think. Okay. But yeah, we'll fix it out. We'll fix that. Good thing we know get section. You can see it can read the entire sections. Let's say you have a section, you have subsections. You can",
+    "start": 6538.48,
+    "duration": 47.198999999999614,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_115",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the model can actually pick up that sections because we have document like we the metadata is so strong you know it I'll show you visually show it to with the image. I'll take this PDF. Okay. And you see you have uh you have you have something called instrument instrumentation. Okay. And you u let's say you come the agent come across this uh comes across this paragraph and it needs to read the entire section. Usually we have two ways of doing it. One the agent can move up and down you know like how normally how we do it can move up and down get the above or below 300 chunks. If not, if you want to do it in the most acc um uh in a way that's quite easy, we have another tool called get section which so so this basically I don't want to complicate this this paragraph will",
+    "start": 6584.159,
+    "duration": 50.72100000000046,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_116",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "have a metadata called section heading as instruments and this paragraph will also have a metadata called instruments in the section heading. So what will happen is that when you search when you come across this particular paragraph and when the model needs to you know get the entire section of it it'll just you know use that particular session ID for example here it's using heading as USS Ukraine zenith and if I were to scroll down you get the entire section in order so order 83 and then you have this and you have diagrams here as well in case the model wants to see the diagrams it can see it but it's giving an error because we don't render diagrams we need to convert it to base 64 but we'll come to that we know the known issues here and then you have order so same page 15",
+    "start": 6632.08,
+    "duration": 46.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_117",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "you have a picture and you have a photograph good descriptions about it and you have all the 85 so the entire section is properly available and it makes a lot easier and this is we got this information in 5,000 documents don't care about documents right it doesn't matter it's 100,000 documents or it doesn't matter it's 50,000 documents if your document is actually one page and if you only have 100,000 documents it's a it's It's baby work. It's nothing. Just look at the pages here. We are working currently. We already we've already done 129,000 pages or something like that, I think. Um and and don't worry about that. We have chunks worth of 800,000 chunks right now. We have so that's a huge thing to compute. It's a huge it's a huge work. But among the 800 8,000 chunks, we were able to find this particular one quite",
+    "start": 6676.96,
+    "duration": 48.55999999999949,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_118",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "easily. And yeah, we got resources to it. And I would be like, I want to know more information because I'm not a rocker twister. I would not know whether it's right or information, right or wrong information. But I I wouldn't even know whether it's useful in the first place. So this is the tactic I want to play right now. I want to sit down. I want to basic. So I want to basically understand just go back to claude and again read the use cases simulation and see how could we you know how could we build that first initial um how could we make something that's like sort of I guess yesterday I did explain it in a radius sort of sense so I guess few thing so I will I will explain it to you one more time what we are essentially trying to do is",
+    "start": 6723.28,
+    "duration": 48.319000000000415,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_119",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "that yeah I will get this particular example, right? Assume this is actually the entire image is actually open the image. Yeah. Assume this entire image is 800,000 chunks right now. What you want to do here? Okay. Wow. Not wow. The parallel search was also done. And I think it took took a bit of time because of course there's a lot of stuff. I want to make it fast. Let's let's focus on all the fast stuff later.",
+    "start": 6769.679,
+    "duration": 28.201000000000022,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_120",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah, the one one stupid thing that it did was that dockling did give me a lot of uh um a lot like I didn't use five to I didn't have a minimum I didn't have a minimum amount a good minimum for chunking. So I didn't have I didn't chunk it on 256. I chunked it based on paragraphs. So some paragraphs might be big, some paragraphs might be more than 256. That's how I did it. But yeah, it's still useful. Uh you can still expand the K top to be 20 or 30 or something like that. So it's fine. It's fine. [snorts] Uh and it found the right documents. So as long as it finds it's okay. Cool. uh uh and you can see over here um just assume this is the 100,000 chunk space and you you have a question right initially what you have to do is that your you and",
+    "start": 6810.56,
+    "duration": 53.03899999999885,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_121",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "let's assume documents are scattered across pages what you have to find is that you need to find that one small spot of good information now of course in embeddings it's not like location it's not like you know it's near it's like you don't have any correlation in terms of location. It's it's scattered through. You don't have it's not a map. It's not a map like this. But what I'm trying to say is that we have to boil down to a very small embedding space and then expand from there. So even so you so the X can come here, right? It can come to Pittsfield, the X can be in Vermont, the X can be in Montreal, it could be anywhere. But how do you decide this is where I need to start and this is where I need to expand? That's the initial shot. Like you have 800,000",
+    "start": 6861.44,
+    "duration": 47.52000000000044,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_122",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "documents. the in that that's the most important shot for the agent where it's the starting point for the agent. You're giving something and it needs to identify something in 800,000 uh chunks. Where should it start? Like that location you can assume it to be like a map. That location is very important. That location decides whether the whether the agent will come across proper information or not. So then what we do is that we do a lot of I want I have a little bit of things in mind which is like filtering documents uh you know filtering based on keywords or just trying to do like a hit. So for example, right now the first parallel five searches that did run, right? If I were to if I go over here, you can see we have a we have a parallel search going on and the this these were the queries",
+    "start": 6906.239,
+    "duration": 49.28100000000086,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_123",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "and we got uh these we basically got all of these results and this parallel search is actually like a hit catch where you know in a in a black box in a in in a in a black box filled with so many I don't know in in a black box filled with uh valuable information what is that right location in a very big black values start. That's where this helps. You just, you know, hit like parallel searches keyword or whatever with some keywords to get a hit to get a feel on where it could, you know, what is that you're working with. And once you boil down to a location, then you go ahead and expand looking into documents from there. Look into references inside documents, looking into metadata inside documents and stuff like that. And then you take it from there. That's the overall goal. Now, because the document",
+    "start": 6952.4,
+    "duration": 47.759000000000924,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_124",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "the the the model already had um has access to notes and all of this stuff, it can reason through stuff properly and find it. Now, I'm only worried about this um the stupid thing that I did with uh chunking. So, I didn't chunk it properly. I won't say I didn't chunk it properly, but you know, for example, in parallel search, you can see the number of results we get. These are these are um what is this? These are text like basic text. You can see the text is nothing. This is the entire text. It's not a paragraph. If the chunking would have been better, we would have got it uh got a better result. But it's still okay. Um uh what I want to do is that what I can do is that if there was a way to skip uh the minimum amount of text is available",
+    "start": 6997.679,
+    "duration": 48.8809999999994,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_125",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "in a chunk, then I would do that. So what I would do is that any find paragraph that's actually you know more than 256 chunks or something like that. So it be like find parraphs that are more than no more than 256 chunks. Okay, something like find paragraphs that are more than 256 chunks and you can do it based on filtering of course can do it and this is only for parallel search. So then parallel search I don't want it to be you know come across that's like a work around that we can have with this thing and yeah it's an example that I want to give cool we'll continue so the thing is we'll get started in the brainstorming",
+    "start": 7044.8,
+    "duration": 55.35900000000038,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_126",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> [clears throat]",
+    "start": 7121.241,
+    "duration": 2.0200000000004366,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_127",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> Okay. Okay. So, I think I actually had one conversation going with Claude. Search for this is the one. Okay. Stand up. Cool. I want to move this to add this to a project it to YouTube series. rename this. Okay. And then what I want to do is that copy this",
+    "start": 7213.92,
+    "duration": 51.55999999999949,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_128",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "This is what we are building. And just take actually of this and yeah I just send this in the first place so it'll analyze the conversation do some random work which I have no way of conveying it to and it'll do some random work and then come back to Oops. Why is it fishing on motion?",
+    "start": 7286.0,
+    "duration": 50.51999999999953,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_129",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah. All right. So, we have a very good standard. So, I'd be like, so this is the current status. We've solved document processing and we have about 800 800 870,000 chunk till now and we only 50% done. There's another 50% documents to be processed.",
+    "start": 7352.08,
+    "duration": 28.920000000000073,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_130",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Now I would like to have a fresh mind and you know the goal what we trying to do you know how we trying to influence the model and etc and try to build this agent but I want to know you know and we have about and at the end we'll have about 10,000 documents and each of the 10,000 documents has an average page size of 67 per page. So you can assume how many pages of you know content we'll have saved in our database. So overall I'm trying to you know you have a fresh mind I understand you know the agent so when a when a user gives a query right the agent would need to only look at 40 to 50 documents at a given moment to come up with the right answer. That's the truth. But how do we go about searching? How do we go about finding",
+    "start": 7411.04,
+    "duration": 46.23999999999978,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_131",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "that right thing or the right few documents in that 10,000 document space and I also want to understand how for example in terms of like a location how do you structure the radius how do you start with in a right position and then you expand towards it and how do you do that because you know because what I'm trying to say is that I want to mimic how engineers do this work you know not complicate this at all in the first place because agents context is also limited so that's why so I'm thinking that in a given say an engineer, I'm pretty sure that the engineer is not going to read all, you know, 5,000 6,000 files. He's not going to do it. He's basically going to, you know, do like read a few things, do some sort of work and try to boil down to that few docs or",
+    "start": 7455.599,
+    "duration": 46.16099999999915,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_132",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "few important docs like even though they have I'm sure the the companies have 100,000 documents and the users are able to find it properly, it's just they're slow and they inefficient. They could have been the job can be very better very much better with a lot of explanation using LMS but I'm trying to understand a user's perspective at the end of the day they're not using they're not reading 100,000 documents and coming up trying to come up with a solution they're literally only reading you know maximum 30 or 40 documents so I want the LLM to do the same thing as well so I want to take inspiration so that's what I want I just want to you know leave the ground and just try to understand the reality of it if the human can find if the if a general researcher can find the right document or the few documents you",
+    "start": 7499.119,
+    "duration": 46.240999999999985,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_133",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "know in a in the same 100,000 space the agent can do it do it as well and it can mimic how a research agent could do a person would do and even 10x better with all the embeddings and etc but I'm just curious to know about like how they go about it so I can try to understand their you know the traditional way of solving this which is already solved but uh and then we can go from there I think but before you give So anyway, I was just uh blabbering some unwanted things as well because I wanted to get everything right, but I wanted I'm just going to send it anyway. Claude will get it. Probably will get it.",
+    "start": 7543.28,
+    "duration": 38.039999999999964,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_134",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So, let's go through this.",
+    "start": 7615.199,
+    "duration": 3.9600000000000364,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_135",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah, this makes sense. But but you know like the LLMs are of course LLMs have an issue in context but with embeddings and with search and etc. I think uh we have to get inspiration from users you know day-to-day whatever you know how they approach this but also approach it in a way that the uh with the current capabilities of LLMs and embeddings and all of this stuff and all of the entire stuff we have to approach it in a way that um that doesn't I mean take inspiration from the from from the actual user or maybe the actual researcher but also you know try to do it in the most efficient LLM LLM native way or Maybe you can call it the most efficient you know LM native way to be honest because LM can do so much can search through can do parallel searches",
+    "start": 7826.48,
+    "duration": 48.08000000000084,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_136",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "can do ton of things I'm not talking about the tools and how to use tools that's not what I'm talking about I just wanted to know you know if LLMs are much more powerful um you have embeddings and etc you human can never search um to do perform a semantic search um till now so um just curious to know what are your thoughts how would an LLM native way given the capabilities of system how would this look like in a lm native way just curious to know so just trying to be random here just trying to see you know if this is what human do we don't want to exactly clone the human that's not the whole point then it's it'll end they become like a a human on top of semantic search sort of a thing I know even with a lot of of course context",
+    "start": 7872.88,
+    "duration": 46.71900000000005,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_137",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "issues the lms can navigate at at you know at like I don't know it at tremendous amount of speed and with good amount of context as well. So I want to know that this just random conversations. I don't have any aim here. I'm not here to you know find okay this is the way know we're going to do it. That's not the way I thought. Just random conversation that hopefully will open up um some you know some insight some new information or whatever. So just random random stuff. Find paragraphs more than searching. Okay. You're right. Let me actually think about this differently. The human limitation that I mean of course I didn't want to go through this stuff again. I think this would have made this would probably make sense for you. This should make sense for you. Um I don't want to go ahead and you know again talk",
+    "start": 7916.159,
+    "duration": 51.28099999999995,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_138",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "about this but yeah essentially the radius factor that I talked about human navigate because they can see space. They walk into darkest forest with flashlight finding one tree around around with embedings. They have a map of entire forest from above. Yeah. Yeah. That's a perspective shift UI and also speed shift like if you were to look at um like an LM native way of doing it you can see where all the trees are where the trees are clustered together which areas are dense which are sparse why would we make an LM box this with the same flashlight exactly the LM native inside it's just fun to read stuff like this we can't search",
+    "start": 7965.44,
+    "duration": 39.88000000000011,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_139",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "This is a good point. Find me chunks that are similarly similar to this chunk but different from documents. Yeah, exact. I mean like it's not going to exactly perform this like it's not going to go ahead and search for this but you get the point. It can filter find the same things across other documents.",
+    "start": 8122.48,
+    "duration": 19.15900000000056,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_140",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "The thing is we could we should have uh we could fine-tune the embeddings guys like I want to do it in the next next maybe next project or whatever a plan for that and fining embedding models itself is like a like that's where instead of finetuning you can have like the organ augmented search whatever the whatever the concept you have and then you improve the embedding models It's just this invisible",
+    "start": 8154.8,
+    "duration": 27.79899999999907,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_141",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah, this is also a good point. We don't want to have all the chunks and everything inside the memory of the agent.",
+    "start": 8220.88,
+    "duration": 9.880000000001019,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_142",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "good. This is very good information. So I want to spend more time in this as well. But overall you get the point. You know this uh uh we just have to make changes to the agent a little bit and then we should be able to test it out. But before even this we need to have we need to have strong evaluation framework like for example like I want to know whether uh whether that particular fix was right or wrong right like I want to know whether that question was right or wrong in the first place. So what I would do is that I would get 30 documents um and copy all the chunks put it to Germany it can have 1 million tokens and then cuz it can cuz memory so Germany can so Germany's reality is that it can load the entire 30 documents and create",
+    "start": 8301.359,
+    "duration": 47.279999999998836,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_143",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "a complex query that involves you know checking all 30 documents but here in our agent our agent is actually not is actually searching among 5,000 documents you understand so even though Germany so this could be a very good evaluation framework because Germany has access to the entire document history and then generates a question and Jim can do it and Jimmy knows answer for it as well. But I agent is actually completely starting in a very blank space and the agent would actually need to scope through the 5,000 check all the 5,000 and then try to find that 30 in 5,000. So that's how I think we should go about evaluation. So we need to set this up and then start searching this Okay guys, so I'm going to quickly go and take some lunch and come back and select the beautiful image for lunch and Okay. All right, guys. See you in a bit.",
+    "start": 8346.479,
+    "duration": 69.40099999999984,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_144",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Is that thing?",
+    "start": 8455.28,
+    "duration": 3.399999999999636,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_145",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Maybe",
+    "start": 9314.88,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_146",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Gosh.",
+    "start": 9350.24,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_147",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> [snorts]",
+    "start": 9376.433,
+    "duration": 2.019000000000233,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_148",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> All",
+    "start": 9474.64,
+    "duration": 2.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_149",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "right.",
+    "start": 9496.64,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_150",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So yeah, what I'm going to do right now is to uh put this as a text so Claude could start analyzing this a We're just, you know, having conversations. We don't have nothing yet planned or whatsoever. We're just, you know, simply having conversations trying to gather information, gather points, gather relevancies, gather intricate parts of information that could be useful for building the agent. I like conversation MD. All right. Now we going to be walking. Now we going to be working on something very important.",
+    "start": 9529.84,
+    "duration": 58.35999999999876,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_151",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> [snorts] >> All right. Now, we're now going to be Yeah. going to be working on something very important. Basically,",
+    "start": 9602.41,
+    "duration": 20.109999999998763,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_152",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "He's talking about pages and this thinking",
+    "start": 9746.479,
+    "duration": 12.361000000000786,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_153",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "thinking chicken lot thinking. This means we need to have a lot of thinking.",
+    "start": 9775.359,
+    "duration": 13.640999999999622,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_154",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> [clears throat]",
+    "start": 9820.528,
+    "duration": 2.0200000000004366,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_155",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> Okay. Now I want to go ahead and create I want to go to AI studio.",
+    "start": 9889.359,
+    "duration": 8.28099999999904,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_156",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So the thing is most of this stuff is already there and I want to quickly check if we've already solved I mean how it works as a base like basically at least with whatever we have right now how does it work and how does it work Um let's say uh once we do the changes, we need to be able to measure all of those, right?",
+    "start": 9931.2,
+    "duration": 21.238999999999578,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_157",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "The current system is well designed for native approach. The potential gaps are landscape analysis. Yeah, so we've already solved most of them in our past in designing video. Landscape and agencies are relevant but not distribution chunks. Semantic neighbors note also find chunks similar to this but from other documents. Document can't quickly see 50 documents are relevant before diving into yes this is where abstract and whatever the information the thing is like this metadata might not be there for all the documents. So you can't do it and I also want to add a few more information. For example, I had one info here which was related to LLM curating when enter curating what it needs to enter before it's context. This is the last part. We'll come back to this once we solve everything. Multi-resolution search we need to have strongest. Yeah, this is where we'll do",
+    "start": 9969.52,
+    "duration": 50.23999999999978,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_158",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "parallel agents. Parallel agents would help find paragraphs more than Yeah. So this we have to do mitigation institutional scopers. Okay. All this stuff. Cool. I think what I want to do first is you know create another cloud instance.",
+    "start": 10017.92,
+    "duration": 17.39900000000125,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_159",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Look at this.",
+    "start": 10192.88,
+    "duration": 3.319999999999709,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_160",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "But her system needs to",
+    "start": 10309.439,
+    "duration": 4.040000000000873,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_161",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay. But so what I want to do is that in cotton you might have a lot of documents. I just want to you know do some sort of search or some sort of filtering and then find about in some way in some way not accurately but just try to find about some find a document that is quite what do you call quite um quite relevant. And then what we want to do from there is that create a data set you know uh connect the code and get that and load entire like the entire 20 documents to um entire 30 20 to 30 documents to Germany or again this supports about 1 million tokens I think. So we are good here and then create question answer pairs which then I can send it to quadrant and yeah get it sorted out here sorry send it to I'm",
+    "start": 10411.84,
+    "duration": 42.88000000000102,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_162",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "sorry I'm blabbering send it to our agent and then try to the the this is just you have 5,000 documents or 10,000 documents or 100,000 documents doesn't matter for a certain query the agent would only need to look at 30 or 40 documents at the end of the day that's what the agent can do it can only look at 30 or 40 documents at max it can't locate to 10,000 documents and come back. You understand, right? We not doing any pattern matching system or something like that. So, cuz it has a limitation on context usually and of course it can solve your query as well. And you Yeah. So, the the the point is very simple. Doesn't matter the amount of amount of documents. Of course, it matters in a scale. It matters for accuracy. But for the agent, it only needs 30 documents. So it needs to get",
+    "start": 10453.12,
+    "duration": 50.79999999999927,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_163",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "find the 30 documents among the 10,000 documents. That's the hard part. But if you find 30 documents, you find find the right 30 to 40 documents, you're done. The job is easy. So that's what we're trying to do. Trying to, you know, create a data set of 22 20 to 30, load everything up to Germany and then answer, you know, create evaluation sort of test. Now, Germany could accurately give me an answer because it can load the entire 30 and then have relationships and etc. and then u you know simulate some sort of cross-checking sort of work and then if I when I ask our agent our agent has need to figure out those 30 in the space of 5,000 to 10,000 then we'll know how it's currently performing and then we can move forward with the next one. So connects to quadrants get the collection",
+    "start": 10500.96,
+    "duration": 46.88000000000102,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_164",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "uh extract all the unique IDs samples document understand topics and themes selects a thematically coherent substance of evaluation okay yeah just it doesn't need to be accurate it's just you know somewhat relevant enough that's more than enough in fact we can randomly get documents not an issue at all but yeah I just wanted to slightly do it in a slightly better way approach",
+    "start": 10546.0,
+    "duration": 23.68000000000029,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_165",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Actually what I'll do I will run it so I get a chance to see all the logs and explo here cuz this space is anyway use not This",
+    "start": 10607.68,
+    "duration": 29.31999999999971,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_166",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> [snorts]",
+    "start": 10786.009,
+    "duration": 2.019000000000233,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_167",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": ">> So doing it for all the points will take some time. Sorry. Doing it for all the points might take some time. Actually, maybe it's doing for only 200 points, 200,000 points. No, it's actually doing for everything. So maybe shall we just do it for the 100 first 100,000 or 200,000 points? 100,000 or 200,000 points.",
+    "start": 10851.92,
+    "duration": 32.840000000000146,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_168",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "As you can see, not a big difference. 6,747 6,754.",
+    "start": 10899.12,
+    "duration": 7.158999999999651,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_169",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Not a big bump. Only a little bit. light bumps. Now, I think the others are chunks. So, you only have around 260,000 of No, others are chunks. Yeah. Yeah. Just asking is there any red flags or any issues with this? Suppose it'll give a lot of red flags but we just decide no FL. Okay.",
+    "start": 10922.96,
+    "duration": 42.600000000000364,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_170",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah. [clears throat]",
+    "start": 10982.399,
+    "duration": 4.751000000000204,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_171",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Click.",
+    "start": 11001.92,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_172",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "So this should be done now. Okay. For the first 50 I think it's going to be huge for sure.",
+    "start": 11149.2,
+    "duration": 22.278999999998632,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_173",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay. So I guess a very decent analysis the first of course not the entire points but we we'll have a decent testing point here. This",
+    "start": 11192.08,
+    "duration": 15.238999999999578,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_174",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Select.",
+    "start": 11222.16,
+    "duration": 3.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_175",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Yeah, we create 25",
+    "start": 11249.68,
+    "duration": 3.7189999999991414,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_176",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "No, actually uh I want I want a folder that has 25 documents and each of the document should be an entire document in order. So that's what we want. So then I'm probably using that for evaluation. And I want to send this send this to another um yeah something uh uh you might not need to know about it but you essentially want to save each and every document in order in order meaning like inside a doc a document should be in order because chunks could be everywhere a document should be in order and I need 25 documents saved in a folder that's what I want you",
+    "start": 11427.04,
+    "duration": 42.8799999999992,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_177",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Also not I need the MD file because I have a I have a PDF to I have an empty to PDF converter which I can run in the terminal and you should convert all to PDF if needed if needed. I don't think need it, but just just so popular, you guys. I think I might have to end the stream. Uh, all right. So, I think I need to wrap the wrap up the stream. Um, so this is exporting. I think the stuff is going on for exposing. So this will take time because uh we have about we have about how how many chunks save? 432 4. There's a lot. So there's a lot of chunks saved. Okay, I think we're done. So we'll check it out. We add documents. First one MD. Okay, we did a lot of noise removal and etc. But of course, you can still have",
+    "start": 11522.319,
+    "duration": 85.1200000000008,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_178",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "issues. So the thing is you can see uh because of the chunking that I I forgot I literally forgot to put a minimum of 256. That's why you can see each chunk like this is a chunk like you don't need this to be a chunk, right? This is actually a chunk. So I'm just trying to see if I once all the documents are done. I'm just trying to see if I can group them you know understand just just remove the but again the order might be affected so I don't want to touch that anyway it's fine not a big deal we just you know remove like even small chunks are not much needed right you can merge them if that's needed or what we'll do is that we will u I know we'll find a way we'll find a way not an issue so these are",
+    "start": 11604.319,
+    "duration": 47.92000000000007,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_179",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "okay you can see the 69 page 35 so this is a huge document how many pages that this is 145 5 page this one and this is also so these documents are quite big and that's why you see so many so like I planned we actually planned to have like for the entire 10,000 itself like less than a million chunks but already by 55,000 documents we had 800 so that's the reason this is the reason you will have less depending on how how like what's the minimum amount of this thing you use to chunk it cool don't make the mistake I made but anyway Um it's too late for me to uh you know rerun the this thing because it's already uh already already 50% of the documents are uh have been processed. So that's about 40 hours of compute time. I don't want to run it",
+    "start": 11648.8,
+    "duration": 54.559000000001106,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_180",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "again. So I'll find a way around and also you you should also find a way around. Sometimes you're working with documents that are very small in chunk. So if you if let's say [clears throat] you come across with an issue like this in the middle, right? How do you solve it? I don't know yet but we we will we will see. So that's one thing to do. Apart from that documents looks good. I don't think I'll send everything to everything to Germany because the total chunk oh the total chunks are,250 but like like one chunk might have you know I don't know 300 150. So so the entire chunk of all the documents might be around 200,000 tokens. I can still send it to Germany but it might struggle a bit. So anyway, I'll just upload all the 200,000 chunks and see it for yourself.",
+    "start": 11700.88,
+    "duration": 44.68000000000029,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_181",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "All",
+    "start": 11772.8,
+    "duration": 2.0,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_182",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "right, guys. So, um yeah, we'll come back and we'll come back and uh we'll come back and see what we can do with all of this stuff. Uh next is of course evaluation testing the current agent seeing where it fails where the gaps are. I think they'll the there'll definitely be a lot of gaps. I think yeah a ton of issues might come up and oh okay it's here. I thought this was deleted. take actually I'm going to take a snapshot of this and just keep it somewhere in case you would never know in case something goes wrong.",
+    "start": 11789.439,
+    "duration": 43.72099999999955,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_183",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "Okay. Either way guys, uh, look around. I'm upgrading this snapshot. Probably it'll take some time. I'm not sure. But apart from that, okay, now we thank God we have 4.4 GB. In case this fails, right, we can just pull it from this. Uh, yeah, it won't. It shouldn't fail. Then again, I have to do the entire processing just for one extra amount of safety. Simple. All right, guys. Thank you so much for watching the stream. If you have any question, you know, feel free to DM on Twitter or, you know, whatever. Maybe on the next stream or whatever. Have to answer them. I answered a few questions today. So, yeah, leave it there. Thank you so much for watching and I'll talk to you guys soon. So, the next step, yeah, again, next is evaluation, find identifying gaps, and yeah, system is done. Okay, but that's that's the most",
+    "start": 11864.56,
+    "duration": 47.1200000000008,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_184",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  },
+  {
+    "text": "complex part here. So, we'll figure it out. Thank you so much, guys. Talk soon. Bye.",
+    "start": 11910.16,
+    "duration": 6.119000000000597,
+    "video_id": "j0M5dDyLNPQ",
+    "chunk_id": "j0M5dDyLNPQ_185",
+    "title": "Domain Terminology & Semantic Search Optimization | Filtering 18K NASA Terms to 5.5K | Part 14",
+    "playlist_index": 14
+  }
+]

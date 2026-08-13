@@ -1,0 +1,1451 @@
+[
+  {
+    "text": "So I guess we are live. Hey everyone, thank everyone. Welcome to day seven of building um a production rack system that supports 85,000 documents, NASA documents. This is day seven and we Yeah. So the folks I'm just going to quickly go through the progress first of all you know what we're building what we've done so far um and the progress we've made and what we're going to do today and yeah today we're basically going to work on document processing so not I mean the entire pipeline and everything is done I'll go through them but today we're going to process 10,000 documents I'm going to use um we're going to build yeah all the infra for it like you know processing in a VLM you know running the GPUs managing memory using the VLM and etc and all of those memories related stuff. So it'll be an interesting stream",
+    "start": 13.519,
+    "duration": 50.96,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_0",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "and I think they'll be split into two for the first three or four hours will be one part and then I'll come back after go out and do another stream today. Yeah. So I think we can kick that off today. Uh cool. So first of all before when I show you the progress we made we'll just go through the stuff we are working on. So essentially we're working on a rag system for a fictional company called Meridian Aerospace. They're a consulting company that actually provides technical analysis and certification something related to a lot of rocket stuff, right? And they deal with a lot of documents. In fact, they lead with a oops actually. Yeah, whatever. So basically what we're trying to do is that we we're trying to build a system that can access their archive of documents. They have about 85,000 documents and those documents are",
+    "start": 62.239,
+    "duration": 58.559999999999995,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_1",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "very complex from scanned copies to handwritten notes to you know faxed copies, photocopied ones, rescanned ones, you know stuff duplicated rescans from 1950s to 19 1990s, 2000 and 3000. They have a lot of domainic acronyms. For example, they have stuff like LO X, ISP, and and so many so much more where a lot of jargon where you know if you were to use an agent to search the query of a user, it wouldn't actually do it and it needs to access all the domain acronyms and etc. So our goal is to my goal was to fine-tune a model but we're actually using two splits one for the entire document processing we using everything is open source model. So in case the compan is actually most of the time dealing with a lot of IT requirements. So I guess you call it the requirements. So um you could deploy",
+    "start": 118.719,
+    "duration": 50.960999999999984,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_2",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "this onrem um no sensitive information leaves out. You'll probably most of the time have u a system that is 100% um compliant with their servers. The their cloud servers they have government servers or maybe even the on-prem services should work as long as they have a GPU. And that's what we're going to tackle today. We've solved the document processing. Now we're going to solve it at scale for 10,000 documents how they do it sort of like a thing managing quadrant the the tokens and etc the embedding space and etc. So mathematical equations. Yeah, they have a lot of mathematical equations. In fact, I'll just show you quickly so you get a sense of um you know because if I were to show it to you can be sure you understand the level of level of comp complexity this stuff goes to or this stuff uh consists of. So I'll",
+    "start": 166.959,
+    "duration": 49.041,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_3",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "take one PDF over here and this is from the 1954. So you can see a ton of formulas, symbols, latex um and diagrams and whatnot. Okay, so this is one and they also have a lot of others. So this is from 1963 and this is quite a clean PDF. There's very simple tables and etc. This is very like very clean to be honest even though it's from 1950s or 60s and you have stuff like this which is so complex where you have tables spanning across continues across multiple t multiple pages and then you have images like this and etc. So for the past three to four streams I think three streams we spent 30 I guess easily the stream like 30 hours or something like that we spent 30 40 hours working on this trying to work trying to take a so it's like this you",
+    "start": 213.519,
+    "duration": 49.60099999999994,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_4",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "have we're going to solve for 85,000 ducks at hand I have about 10,700 documents or something in my VM I ran it overnight downloaded from NASA RT RT LTRS you can also download it there has an API for it just search for NTRS and they provide all of them for They have a limit on you know API request but you can manage the API request and you run it overnight. In 7 hours I was able to download about 7 10,000 or you know more than 10,000 docs. We're going to solve for 8,500 and I've pulled up a bunch of documents that represents um certain documents. For example, you have thousand documents from 1960s with tables and etc. So I pulled about three to four. So I can visually see um three to four like a random sample of it like get a sample of that and visually solve",
+    "start": 261.519,
+    "duration": 49.44100000000003,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_5",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "for a diverse set of datas because I can't look at all 10,000 but I can what I can do is that get a sample of you know 1960s sample of tables samples of physical diagrams and then I could go ahead and sort of solve for that and hopefully that will also solve the other one um uh the rest of the other documents that is sampled out. So yeah, very very what called very diverse set of documents. Some of them are clean, some of them are not clean and some of them are like super crap to be honest. For example, this document you can see like you can't make sense of anything with this image. This is this for me looks like uh like an oil painting, but this is actually some some photo of a crack in unit 507 LOX cover sheet thinx magnification. So I mean I we can't make",
+    "start": 308.96,
+    "duration": 47.19999999999999,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_6",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "sense of it. But what what we're doing is that we're saving all the figuring out all the images, formulas and etc. tables and etc and we're converting those to markdowns and keeping them and also going to be we'll also be showing this to the user. Right? So I'm going to quickly show you what we've done so far. So we built the initial agent and I would highly recommend you to go through the agent which is I think which is the last two streams. So the stream day five and six was that what we did we spent hours first of all we didn't just you know directly jump into coding we didn't we didn't jump into you know development we basically understood the brains of the system like brains of the users what's their domain what's their day-to-day life like what are the jargon do they use what is the current systems",
+    "start": 354.32,
+    "duration": 44.80000000000001,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_7",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "they use you know what are the queries they run what are the traditional system they use how do they think pro what what is their problem solving style like and all so we basically formed the quite a good understanding and then we jumped into code and we actually jumped in and actually uh you know like designed the prompts and uh tools and the entire flow I mean it's simple it's just a prompt and tool but it's not that the case you have to spike up the domain intuitions of the model like a person who's like a senior aerospace engineer will actually solve the problem you know so those domain level nuances would would be something that comes in your system problem so we just it was like a 11 hour live stream just I would encourage you go and check it out. It's very worth it.",
+    "start": 397.44,
+    "duration": 43.68000000000001,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_8",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Um, I'll skim through things. I don't have chapters yet. I'll I'll create the chapters for them and I'll leave it there so you can watch it when you have time. Cool. So, we have the tools and etc. So, let's get go ahead and actually fire a very small question so we get a feel of what's really going on. So, this is my question. Uh it's a very big question. Yeah, I'm trying to validate the performance coding against the methodology in the report. Need to verify the exact equations. So basically we generated this from Germany. We gave access to Germany all the documents we have and all or the specific document chunk we had and then we uh asked it to you know generate the use case. Now the thing is Germany could see all the 500 or 400 chunks and this model would only be able to you know pick the right 400.",
+    "start": 438.8,
+    "duration": 62.31999999999999,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_9",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So it's like finding that needle in the hack sort of thing. Same thing we're going to do uh in general even if you have 10,000 documents you just have to write find the right 40 and what we do we give all the 40 toy. So Germany could load the entire 40 and ask questions. But our agent would not have the 40, right? He could not have uh he has to pick that 40 among 10,000. That's how we're going to validate the system as well. Yeah, I think yeah, it did some decent work. So you can see it fired off a parallel research. Uh this is like a hit and get sort of signal sort of research where it can run four query like four or 20 or 50 whatever queries. You have document info doc just in chunks is basically like you know trying to uh",
+    "start": 499.759,
+    "duration": 46.32099999999991,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_10",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "read through specific sections like if you have find the paragraphs you want to go a little bit above a little bit below sort of thing and then visual reason is where you want to verify like formulas and etc. You take a screenshot of the PDF and it can visually verify it. Get section would actually you know because we're using dockling we get access to all of the for example tree of hierarchy hierarchy of sections let's say you drop in a document and then get access to all the hierarchy so you can just search for this method of calculations and then whatever paragraphs or section is underneath you'll get it so yeah it's very simple guys uh I mean of course I don't want to spend much time into into it because we've spent a lot on the last few streams but yeah you can see the",
+    "start": 543.68,
+    "duration": 39.91999999999996,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_11",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "final answer there's a lot of latex it's um you can see see them clearly and you also have sources. If I were to click on the sources, you can see the sources that we are showing now. I was actually working on this. It had a bit of errors in the UI. We'll come back to this later. And this is not a big issues to solve now. And yeah, if you do the tables and etc. And on the right, you can see show notes. This is the agent's notes and this is the agent's tasks, right? So, you know, so it has its own notes and tasks to keep track of the work director that uh it can it performs. And then you have 41 sources here. Now we also show the sources is very important um because there could be for example one of the documents I",
+    "start": 581.12,
+    "duration": 40.48000000000002,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_12",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "showed you right there there was a lot of noise so we need to show the user the sources and this is the list for 41 sources now what I want to do 41 to3 is actually the PDF ID don't get confused on it so essentially what I want to do is that I also like in perplexity you get a chance to see the images right so um the good the the thing is like whatever visual content of the image the model reads not the visual region but then any image or figures that the model is I'm planning to show it on the right hand side somewhere here so the user can actually click on the image and check it because some of the image like you can't for example even in this talk we did see in case the model was to reason through this the user might need to see it and",
+    "start": 620.399,
+    "duration": 40.2410000000001,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_13",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "not just that but if you want to open this PDF like you want you want the user we want to show this to the user at the end of the day the model our goal is to get 100% accurate system but also as we did I mean we did we worked on a lot of personality assessment for uh like understanding what is their personality is about. So according to according to the analysis they value um like they so they value like transparency overwakness. So there there is no even if like there's a good chance maybe you know 5% chance the agent might you know miss miss an information here and there but the people who work here is actually using this as a supercharger meaning that they're not depending on the answer they want to rightly find it and then they want to quickly verify it as well.",
+    "start": 659.2,
+    "duration": 46.39999999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_14",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So that source management is also something that you want to build properly because it's not just about showing sources but also uh showing if if you want the basic conclusion on what sources and what is what are the sources you have to literally render the PDF in the UI and then literally have like a UI where they can you know use the arrows and quickly skim through the sources. If not, what happens is that a lot of the other platforms when you were to click on the sources, they'll take you to a PDF and then just give you boom and you'll only have the PDF. Or maybe they view some signed text and highlight a certain paragraph. We don't want to do that. We basically want to build like a proper source controller. So they open up a model and they see a PDF, okay, this PDF and quickly skim through the",
+    "start": 702.8,
+    "duration": 40.639999999999986,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_15",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "arrows and they can see like a blue color icon or like a UI like a painting showing, you know, uh this is the particular source refer to to come to this conclusion. So that's also something like a time saver sort of for them in a US box you this is like a UX UX thing another model or whatever complicated thing and we also want to show all the images the model can come through so this one and stuff like this graphs because for example like the model uh the model for example using cloud for chat VLMs for dum processing cloud would actually get all of this right but still like it's just it's it'll be nice if you can see something visually like you ask something uh you know you get a response and then you see a lot of stuff visually and you see the sources for it and if",
+    "start": 742.16,
+    "duration": 45.91899999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_16",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "you can check all the sources visually and text base that's like that would really give a good one it'll build trust to the system second thing it also help them out like they might when they visually see they might have become better follow they might have get they would actually come up with better followup questions they will actually come up with something else you know like okay um hey claude I checked this image find me contradictions with this image or whatever the formula forever is depending on the documents and stuff like that. So literally they want to read documents as well but then in a in a more the most efficient way using NLP here. So we would want to show this. Cool. So that is the progress we made uh so far. I've spent a little bit of very little time just explaining all the",
+    "start": 786.56,
+    "duration": 43.760000000000105,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_17",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "stuff you know what we've done so far and etc. And I also want to show it to you. I want to show you quickly. All right. Now I want you to run this in a sub agent. you know, spawn a sub agent and run the same thing and do the research same thing. What I would do is that let me actually copy this refresh. I would encourage you to use a sub agent for this task. So this also the model can actually spawn a sub agent. Sub agent is basically it has tools and the problems are a little bit different. The context is a little bit different but it has mostly all the tools except it can't spawn subatence because it'll become a recursive loop afterwards. So you can see the research thread that is going on and yeah the model can do parallel research or all of the basic stuff but",
+    "start": 827.839,
+    "duration": 48.799999999999955,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_18",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "it can basically it's like making a clone of itself and you can launch three or four of them but for this we're blocking it to have blocking it to only do um a single uh research and then another single research if required because context I don't want the context to be over overlapped with any other cases but yeah you can still that's a good that's like a good way of doing it. We have the we have it sequentially. We can do it parallelly if wanted. All right. So I think let this run. Um I Yeah, let this actually run.",
+    "start": 874.959,
+    "duration": 34.041000000000054,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_19",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay, the sub agent has given the response and you're getting the final response here. And this model is high too by the way. So, uh you can see the level of work it does for the amount of I mean the size is low but I think size of model is low but you can see it's usually accurate than most other open source models.",
+    "start": 951.44,
+    "duration": 22.879999999999995,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_20",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right. So, let's get into document processing now. Let me pull up the progress. Uh, I guess. Yeah. So, I didn't plan for anything. So, I'm just going to, you know, bluntly get started. So, yeah. Yeah, I have V connected.",
+    "start": 1016.24,
+    "duration": 23.679000000000087,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_21",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Actually, we had a bit of notes saved. So, we'll pull the nodes from development plan. And yeah, it's over here. We had a few conversations with Claude and also um uh Grock as well but let me check the Claude's conversation. Okay. So work on GPU embedding models quadrant uh RAM speed latency cues using VLM and etc. Okay. So this is what we're going to work on up. Okay, we'll actually start from a scratch pad. Okay, guys. So cuz I think I've missed a lot of stuff. So I'm going to start from scratch pad and you know start very simple here and most of the time it it is quite simple. Uh what we're going to do is that we're going to process 10,000 documents. Okay. 10,000. The number is 10,000 documents. Yeah. So, we want to process 10,000 documents. And some important information here is that we are using an",
+    "start": 1057.919,
+    "duration": 85.99999999999977,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_22",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "using PLM to process this reference. Okay. So I will do I will let Claude do a lot of research and come back on the technical stuff you know on terms of the what the version of the model is and etc. But it's simple. We're using 10,000 documents. We want to process 10,000 documents. That's the entire goal, you know, simple. You want to process 10,000 documents. That's it. But yeah, and then you have, you know, components. We're using a VLM to process the documents. The model is uh Quinn 32B V instruct version. Okay. And what else do we do? Um, so you drop in a document. Let's go through a flow, right? You drop in a document the doc um the you drop in a document it basically runs across it passes it loads the model and it does the work. So model is going to be",
+    "start": 1140.799,
+    "duration": 64.28100000000018,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_23",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "so",
+    "start": 1202.08,
+    "duration": 3.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_24",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "I would say actually we'll take a look at one of the conversations we have with so let's go up. So I'm using quen 32B if you have okay so basically I asked was like we using 32 billion parameter version and but I'll be actually changing this to the uh 32 billion parameter version because we can't afford 10 H you know 10 GPUs and etc. I only have one H100 through Azure using my startup credits. So, yeah. So, let's see. Actually, I think we should have had this conversation now cuz I forgot we talked about",
+    "start": 1269.52,
+    "duration": 49.639000000000124,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_25",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay, we'll we'll we'll have a conversation with like a fresh conversation. Okay.",
+    "start": 1340.32,
+    "duration": 11.799999999999955,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_26",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Actually what what should what I should have done is that once I finished the document processing I should have actually jumped into you know indexing and saving all the coron and then I should have done everything because I have the context of what I worked on now I'm actually lost. But it's okay. We build up. But yeah, the goal is simple. We want to process, you know, 10,000 documents on an single H1 180GB version. Let's actually run uh I want to look at the look at what we're doing in the document processing. So I could get a see I could get a I could get a visual understanding of what's really going on. what other stuff we do in a single document processing single document process we yeah so where is it okay so we're going to ingest this one particular document called 4 yeah I",
+    "start": 1385.28,
+    "duration": 56.559999999999945,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_27",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "showed it to you it has a lot of tables so I'm just going to ingest this",
+    "start": 1440.08,
+    "duration": 6.119999999999891,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_28",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah. So I can see over here we this is for a sing this is just for a single document process and you can see we are we load the we load the document we run a bunch of stuff using the model. on the dockling models. You can run this in Q. You can run this on a GPU will be much faster. The the the PDF pipelines to the B. These models are less than 2GB, so not a big deal, but still running on a GPU will even speed it up. Uh the layout detection for formulas, of course, we're just doing formula detection, but yeah, doesn't yet matter. We're still using a VLM for it. So, yeah. Oops. Open router error. Cool. But I get a sense of what we're trying to do. Now I can recall what we did. So essentially what we're doing is that now I've done I've spawn a cloud",
+    "start": 1595.679,
+    "duration": 50.080999999999904,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_29",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "code to do some analysis and give me on the give me the flow entire flow visually or maybe through text. What we need to do we drop in a document. The document the initial step will be to process um there's a bunch of processes identifying figures identifying tables identifying formulas and etc. All of them right now is sequential like identifying those specific things sequential and then chunking has to happen and once you identify images the image process itself is parallel. So for example if you find 150 images the model should be able to I mean the the entire pipeline should be able to run the images to a model and then get the descriptions and then actually save it to uh you give it to give back to the chunks and then all the final chunks will actually merge and you'll have the final JSON. So the chunks at the end",
+    "start": 1644.0,
+    "duration": 51.159000000000106,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_30",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "would actually look something like this. Yeah. Will actually look look something like this. And you can see like very small chunks do exist because we don't have a we don't have a maximum number of chunks or a minimum. We have a 250 chunk minimum. This is just to save it in a very save the chunks in a very natural space because dockling would actually give you an accur accurate representation of each paragraphs. So we are not having any overlaps. But yeah uh we yeah it's not a big it's not a big deal to be honest but uh so this is how it would look like and you have images are basically descriptions of the images and then using the location of that let's say for example if you see this uh let's go to this right other the figure is a solid back blah blah blah BB you",
+    "start": 1690.96,
+    "duration": 48.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_31",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "call it BB box bounding boxes this is essentially loc locations which you would actually uh use to use a location get back and uh render the PDF or whatever. This is useful for seeing the visual regions and etc. Okay. So yeah that's it and then u and you have formulas tables tables in markdowns and etc. If it's a complex table you have a description along with the BB box image and this is one graph over here. These are visual figures and you also have formula formula and here you can see this is the entire equation the the latics of it and you also have a description because that's how we search the formula simple cool yeah so here's the analysis of progress pipeline models used pin 4B for uh for what is this used for embeddings 104 this This is for generating embeddings. Instruct for table form disting quantry",
+    "start": 1736.72,
+    "duration": 67.59999999999991,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_32",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "reanker for reranking. Let's forget about it for now. That's reranking like agent retrieval part not an issue. Doing elarge and you yeah so content extraction two parallel workers symbol extraction and report extraction. uh document passing sequential um and then dockling conver document passing conversion phase three contain extraction three parallel workers tables formulas pictures everything is parallel here and VM processing maximum four parallel workers open router using open router we're going to switch back to VM and Yes. What else? And you have uh chunking output building chunks, the final chunks, and then the embedding is saved. And you have the ve vector strip. Um, keep bottle tick. Yeah. Doc doling passing is sequential. We'll change this. All of this will be changed. Estimated within K docs sequential max workers 4 to 15 hours. So this is the idea. So basically we are going to be using a",
+    "start": 1802.32,
+    "duration": 104.47900000000027,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_33",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "uh I have access to a single H100GB version.",
+    "start": 1903.919,
+    "duration": 5.879999999999882,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_34",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "I would also process doc each document parallely. For example, I would like to run at least um 10 to 20 documents parallelly. And you would also need to know that we run each like inside each document we have things going on parallelly as well. For example like images and etc. And I would say at this stage uh the maximum tokens you can that you probably can think of is actually um for a single request will not be more than 10,000 tokens. uh maybe even less than yeah the cap just assume the maximum number of you know tokens needed for requests is 10,000 because even some of the times you process images and the images are in full quality and even if they're in 1080p it'll probably be around 2,000 or 3,000 tokens. So do me a quick math and then come up with a uh yeah come up with",
+    "start": 1944.24,
+    "duration": 55.67899999999986,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_35",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "the optimal point. The thing is uh we can add um uh you need to take care of just now just not with the GPU RAM but also the VRAM the CPU and etc but I can use Azure to render the H100 that would be more than enough. So do like a proper math and then come back what could be the efficient spot that we can process documents parallelly like you know 10 to 20 or whatever the documents parallelly and each of the document will have parallel stuff as well like image processing being stick to one single document that is parallel and etc. So you know do accurately you know model this out and then come back to me with a solution. So we actually discussed all of this using clot but still you know I totally forgot you know the entire conversation itself but we discussed we were able to",
+    "start": 1997.519,
+    "duration": 50.240999999999985,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_36",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "do about 20 requests or something parallelly but then we'll do it through cloud code because it knows all the bottlenecks of the code and it has access to the entire code. Yeah.",
+    "start": 2046.08,
+    "duration": 10.839000000000397,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_37",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "It's a diamond.",
+    "start": 2074.48,
+    "duration": 3.3200000000001637,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_38",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Cool. Let's go through them. Hardware assumptions. Uh you have 48 to 96 cores. The system RAM is about 252. Let's assume 256, you know, is is is the number. High bandwidth to quadrant. Uh yeah let's do cordant also through docker in the same VM everything look everything local morals should run locally on h100 you have the 2.5 vl 32b version I actually it's a three version not v 3 v3 something but still it's 32 right it's okay uh int 4 so vm for tables and pictures vg GB embedding model generate embeddings. We have this system code overhead. We have 5GB available for KV cache 52GB of concurrent inference. Okay. So with K critical for concurrency uh with 10K context you have two number layers by KV cache dimensions context. So 2x 64 512 uh which is the dimension for I guess it's for KV cache and then you",
+    "start": 2114.24,
+    "duration": 84.96000000000004,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_39",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "have 10,000 context length by two bytes you like 1.6GB per concurrent request. This is also I guess this is for 10,000. Yeah, 10,000 context and maximum VM request you can make within H100 is actually 32 request. Now I'm not sure if it's 32 uh sequentially parallel. Let's check it out. Current parallelization calculation current pipeline per document a phase one context two threads GPU no 2 seconds phase two dockling GPU no yeah for dockling I don't think we need a GPU but yeah we can run it through GP if wanted phase three extraction three THs um no GPU phase 4 is VLM because for dockling getting paragraphs and stuff you don't need a VM you're not using quen or anything for that that's all dockling models and that could fit in a basic RAM um phase four we have four workers. Um, and then the thing is like this what you",
+    "start": 2195.92,
+    "duration": 54.48000000000002,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_40",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "can do is that even though dock plane is worth consuming 2 GB of RAM, right? We can save that 2GB and do one extra request on a GPU and you know use that one 2GB or whatever and put that into RAM. It'll just give us give us maximum like you know 5 10 second boost that's it and maybe even less. Um current pipeline is this uh VM 30 seconds chunking one is sequential. Okay. WM is VM is a B. Each doc wants four concurren calls. Finding the sweet spot documents in parallel max VM workers per doc. If you process 20 docs parallelly VM workers four for each total VM request 80 it exceeds uh 32. If you were to process 16 you have 2 by 32 and it gives you an exact fit of 32 requests. Um but still this is also a bit scary because you know if something if uh",
+    "start": 2248.88,
+    "duration": 59.279999999999745,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_41",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "you'll still you know have a hop in the memory and you might you might not sure because uh the thing is no I I guess we can handle this 16 ducks parallelly because I'm assuming you'll have 10,000 but in in general you know images would only take 2,000 3,000 so yeah and documents in parallel 15 safe margin exact f is eight and you do eight docs four VM workers parallely. So option A balanced documents in parallel 15 VM workers per doc two uh total current 90% utilization. It is looks good. Few docs more VM per doc documents in parallel 10 this thing maximum. So CPU and stuff you have 15 docs into six threads speak 90 threads 95% but it's okay. Yeah but okay that's the thing you can still fit it. um 43 CPU say 90 it could handle 90 threads and then you have 10 docs six threads 60",
+    "start": 2305.76,
+    "duration": 60.47999999999956,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_42",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "threads 60 comfortable but I think you'll go with 156 threads RAM load you have dockling 150 MB 152GB then it's RAM is 3GB but this can with 250 MB this is nothing like I would say like peanuts throughout response per document timeline for two workers so phase one you 2 seconds. Phase two, you have uh 15 seconds. Phase 3 5 seconds. 45 seconds of bottleneck. Total 72. Total 72 seconds per document throughout with 15 docs parallel. Effective to",
+    "start": 2364.4,
+    "duration": 46.51999999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_43",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Actually I would like to stick with the 32 billion version because it gives a good accuracy and accuracy is far important here. And also one more point give me more information about embedding batch space. Uh and also most importantly I guess the current code it processes all the images at once as far I can see like I think for if it detects 150 images or 40 images it process it calls the API to um process 40 images at once. Did you check it? I guess if that's the case we probably have to um we probably have to think about it and it should probably be so it can't process all the images at once. That's the thing because each image would be in we are capping it at we are assuming that you know each request will be 10,000 and image processing request will also be under",
+    "start": 2482.24,
+    "duration": 66.40000000000009,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_44",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "10,000 but in fact it'll only be like you know less than 5,000 to be honest if it's like one or two image if you do want if you do want to do the calculation on the context to be honest because I don't think we are even so the maximum number of images I think is not even more than two I guess it's two and usually it's only one so you would do you need to do some math on that and yeah but your optimal configuration looks good. Just give me an info on these points. Let it do. Let me grab something.",
+    "start": 2546.16,
+    "duration": 34.91899999999987,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_45",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Hey, good news. I found the answer William. So",
+    "start": 2689.119,
+    "duration": 8.52099999999973,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_46",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "yeah, it's well under 10k. Yeah, I don't want to do any dynamic stuff and mess up the GPU and something goes wrong. I we could use VLM to, you know, dynamically, for example, if you want to allocate 10K, the GPU will actually eventually have 10K that's allocated for it. But if you want to use VLM, what you can do is that you can do dynamic allocation where if it only needs 2,000, you only use 2,000 and the rest of it is actually um it's freed up. You have that's the most efficient way to do it. But first of all, let's solve this first, you know, and then we'll work on VLM if you want to do any dynamic allocations and but it'll only save us, I would say like 2 hours because we anyway need to run it for 13 to 14 hours and do all the processing",
+    "start": 2721.2,
+    "duration": 45.600000000000364,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_47",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "and then you only have to keep this you'll only save like 2 hours from abb um yeah but thing the thing is like we already maxing out the system in terms of processing we nearly for example in RAM in general RAM we are using it about 90 to 95% in terms of no not the RAM but the codes we using going at more than 90% and less than 100% we're finding that in efficient spot there and then I guess overall that is like a good spot you know 2 hours would make a big difference wouldn't make a big difference for the work we do um that is okay so here how we we token math this works call API runs as an array of text returns embeddings currently batches API call local you need 600 conservative equal to 64 for 80 GB Good balance 128 recommended for H1.",
+    "start": 2765.119,
+    "duration": 52.88099999999986,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_48",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Which H1 HGB VM? 18 GB used by VLM. You have plenty of room to increase 128. Now the thing is like this 18 GB used by VLM. Right now the thing is we limited on the number of task we can run with the course and etc. And I also don't understand how is that only 18 GB used.",
+    "start": 2814.0,
+    "duration": 28.480000000000018,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_49",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, image is around 5k tokens, not 10k, right? So, we can allocate this. So, 20 docs right now. So, 900 to,000 docs, we'll easily get 900 image for API call. Yeah, but the thing is eventually all the images and everything will be processed by VM. You understand this, right? So no API calls whatsoever. Everything will be using in VM WM. And I also curious to know how did you get this 18 GB number for VLM? So we have if it's only 80 GB used in V GPU memory for VM then we literally have uh 60GB. Why not we use it? Like I don't seem to get it. I'm quite dumb. Can you just quickly explain me what's really going on in a concise way? Don't give me an essay cuz yeah I know I understand it's like a compute environ compute thing cuz you want to process each task sequ like",
+    "start": 2864.079,
+    "duration": 65.68099999999959,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_50",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "parallelly but then also max out with the number of coursees as well but we got we literally have got like I don't know 80 GB something like 60 40 50 GB of excess v um excess model space model weight loaded want to sit there remaining KV cash. Oh, of course. Yeah, that's what that's what you're asking each tokens. Yeah, that's what I wanted cuz there was like 18 GB for like what son of So, you could even do 25 docs into three works. 75 still fits. Um or 20 docks into four pushing to the limit. Yeah. Yeah. Yeah. This makes sense. So, what's the final numbers? Let me quickly go vote for",
+    "start": 2927.92,
+    "duration": 68.19900000000007,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_51",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Call it margin processing to yeah US availability zone this is okay select the zone zone stuff Okay.",
+    "start": 3061.68,
+    "duration": 14.200000000000273,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_52",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Now I would like you to uh save the final details with any information or context to a single file. Feel free to visually put them in tables or whatever as above this looks the numbers looks good.",
+    "start": 3156.0,
+    "duration": 17.960000000000036,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_53",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "For now, let's stick to 25 by 3.",
+    "start": 3196.24,
+    "duration": 7.1599999999998545,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_54",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "It's a standard NCS NC4 is ads. It's set up and created because I want to check if if I do have quotas for it. Maybe they removed it or something. Oops. Oh, I think it's because of zones.",
+    "start": 3257.04,
+    "duration": 29.960000000000036,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_55",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "test. Yeah, like here zone or latency doesn't matter for me much here. So I don't really care about it. Basic level of security is enough in case I want to install drivers. Oops. It's not available. Oh god, I don't have access to the H100. Or maybe is it because of",
+    "start": 3302.0,
+    "duration": 44.51999999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_56",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Bangalore.",
+    "start": 3374.96,
+    "duration": 3.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_57",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "You were central. Okay, I think we can afford but the sizes are not available.",
+    "start": 3406.48,
+    "duration": 18.440000000000055,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_58",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So we'll just do zone two. Okay. Still I can't support it because in C 40 V subuses are needed for this configuration but only V sub of zero remain for this channel NCS family CPUs. Okay. Do we have blocked",
+    "start": 3463.68,
+    "duration": 23.159000000000106,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_59",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "What shall we do? I have one model inference which already has an H100. So I think I'll use that. Just stop some of the services. It's it's a bummer. But yeah. Let's take H100 pricing here is good in case I were to rent it for how many hours on demand is 2.9. Let's assume in three 24 hours actually cost 720. Now we'll actually use my model inference. I'm going to Yeah. Oh, we don't need this for now.",
+    "start": 3503.2,
+    "duration": 69.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_60",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Just I'll just quickly connect to it with my password.",
+    "start": 3607.119,
+    "duration": 5.161000000000058,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_61",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "The thing is, okay, the thing we have another issue. All of our 10,000 documents are processed in a single VM. It exists in a single V. Maybe yeah, maybe what I can do is because I have a shad I have a shabu like a shad drive, right? So maybe I can attach this to this or something like that. So I'll explain this situation to cloud. All right. So now I have created a All right. So I here's the scenario. I processed 10,000 documents and I've saved it in a different VM uh in Azure itself and it has access and it has an external drive additional data source or drive or something like that I think and I've processed 10K not sure where but yeah 10K documents in the it's in the VM. Now I already have a VM which has GPU attached to it but of of course it's a",
+    "start": 3634.72,
+    "duration": 75.00000000000045,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_62",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "different VM right I don't have uh no >> 2 minutes. Okay. So what we need to do is that um I totally forgot what I was saying. Yeah. Yeah. So what we what I need to do is that I want I I I want to know whether we could um see what drive it is it and probably you know um attach the drive or whatever the disk to this new VM as well or I mean it's not the new VM it's actually the VM that that has a GPU attached to it and was created very long time ago. But I think it should be viable should come back the conversation and yeah but yeah I think we can do it. We just need to attach the just attach the uh uh attach the disk to this and yeah it should be it should be it should be",
+    "start": 3704.4,
+    "duration": 54.95899999999983,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_63",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "good. I think you can do it cuz I'm not an expert in cloud and etc. I didn't do u I used to work with AWS not and mostly GCP and AWS noture at all. So I have some star plates for this. So just trying to use this as much as possible. 2 minutes.",
+    "start": 3757.68,
+    "duration": 35.7199999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_64",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "No, it's actually not about the current PDS. This is different code and the processing is in a different code. Oh, actually what I'll do, I'll come back in a bit and we have the code that's something different. Actually, we have a different folder for it. So we need to pull that folder and we have to access that. Uh yeah, that's the general folder and then you would use that specific folder to come up with the images and etc. All right, be right back guys.",
+    "start": 3845.92,
+    "duration": 33.720000000000255,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_65",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right guys. Yeah. So sorry have there was a lot of background noise here and there so I have to you know got mute but yeah so we are able to what we did was that you know quickly I didn't give you guys context on it. So initially what I did I actually had um I process I have the model inference the I didn't have kota for it. So I thought I can create like a attach a GPU for the VM that has all of the NASA docs but didn't. So what I was what I did was that I already had I already um I I've created like a couple of months ago I created a VM that had that that that has access to a single H100. So it's already attached to the VM. I don't want to spend I check I checked it at runport",
+    "start": 5804.32,
+    "duration": 40.319000000000415,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_66",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "probably like $720 to $800 a day if I want to rent it. So I wanted to you know do it with my current PM. Uh so yeah that's what I'm saying. Did um um I I so there was two VMs one had had access to the GPU but not the NASA 10K docs. One had access to the 10K docs. So what I did was that I remove I already create I had one TB data disck attached to the NAS NASA NTRS VM. I unmounted that detached that and basically attached this and mounted it to the uh the GPU VM. Um so yeah and right now we have 10,414 docs rem moved to the to the VM with a with a GPU plus we also have for just for the security we also have a snapshot created in case something goes wrong we also have because I don't want to run uh the",
+    "start": 5842.48,
+    "duration": 56.80000000000018,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_67",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "PDF download API for the next 7 hours or so we so I just create a snapshot and we have here all right guys so we do have it I want to verify uh Yeah, I want to verify the H100 as well. Yeah, actually there is no I don't think I installed any drivers switch. I don't think Nvidia Smi will actually work. Uh oh no actually I did install driver I think. Yeah, then you can see the amount of RAM we have. Uh yeah, it's 95 G. What? Really? 95? I I thought it was actually 85 not 95 NVL. Okay, we have 96 GB. Wow. Then we have additional I was like assuming it was 80 GB or something like that. Cool. Then this changes a lot which means that we have additional 16 GB. So cool. Actually, I'll go back and say it's fine. I figured this out.",
+    "start": 5897.119,
+    "duration": 68.40099999999984,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_68",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Make sure to go through this entire H100 configuration. Now I just checked the amount of RAM we have. Seems like we have 96 GB of RAM. And I would also check I would also need to check what are the like basic system configs like the uh hard disk, the the storage, the amount of codes, the amount of RAM, the amount of CPU, whatever all of those info as well.",
+    "start": 5972.48,
+    "duration": 38.280000000000655,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_69",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So yeah, how many codes do we have using? Okay, 96 code. Yeah. all the describes. Cool. Sharing you more info about the system as well. Now, I'm sure this would change a lot of the things uh in a good way. So I want you to don't make changes to the document. Let's go through this. What does this unlock for us because right now we were assuming it was 80 GB and we wanted to do it. So we have additional 16 GB meaning we can at least do another five extra document entire processing or maybe even add extra workers or B1 workers for it. So let's see what we can do. what you actually have versus GB. Yeah, slightly less to be honest. We only have four cores. CPU cores [snorts] system RAM T14 good data disk plenty. The big B is 16 GB VRAM. What this",
+    "start": 6023.04,
+    "duration": 107.27999999999975,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_70",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "unlocks more concurrent VM requests. Original M was with 80GB you could do 71 requests. Now you 96 you could do actually 91. Now you can safely run 30 documents, three workers and 90 in of two. Yeah, with parallel documents in 25 20% more throughout 10k toxins yeah 6.5 hours which is very good which is a very good number and in case you're actually using a lot of VLM as well which is also a very good number. Um so alternative and if you were to use a 7 billion version if you were to find the 7 billion version that can and here this for rocket stuff you need a lot of accuracy but if you were to have like a minimum accuracy you want to do it in a 7 billion version you can still do it right like this uh you could how how much could they unlock if you were to",
+    "start": 6128.239,
+    "duration": 46.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_71",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "easily easily triple the amount of requests. So you probably could do like 100 documents you know uh in in a single moment with a lot of the uh with the max number of workers and etc. Um yeah, an alternative better code instead of um you could you could run this concise to VM. The thing is I'm actually um focusing more on the accuracy than the um than the what do you call I'm focusing more on the accuracy rather than the uh like like time spent or something like that because I think here we can afford for it. We like we need to afford and we need to get the accuracy right. So there is no question to use a less uh no I think in terms of quant I just saw quantitization maybe we can we should actually use um like I think the bet using floating",
+    "start": 6172.08,
+    "duration": 66.31999999999971,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_72",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "point would be the would be better right in terms of accuracy could we do FP8 and I think the model we are going to be using open router model. Okay. Yes, this is the one. So, we're going to use that to all our",
+    "start": 6236.8,
+    "duration": 36.600000000000364,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_73",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, exactly. That's what we want to use. FP8.",
+    "start": 6292.639,
+    "duration": 4.519999999999527,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_74",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, we might have a good you know even a better accuracy one because you can see we used this model from which is actually used uh which actually by default I think I don't know what the um deployment status for it they've not shared any information whether they have used um what contised or whatever in Olama sorry on open browser but I think um for Ola I can see by default this the most of the most of the processing or maybe the inference you use um would probably be a very less contized version and probably in like for open source model probably on like a 509 something not sure you can't be sure of it so but here we can actually be sure of it because we the guys doing it and I'm actually think I'm going to use this model. I would like to use this model, but it's",
+    "start": 6313.28,
+    "duration": 61.5600000000004,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_75",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "the same parameter count. Yeah, P8 preserves this thing. So, available for KV cache concurrent 72 request 24. So yeah, in this case we are going to so we decided to do intate. Right now we're doing floating point. So still uh uh so intate now FB8. So you'll have an accuracy bump and you'll only drop like you still doing uh we have still so the X 16B probably going to use it for FP8 instead of in 8 documents in par 24 total concurrent embedding B 120 in 8 hours you can get slightly lower than 84 but accuracy get on tables is worth it. You only inest once better to spend extra hour and get it right. Exactly. Want me to update the config table.",
+    "start": 6370.96,
+    "duration": 56.599999999999454,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_76",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Uh please read go through the page and you know give me any additional information you have. I'm curious to know can we do FBA through simple I probably I would in a production use case you know I'll probably go with VLLM uh but yeah this is enough like more than enough at this situation",
+    "start": 6439.92,
+    "duration": 33.51999999999953,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_77",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "If not, if it doesn't provide, then we'll probably have to uh just go with the um the general the general um numbers, but it's still okay. Later, we can switch it up to Vway like pull it from hugging face and you know do all of the custom configs and etc. If not, I think we'll go with here. If not, then it's PLM or directly to hog. The thing is we need to have exposed open API. I need to be able to expose it as an API um for whatever reasons or maybe we just don't need it at all. We just need we just start up the server once the process is done and we'll just kick it off from there. Olma does not support FP8 uses G format which has to consider options not FP8 concization F is better very good options option one lama Q8ment for",
+    "start": 6519.36,
+    "duration": 80.04000000000087,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_78",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "simplicity very close to FP6 better than intate but then other frameworks. Yeah, this is okay. I would say concurrent request is 70 and this changes things a little bit I would say.",
+    "start": 6596.4,
+    "duration": 27.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_79",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "and I'm sure VM. Yeah, of course. For sure. Native H100 support. I guess we'll go with VLM. We'll spend some time on VLM. If if some reason if it's complicated, we'll jump back to actually good.",
+    "start": 6668.8,
+    "duration": 19.959999999999127,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_80",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah. The difference between Q8 constant and F16 is usually negligible. Oh, then when Yeah, usually negligible for FP16, then we'll just go with Q8 then. I think this is good. Yeah, we'll go to the second one cuz I cuz Yeah, cuz if the if the difference in um performance or precision is actually uh difference if it's usually negligible between FP16 itself, then I guess the best we just go with um Q8. What's your preference alarm or use alarm? Let's go with V1 and see what happens. Yeah, I think we should if you were to use the first. No, if you were to use this, how many uh what does it change in our request? Like how many documents would we process? Would would it be the same? I think yes.",
+    "start": 6708.8,
+    "duration": 70.83899999999903,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_81",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Good choice. The numbers are near article since field has 32 parameters same as ballpark recalculated for quen 72. Yeah, nearly the same. You can do 24 concurrency since paramedics Similar model",
+    "start": 6802.719,
+    "duration": 24.360999999999876,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_82",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "should we use? Let's go with this. Yeah, let's go with this option one. And yeah, update the docs.",
+    "start": 6841.119,
+    "duration": 15.5600000000004,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_83",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "The thing is in the past I've you know spent hours debugging packages issues and all of these system issues using VLM. That's what I am VLM. So that's why I'm thinking if I have to do VLM or if I have to hit a lot of the package issues and driver issues I'm probably dead. I don't want to spend time in that crap to be honest. And of course we we using um",
+    "start": 6891.76,
+    "duration": 40.76000000000022,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_84",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, I would also want to want you to add it as a note or something in case if you were to come back and integrate um the conscious version 8 of all armor. This option cuz I'm sure if if in case if we both were to hit any issues or roadblocks with VLM, we probably want to quickly fall back to AMA and just quickly complete the uh the document processing. It's actually like a last sort of resort but just just adding it there because in the past we probably face a lot of issues with VM WLM and I don't want to spend hours debugging all those package and runtime issues.",
+    "start": 6962.48,
+    "duration": 50.1190000000006,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_85",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, exactly. The conflicts here. Yeah, exactly. This is what we'll do in case we both hit any root block with VLM. But I want to give a shot with the VLM. Get the sled. So I think what next is um we would need to think we can start with the processing. So what you need to update uh so how would we do it for example we want what we really want is that we want to we want to we basically want to clone this code you know make it into a package or something like that and just sort of run it and yeah apart from that I'll be like now before I deploy this code um uh to the BLM would do you need to update any parts of the code and also I would say you would need to Yeah. So, I would say there's a hell of a lot of",
+    "start": 7032.0,
+    "duration": 90.15900000000056,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_86",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "work. I would say before there's a Yeah. Now, would you need to update any parts of the code? because I probably need a folder that will I I guess we already have a folder, but I would probably need uh to uh yeah, I would probably need to specify the directory of the u directory of the 10k docs and I want the pipeline to start and it should do all the processing and all of those and you should also note that you know we probably need quadrant and all of these embedding models everything downloaded before it. So, so there's an initial installation step and then is is once we verify all of the installation sort of works is when we actually uh start the document processing. So there's a hell lot of work here. I would like want you to check the code and come up with a",
+    "start": 7118.32,
+    "duration": 56.48000000000047,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_87",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "plan on how should be really deployed because this is a VM which which will not have access to the entire code. I only [snorts] need the code that could take in uh take in the uh take in the directory of docs and then uh of course have use docker for quadrant probably u because we need docker to uh keep quadrant over there locally on the vm itself I mean the vm actually and yeah um give me and a way for me to check you know what is the update you know what's currently happening and a real time way to really see the the the current current stuff and all of those stuff. Yeah. So, a ton of work. I would want you to spend some time and give me a plan or sort of an approach for this because see guys, you have the you had a",
+    "start": 7173.28,
+    "duration": 48.24000000000069,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_88",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "couple of you have a couple of models. One is embedding. You also have the embedding models. I think we'll actually run it through VM as well cuz we're using it. And we have embedding models. We have quadrant. We have processing and etc. So yeah, we need to get the deployment stuff pretty good. And we don't need any packages. You just need docker for quadrant and any docker whatever you need and then you need the embedding pipeline and just you know saving the stuff for quadrant that's it and we'll just process like a single PDF and see if everything is going on if everything is working well with all the realtime stuff again taking it simple for now and then we'll give the 10k and docs and yeah yeah and we should be able to see everything real time and give it a few hours and then come back after I",
+    "start": 7220.239,
+    "duration": 41.04100000000017,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_89",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "don't know 8 n hours probably like next stream we should have the quadrant ready or maybe even after a couple of documents you'll have the quadrant which you can use it expose as that as an API and start connecting this to the agent.",
+    "start": 7259.76,
+    "duration": 12.639999999999418,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_90",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, for now we'll just it's okay for now using to run this. We'll run the embeddings in BM later. Another issue quadrant injection pipeline nk docs system packages date everything install python install docker install this create project directory create working directories",
+    "start": 7427.28,
+    "duration": 24.878999999999905,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_91",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, I'll just drag and drop the repo. That's it. Yeah. Oh yeah. So this is a good plan. Update the config for H100 and verification step. Yeah, we'll copy and paste this code. This is a very good Nice job. So alarm all of this is uh so we're going to copy and paste this code. Very simple stuff. So what I would say is that",
+    "start": 7476.96,
+    "duration": 29.238999999999578,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_92",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "just a few things I would like to u for now also because we're using VLM I would used to like to use the embeddings VR VLM as well we can keep it at the native you know whatever the config we using we'll just use it but we can use it for VLM also I think I've seen I can see a lot of the code you've given me a lot of code what you can do is that create a folder and you know put in just just create yeah instead of giving me as a text just put those codes uh to the folder because I can just ex like copy and paste the folder to the v uh to the to the VM and Yeah.",
+    "start": 7518.56,
+    "duration": 40.19999999999982,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_93",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "How do I rewrite the legacy calculation without Hi BM, I don't understand your question. What do you mean? How do you rewrite a legacy calculation without destroying the base? What do you mean? cuz just give me info. I'm not able to understand your query. Do you mean to your system or this current system?",
+    "start": 7572.4,
+    "duration": 32.198999999999614,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_94",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "I guess you can check our current requirements. Uh we've been trying to run mostly like try to run latest packages for most of the most of the yeah try to use latest packages as much as possible. Maybe we just put you know keep at keep those at latest packages and we we hit an error we'll come back and find an optimal package. Yeah.",
+    "start": 7848.159,
+    "duration": 23.681000000000495,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_95",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right. So, I think we have a we're in good shape. We already have most of the files we want to do. Uh let's quickly run through the gist of what you know what we're going to do next and then going for a quick break for the lunch. Come back in a few. uh create a deploy folder for all scripts, quick start guide, minimal dependencies, start Olman and VLM, you run the checks and etc. To deploy to the VM, copy the folder at the end.",
+    "start": 7899.84,
+    "duration": 45.79899999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_96",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Cool. We have we pretty much got everything. Cool. So the next step is that we'll get this deployed, get all the services and process one document and see if everything works well. Then we'll, you know, run a few hundreds and if that works well, we'll just dump it with 10K and just leave it for the day. come back tomorrow and then check how the processing went as well. Now as also we would also need to pro you know take care of a lot of the quadant load and etc. But I think quadrant like out of the box I don't think we need to do any efficiency gains because I think quadrant you know uh it provides most of the efficiency stuff. So we need we don't need to really think about that but this is okay for now. So I'm going to take a quick 20 minutes break come",
+    "start": 7970.079,
+    "duration": 38.4409999999998,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_97",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "back after lunch.",
+    "start": 8005.04,
+    "duration": 3.4799999999995634,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_98",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right.",
+    "start": 8021.52,
+    "duration": 4.759999999999309,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_99",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All righty.",
+    "start": 9361.84,
+    "duration": 3.1599999999998545,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_100",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right. So, we're copying all the folders and the files done. Hope we run this",
+    "start": 9524.64,
+    "duration": 12.360000000000582,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_101",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "put this command to a file and I'll copy it from there cuz you'll have this weird line breaks when you were to copy this from a terminal and",
+    "start": 9566.479,
+    "duration": 14.201000000000931,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_102",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "All right, password.",
+    "start": 9608.399,
+    "duration": 4.120999999999185,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_103",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "We have the source file with all this. Good. What else is left? Okay. I guess requirements will also be All right, cool. We have the requirements, we have the merit, we have everything done here. Okay, so our GPU instance, we have the deploy command, we have the source, we have the embeddings, we have the pipeline, we have the extractors, we have everything. Cool. So, so uh just to I want to test yeah first of all I want to I guess the next step is installing all the stuff but the end goal of it is that I want the pipeline everything to work for a single document and once we for correct once we uh or maybe like the first 10 documents or something once we um confirm that everything that we've done is working for the first 10 documents then we'll actually jump into the next 100 or maybe",
+    "start": 9636.479,
+    "duration": 73.52100000000064,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_104",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "the entire thing. So, what's the next step?",
+    "start": 9708.16,
+    "duration": 4.8400000000001455,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_105",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "The code is on the VM. This is all in sequence. You're already American.",
+    "start": 9730.8,
+    "duration": 7.638999999999214,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_106",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "No, but we had a different process for it, right? Like we wanted to install all the packages and etc. I like the thing is I want like what I meant when I mentioned I want to process one document is that I want like I want to first of all get the the thing is like this it's confusing actually go back. No, actually when I meant I want to process a file, I wanted to mention that you know we want to go through the entire setup like our deployment setup is very different right like I want the monitoring everything just assuming we'll do it for 10,000 documents but for now we only want to at the end process one document but we want to do everything uh in terms of whatever we have planned to verify setup the injection the start services everything related to the H100 just to check I mean",
+    "start": 9772.88,
+    "duration": 60.47900000000118,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_107",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "we we just we're just going to assume we're going to do it for 10k and we do everything possibly as pos accurate as possible and we only process one at the end just to see but the entire pipeline is working. That's what I meant because this seems like just sort of like quickly trying to you know um um manually verifying that to run a model or something. This is not what I want. We planned we planned it pretty well before and we have the deployment guide and injection config as well. So we just want to take it step first. We you know do everything whatever like as we plan and then we move forward.",
+    "start": 9832.08,
+    "duration": 37.47999999999956,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_108",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "This is one we're going to do. So did everything. So what is created? I think the directories",
+    "start": 9888.319,
+    "duration": 22.040000000000873,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_109",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Can I follow the deployment guide? Can I just copy the first 1.1 and just paste it? Do you want me to follow your commands or just copy paste things from the deployment guide?",
+    "start": 9924.319,
+    "duration": 12.84100000000035,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_110",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So yeah, we are just updating all the system packages. Create project directory.",
+    "start": 9958.88,
+    "duration": 8.439000000000306,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_111",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Also I guess as before we planned to do the embedding model uh with VLM as well. So instead of AMA was the last choice. I guess we updated we talked about it in the middle because we are already using VLM we'll use the embedding models also to VLM. Is that possible? And I also for for the uh for the VLM I would say sorry for the embedding model we can just load it at int8 or FP8 or Q8-0 whatever doesn't matter or we can just keep the same Q8-0 sort of config with P lm is that possible.",
+    "start": 10806.64,
+    "duration": 49.759000000000015,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_112",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Actually, it's fine for now. Let's just stick to the plan. We'll use Olama for embedding model later. Let's just change stuff. It's fine. I think in terms of VM usage, it'll be the same, right? AMA is only loading that model and VLM would only also load the model. So in terms of RAM usage or VRAM usage, they'll be the same, right? That's because that's what I care about. Doesn't matter or essentially the same model. It's the same size serving framework. Exactly.",
+    "start": 10956.08,
+    "duration": 38.68000000000029,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_113",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay. Okay. The thing is in that in the same VM I have I've actually been running um and I think I have like I already have two screens created. So what I want to do is to scrap all the screens that I have and also kill the yol instance and then I uh I can run the 2.2",
+    "start": 11010.72,
+    "duration": 20.1200000000008,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_114",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay. Install the latest Sure.",
+    "start": 11070.08,
+    "duration": 16.68000000000029,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_115",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "The thing is um I I forklama's prior process and once I complete the installation and do ser actually once I complete installation is actually serving I guess starting the API See the logs.",
+    "start": 11178.0,
+    "duration": 19.318999999999505,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_116",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Pull them all.",
+    "start": 11217.12,
+    "duration": 3.4799999999995634,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_117",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay, we have the 20 B version. So I was running this is the prior one I was running 20B version. I've stopped it this",
+    "start": 11250.64,
+    "duration": 10.360000000000582,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_118",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "model has to be loaded with charge. First time would actually when you run this first it will take some time afterwards it should be quick. Yeah, without delay. We'll go for the next one here. Okay, we got the em it's working.",
+    "start": 11273.04,
+    "duration": 34.039999999999054,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_119",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay.",
+    "start": 11519.76,
+    "duration": 3.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_120",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Just loading the model.",
+    "start": 11587.279,
+    "duration": 3.720999999999549,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_121",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "As usual, test an error.",
+    "start": 11683.92,
+    "duration": 5.239999999999782,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_122",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "ran this command. I guess the model loaded and I got an error now because it's uh it's we've installed that we've run that in a screen. I'm not able to scroll up or scroll down. Give me a command so I can copy you know the whatever the character characters you want to see see what the issue is or what the error is.",
+    "start": 11705.359,
+    "duration": 21.480999999999767,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_123",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Now, for now, I don't need any screens cuz I just want to test stuff and get the logs and be able to see it. I because I'm not going to close close the VM now. Later, we'll use the T-max, but for now, we don't need screens. We'll just disable the screen, terminate the screen, and run it one more time. Control Ctrl A and D to detach cuz I'm not going to run everything right",
+    "start": 11818.72,
+    "duration": 36.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_124",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Actually, I wouldn't want to waste any context. So, I'll be like, what is the error? Paste it. I don't want to leave this uh I don't want to get into an auto compact soon.",
+    "start": 11932.72,
+    "duration": 35.559000000001106,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_125",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Oh",
+    "start": 11998.239,
+    "duration": 3.2399999999997817,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_126",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": ">> [snorts]",
+    "start": 12050.174,
+    "duration": 2.019000000000233,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_127",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": ">> Oh, hey Joan CSA. Just saw your message. Hi. Hi. Hi. Not sure if you messaged before. Now, yeah. I have a background in computer science. Yes. Yeah. Yeah. Yeah. I did my degree in software engineering and computer science and yeah, I couldn't comp I mean, yeah. Nearly completed it and yeah Baron is CS. Yeah but mostly self. Yeah. You've been looking for someone like me. Yeah. Is Cloud code really all that? Yeah. Yeah. Literally. Yeah. of issue for example um so the project this is day seven and I'm building a rack system you know I'll send you the link of what we're building this is what we're trying to solve uh maybe it's in the description of the video check the description of the description of the YouTube video but basically this is such a complex system not like not a not a super damn not",
+    "start": 12217.12,
+    "duration": 67.51999999999862,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_128",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "rocket science not building like rockets but then in terms of system level it's very at least with a the stuff on the agents and the documents we work with it's very complex uh tend to take like you know easily like five to six member teams who's working full-time for like a few months to figure out all of this stuff you know in terms of UI in terms of experience in terms of like documents everything like probably like a couple of months project and easily like 200 300k sort of project value um I'm just using cloud code in day seven right now we've solved document processing to process tables and etc for example as you're jumping in right I'll quickly show you like a refreshment on the amount of content we work with. You can see the these are like scan copies from 1950s. And if I go",
+    "start": 12282.64,
+    "duration": 51.83899999999994,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_129",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "over here, you can see the uh form this the documents have a lot of formula and etc. So all of the extraction has to be accurate. It has to be 100% accurate and yeah quite quite uh complex documents. So you see this is from 1967 and they have a lot of tables. Do you see? And all of these are very sensitive information. I mean I'm clarifying this but yeah um uh since we extensive information in terms of a company so we using open source models to run this. So yeah it's with cloud code of course you know like I'm literally building something that takes four to five months you know uh at minimum in like a couple of weeks and just being a single member and of course with all like 10x the amount of quality and stuff. So your question but you still need the",
+    "start": 12331.279,
+    "duration": 47.60100000000057,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_130",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "software right is there no way I can do it in my no the thing is like this for example for you to build something like what I'm right now building you need to have some sort of computer science knowledge because it's cloud it's it's so much it's it's it's not impossible it it can be done but you need to have that fundamental software background computer science background and the tool like for example if you if you were to be a non-developer you can use cloud code and all of this bunch of tools to create websites to create like apps and like fairly easy sort of applications. But if you want to build stuff like this scale where it's it's quite complex in terms of like documents, in terms of agents, in terms of infrastructure, in terms of cloud and etc. It's definitely um yeah the thing is you can start cuz a lot of",
+    "start": 12377.12,
+    "duration": 46.15899999999965,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_131",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "things has changed. what you can do is that you learn the fundamentals of software engineering and not software engineering but in computer science in terms of I'm not saying theory right not saying you to go ahead and learn theory and about computer science and stuff like that what I'm trying to say is that and uh you know if you want to get into have a career you want to you know do something in the software space start now early use built just increase the complexity of the apps so you'll have more needs because you that's the one way you can do it like you know if you were to work with a very small website you know work on a big one with a lot of features where you need to have backend the front end you know a ton of things happening you know increase your",
+    "start": 12422.0,
+    "duration": 40.63999999999942,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_132",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "complexity and try to achieve that and I did a similar project a while back are you using overlap are using overlapping for processing bit no I'm not using overlap I'm using dockling so this is an open layout detection framework called dockling by IBM they have a model for detecting like documents and stuff but the thing is like this I'm only using this for detection and I'm using my custom pipelines tables and transformers etc. to to do this stuff for in in fact in this case we are processing 10,000 documents. So each for example just to show you right now it's 10,000 documents we have at the hand and each document has about 50 50 page. So yeah about 500,000 pages here 500,000 to 750,000 pages is what we processing and saving in card and then doing all the vector stuff. So overlapping for this um now",
+    "start": 12460.64,
+    "duration": 48.159999999999854,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_133",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "it's not a big decision. If you want you can have overlapping. Um yeah. So another question amount of data is a couple of just see if any data is related to answer key then look at the small chunks you know something like that but the thing is like this so we we've spent about 30 40 hours on this right so I would you know encourage you to go back watch some of the past live streams and see I guess it was on the third one or the fourth one I don't remember but it's probably in the first three so the first second there's three live streams they part one part two part watch all of them. It's quite long but you know just skim through uh different parts and we've been working on that. So it's I can't give you a definite answer on that because you know we've done a lot of",
+    "start": 12507.439,
+    "duration": 45.44100000000071,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_134",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "things in terms of chunking. It's different for formulas, it's different for pages, it's different for graphs, figures etc. Yeah. Awesome. Awesome. Yeah, brother can't hear What? You can't hear me. Is my audio all right? I think so. Or at least the last time I checked the audio was right. I think the Let me let me verify this. Let me let me quickly open YouTube and check my audio. Good. and check. >> Yeah, of course. All is good. Feel free to drop in any questions, you know. I'll as I go on, I'll just take a look at them. I'll probably answer those. Okay. So again error. No, I've got an error. The selected lines are the error. For example, sometimes CL just like that. Oops.",
+    "start": 12551.2,
+    "duration": 120.43999999999869,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_135",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "like why are we facing this issue? Can you search the web? Probably this is fixed or you can use context of an MCP to search through VLM docs. Try launch a sub launch a sub aent and try to check on this. Launch a sub agent to verify V LLM docs and whatever the docs to, you know, try to see if there was a potentially proper viable fix. Use a sub agent.",
+    "start": 12700.96,
+    "duration": 29.960000000000946,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_136",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So I think the audio should be better now. I'm sorry about the de. Yeah cuz uh whenever I join a Google meet it sort of auto it changes the audio volume and the output gain and that's why I think there there was a you have seen a drop in the audio.",
+    "start": 12750.88,
+    "duration": 20.040000000000873,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_137",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "That's this is one of the reasons I didn't want to use VLM because it's totally a different inflow of you know all of the dependent packages and all of the show is quite easy just fully it manages everything you get the model running in a few minutes not even minutes I would say less than a VLM is something that if you want to like you know get the juice out of the GPU and you have a lot of time to do so is then when you use BLM I just wanted to try and show it to you guys cuz trying to you know build just showing you parts of it in a real deployment we'll probably use BLM or all doesn't doesn't matter um yeah yeah Sure. Awesome. I think I accept",
+    "start": 12863.04,
+    "duration": 55.39899999999943,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_138",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So will I could try option first the first command but I can see the number of uh number of workers and a few of the thing I can see some changes on uh limits and etc. But will this affect our our plan of uh will this affect our plan of uh deployment? Meaning like we wanted to process 25 30 docks, right? Could we still handle this or would this affect that? Cuz if not, I'll just be better off running all armor. I should have simplified it actually. My bad.",
+    "start": 13030.88,
+    "duration": 39.92000000000007,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_139",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Why is this issue? Is it because of Is it a VLM VLM uh like package issue? Should like because we installed the latest one, right? Would installing the stable version still keep us on track with the concurrency rates? Just curious what do you recommend?",
+    "start": 13119.68,
+    "duration": 22.039999999999054,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_140",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Wait, if VLM pip package is built for KUDA 12, then I'm sure VLM uh S SSH package or something on other bash downloads or whatever will actually give us support for Koda 13, right? Are we only dependent installing VM through pip or is there any other way of installing it to uh have a version match with ka 13 support decision but you can't trust this models the one other work around is just you know install it via SSH or something yeah the official VRM containers for new kod this guy Nvidia provides it but it's because I just mentioned we'll do it for pip and it didn't give me any information that's why you can't run models for hours you know it'll do everything correctly but it'll do everything correctly but it'll miss some very very small decision making points here and there which will anyway fail the entire",
+    "start": 13184.96,
+    "duration": 82.88000000000102,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_141",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "project and you have to sit down and debug for hours. So instead of that you can simply you can just write stuff yourself. So, we'll install this first",
+    "start": 13265.52,
+    "duration": 12.600000000000364,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_142",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Let's just give this a minute. I think I'll have to pause this stream in 5 to 10 minutes to head out and once I come back, I will actually continue the stream and yeah, I want to do it in a go. But yeah, to go out to the gym. So I'll come back and continue this. But yeah, I think this should work because it's an usually it's a docker whenever you cuz docker you're running a docker container with code support. Now most of them it's a docker as long as the build works for them it'll most of them work for us and it's exposed through API. So we're not touching anything just just clean is very clean approach and we just start this docker file. Um yeah and then it should work. Let's see. Yeah, you can do this as well. This is also Yeah, this is also straightforward",
+    "start": 13421.04,
+    "duration": 62.39899999999943,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_143",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "in if you don't want to use Docker and manage containers and extra you want to straight away do it in bare metal where if you don't have Docker, clone the GitHub VLM.get and do it. Actually I forgot because I didn't do VM for a while and uh yeah I was just testing a few things messing with just old armor because infra when I touch infra only I'll probably I didn't touch infra for like 2 3 months. So okay I think it's done. Yeah. Yeah. So always you know like docker like very easy just one line of code you just deploy it and you don't need to write anything just just copy paste it. Easy work.",
+    "start": 13481.359,
+    "duration": 35.64099999999962,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_144",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "this. Hopefully this should fix the issues and run the model. Oops.",
+    "start": 13539.92,
+    "duration": 10.519000000000233,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_145",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "FGPU needs to install container. Yeah, that's why this bare metal just do the GitHub is fine. But yeah, we've already made some progress in this. So, we'll just continue this. Oops.",
+    "start": 13565.359,
+    "duration": 15.480999999999767,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_146",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Oh my god, I actually closed Visual Studio Code by error. Okay, cool. I think yeah. Anyway, this is a good spot to stop. Um, we're fixing on we planned so uh we have a deployment guide set up. We also we have we actually following it and we also have the H100 configuration and this is what our injection pipeline would actually look like. Okay. So this is what we did for the 4 hours I think to 1 hours of 1 hour of solving errors and just unproductive server. But it's okay. You have to go through this. You can't you can't you can't leave it. Yeah. I'll come back and install the other service and keep the progress going and let's see. Actually, I actually run this. Just a minute. I should run it.",
+    "start": 13631.279,
+    "duration": 51.320999999998094,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_147",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "And if for God's sake, put this into a file temporarily so I can copy this because line breaking causing dam uh um stupid issues.",
+    "start": 13728.88,
+    "duration": 10.840000000000146,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_148",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, we just copy it from here.",
+    "start": 13753.04,
+    "duration": 4.359000000000378,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_149",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay. So this it's all installed.",
+    "start": 13809.199,
+    "duration": 13.880999999999403,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_150",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "So this will run for a few minutes. Come back in a bit. Okay. Then again install transform. I think we need to install this library. So maybe this is working.",
+    "start": 13917.76,
+    "duration": 13.959999999999127,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_151",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Wait, this is not really good. You can't change models. Why are you changing models? Then we will uh installing VM directly through Git will solve the problem like the the the direct G VM. Is that the most straightforward proper approach of doing it?",
+    "start": 13974.8,
+    "duration": 24.679000000000087,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_152",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "No, you idiot. Not through pip. I'm talking about directly from VLM git.",
+    "start": 14022.399,
+    "duration": 8.361000000000786,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_153",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Please do not code. Let's talk through this.",
+    "start": 14043.76,
+    "duration": 4.679000000000087,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_154",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah. Okay. So, I think we'll Yeah, we'll try",
+    "start": 14082.72,
+    "duration": 7.800000000001091,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_155",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "is a single shot. If it doesn't work, we'll jump back to",
+    "start": 14239.199,
+    "duration": 4.999999999998181,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_156",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Okay, I think yeah, we're just hitting into blocks of the root blocks. Can you just pause and just give me an idea assume I'm a dami what is really going on and uh why we have kod 13 we have we are not using direct whip then why is it failing what's the issue",
+    "start": 14318.96,
+    "duration": 31.27900000000045,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_157",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "Yeah, we'll use uh 11.05. Let's go with option three. Okay, we'll try one more time. We'll just downgrade the package. come back to low version of VLM test it if it doesn't work then call it for the day and go just simply work with Olam and come back to like the improvement in FL later because if I spend time like this I'll only complete the project in I don't know another because see the main parts you can easily build the complex like form detection and everything those are very easy very easy in terms of like you need to spend a lot of time you can there's no a lot of blocks here like cognitively there's some blocks But these are like basic errors. I don't even understand what the a ton of build packages and etc. It's such a such a mess. Anyway, we'll just try this basic stuff.",
+    "start": 14407.279,
+    "duration": 62.0,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_158",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "This should be very clear or just have one docker where I can run and everything will work. Install all the packages because we just need the inference working. There's no one single Docker that I can just just put like quadrant. I just put Docker and it just magically works. Yeah, VM should have Docker. I think it has this great. Yeah, I've been thinking about doing this for my logs, notes, books, and forms I downloaded. Yeah, sure. A good project to try. Try to let me know how it goes. All right, guys. So, I need to wrap this off. I'm just heading out. I'll come back in about 3 hours and then continue the stream. And yeah, we'll wrap this up. Try to wrap this up by today. And then tomorrow we'll connect the agent solve all the you know problems we deal with you know a lot of docs but then the",
+    "start": 14467.76,
+    "duration": 48.31999999999971,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_159",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  },
+  {
+    "text": "agent related the problems and yeah spend a couple of days and by end of Friday my goal is to wrap this up. Okay. All right guys talk soon. Bye. And yeah feel free to check out some other live streams and passings. I'll update the videos with good chapters and descriptions later on. Okay. Awesome. Talk soon. Bye. Yeah. Yeah. Yeah man. Uh have a good day YouTube and hopefully I catch up soon. Follow me in LinkedIn if you u it's called the same just Google up Rosen goat then give me a hit on LinkedIn all right talk bye",
+    "start": 14514.16,
+    "duration": 31.03899999999885,
+    "video_id": "Wd-DZNKE87Y",
+    "chunk_id": "Wd-DZNKE87Y_160",
+    "title": "Processing 10K Documents on a H100 (Qwen) | GPU Infrastructure, Scaling Math, VLLM & Ollama | Part 7",
+    "playlist_index": 7
+  }
+]

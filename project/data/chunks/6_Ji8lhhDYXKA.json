@@ -1,0 +1,1874 @@
+[
+  {
+    "text": "So, hi everyone. This recording. This recording.",
+    "start": 18.48,
+    "duration": 4.919999999999998,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_0",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So, hey everyone. This is Raj. Just this time you used to go live on Twitter but you're trying on sorry used to go live on YouTube so trying Twitter this time. Um cool cool yeah so hope you can hear me all the voice and the audio is good which obvious looks good. Yeah. So this is day six of building uh a production rack system for NASA docs for 85,000 NASA docs. So yeah I'll just quickly skim through the progress I've made. so far and what we're actually building and then you know the folks who are new here uh try to try to u try to get get an initial understanding of what we're trying to build and then we'll slowly go through about the progress we've made and what we're going to do so far this live stream would probably be a very short one probably four to five hours or",
+    "start": 40.079,
+    "duration": 49.68,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_1",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "something like that feel free to watch the last five live stream they're very much in detail and of course once the project is done would probably um you know have u have the have the GitHub code live or maybe at least um the URL or whatever is live for you guys you can use it and you know get inspiration on both yes so let's go through what we're actually building what we are actually building on this live stream um so in the past few days we've been building this project called Meridian Aerospace which is a midsize aerospace company so essentially it's basically like they work with a this is a fictional company and they work with NASA and they contract a lot of space agencies to provide you know like services their own consultancy services and they have 85,000 documents ranging from 1950s to 2025 I mean till date so the documents",
+    "start": 88.24,
+    "duration": 56.87999999999998,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_2",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "would vary and I want to show you a glimpse of the documents we work with if I were to take one of the documents here now we going to work with 10,000 documents right at you know as a starting point u but you can see you can see a lot of formulas uh these are OCR text a lot of graphs a lot tables and etc. And these documents are itself in in in nature they're quite complex. They have a lot of moving pieces. For example, if I were to show you this document, you can see the amount of tables. The amount of complex table. So what so among the complex table you can see and plus like what we've done is that in the past I would say three or four live streams we have built an epic a very uh strong document processing system that can actually",
+    "start": 142.959,
+    "duration": 47.19999999999999,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_3",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "process tables like this uh formulas pictures and etc and have a have a solid um you know like a solid searchable system in quadrant where you can you know use metadata you can filter by date and whatnot a lot so I would encourage you to look at the past few streams if you want. Uh so that way you know what's really going on and you know the progress we've made so far. So yeah, let me pull up the code and we can continue from where we left. We'll just you know skim through the progress what we made what we did yesterday and then we'll actually go to uh the actual listing here. All right. So what we've done in the past live stream was that uh we built um document processing pipeline of the system that can work with basic document processing do table extraction formula",
+    "start": 186.879,
+    "duration": 54.640000000000015,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_4",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "extraction picture and diagram processing u do a lot of chunking context extraction and we also had one pipeline that can process all of it and everything is we using open-source models so this is very much so in case you want to deploy this in in IT AR specified or compliance server or maybe local server because a lot of the rocket science docs or maybe even agencies work with a lot of sensitive classified information which is not available and which you can't push to the clouds. There's there are a few limitations where you can use Amazon Amazon like clouds and etc. But then still you would want it to be on prem like you wouldn't want you wouldn't want to connect your documents that's some that's probably outside the server etc. It probably needs to be inside your server. So this is entirely powered by open source",
+    "start": 240.08,
+    "duration": 43.359999999999985,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_5",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "models. I mean the agent is powered by cloud. You can change this up to an open source model if you want, but I'm just, you know, improvising on that. But the initial document processing, being able to process all the 85,000, 10,000 documents and being able to scale at 85,000 and even 100,000 docs, everything should happen using an open source model. And you get the flexibility of, you know, changing the open source models as much as you want and then um of course you'll have a drop in intelligence depending or and up and an uptime and intelligence depending on the model you use and etc. But yeah, so yesterday we accomplished a lot. We built an agent. I'll quickly show you the agent in a bit. We built the agent that could, you know, check the document, use a bunch of tools and yeah, so let me go through. Yeah. So the the",
+    "start": 282.08,
+    "duration": 43.678999999999974,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_6",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "current stage we are in is basically we're building the rag agent. We built the skeleton started with the skeleton and we also built a very good system that can actually spawn multiple sub aents. So for example, I'll show it in a bit. the agent can clone itself and you know sort of launch sub agents parallelly or not parallelly sequentially to explore a lot of stuff just like how cloud code would actually do it and then the agent would also has access to a lot of like like yesterday I would I would at least tell you even if you're not focused on a lot of the document processing stuff because I can't just get it to you on words and just explain the complexity in words yesterday was 11 hour live stream and I figured out how to we went through the thinking pattern we got into the shoes",
+    "start": 324.4,
+    "duration": 39.91900000000004,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_7",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "of the users not just I'm not also going through technical I'm actually trying to understand and spend hours thinking about the user what the domain is, what is the what is the nature of a query like the realities of it instead of just building some sort of agent. You would need to understand the user to build the proper agent and you need to be in the brains of the user at least try to be in the brains of the user to be able to map out how the agent should think, how it should work and etc. So definitely would tell you to you know go ahead and check that out you know if that I'll leave some chapters in the probably today or tomorrow so you can click on the chapters and check it out. But yeah, so it's just I'm going to quickly take a",
+    "start": 362.0,
+    "duration": 38.71999999999997,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_8",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "look at the agent we built cuz we did it yesterday. I just want to go through them one more time.",
+    "start": 396.8,
+    "duration": 9.800000000000011,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_9",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah. So I'm going to run this with haiku and inactive mode and I have a test query that I have yesterday. I'm also going to start up docker. So cuz portal has all the documents and currently guys we're also working with a couple of documents. So what I've done just to give you an intro, we have we are building it for 10K but supporting it for an 85,000 document infra right now. So what I've done is that to be able to see the documents and work with it, you you need to get diverse set of few documents that portrays the actual picture depicts the actual picture of the general purpose documents. For example, I took a bunch of documents from 1950s. I took a bunch from 1960s and 1970s, 1980s and in 2000s and the latest documents and also took a bunch that has a lot of images,",
+    "start": 429.759,
+    "duration": 43.92099999999999,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_10",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "bunch that has a lot of tables, bunch that has a lot of formulas and basically created a very small diversified data set that I can initially work with because you can't solve tables for 10,000 documents just right now. What you have to solve is that you want to solve for documents from 1960s the worst case scenario and give accurate responses and solve it for very like a couple of tables and edge cases and if you do so it'll actually work and afterwards like processing 85,000 or 100,000 or million million is actually an infra problem unless you but you want to spend a lot of time understanding documents a lot of time looking into the infra looking into the generality of the documents and the nature the nature of the documents and trying to come up with you know the specific ways of how you have to pass things because if I were to",
+    "start": 472.24,
+    "duration": 44.07999999999993,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_11",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "pull this out of PDF you can see this is from the 19 54 and we got like 90% accuracy using an open source model this open source models guys with being able to extract all the formulas the inline math the tables the symbols a lot of these documents used to have a lot of symbols as well they have a lot of nomenclature I guess that's how you pronounce it and they also have a lot of tables diagrams scanning images graphs and a ton of noise as well like ton of just see the classified some some some you know black mark here. These are like you know like quite complex documents. So we've solved it in the past day three day three seams but probably you won't take a look at them cuz you know they're quite long. But what I would say is that you know just to get a refresh of what",
+    "start": 514.24,
+    "duration": 45.200000000000045,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_12",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "we have done that you have to get a small diversified set that represents your entire you know um uh entire database of documents. You have to get a representation and you have to sit down and look into all the documents and see what's going you know what really doing and etc. And then you try not really what are you doing but then you have to try to pattern match like this has a table and that has a table do the table like are the tables complex enough? Do they have connection points or do they reference something in the end of the document? Do they have symbols or where is the symbols? Do they have metadata? What is the abstract and etc. and all of those have like you have to spend you you would probably spend days just you know having bunch of calls with people",
+    "start": 557.519,
+    "duration": 42.080999999999904,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_13",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "um you know bunch of calls with people in this in the domain so when I used to work on a project like this now I've just put it and also note that this project cost is probably like you know 45 to 70,000,000 this is basically just a just a sample project fictional project but in a real world scenario the exact project would easily be 250k to 300k you can charge easily 300k for a project like this if you want solve something at this scale easily 300k, right? And then you have maintenance and etc. But yeah, um this is just you know just to show that you know this has some decent value. This is not like a pet project, right? Cool. So if you were to go through the document, you know, I'll leave this. You already have this I think the link you know I'll probably",
+    "start": 597.04,
+    "duration": 47.440000000000055,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_14",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "leave uh this. So this is what we are building and I'll send the link. Oops. What the hell? Yeah, cool. So, take a look at that. Uh, it's the notion and if you want to some of the people yesterday, they also use take a take some help from the notion and take inspiration from it and building like the very downscaled version of it. So, if you want if you're a beginner, you know, just give it a shot. Just start somewhere. All right, like let's make a connection to the highq model. Oops. Connection request. Oh yeah, connection refus for quant I think cuz we have to start. Yeah, cool. Cool. Maybe on from the next live streams I'll actually uh have a notion bullet point where we can see the list of things we've done and then uh you know so we have like good notes cuz when someone",
+    "start": 638.72,
+    "duration": 68.95999999999992,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_15",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "were to look at you know at this video in a very fresh mindset you would probably not understand anything uh so we'll restart quadrant quadrant okay it's running and let's try it now and I'm going to give a basic query here not a basic query you know just to now this is just to test whether all the what do you call all of the um all of the uh tools are working or not just to test if it's working or not will run because that's that's the stage we're in trying to see if all the tools are working as properly and we spent like a lot of time yesterday you know defining tools and trying to you know hype up its bump up its domain intion towards tool and bring that flow to the entire agent it has its own nodes its own task just like cloud",
+    "start": 706.32,
+    "duration": 46.559999999999945,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_16",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "code and could spawn multiple sub aents and etc. So we'll just test it uh given given a query. So yeah. Yeah. This is the query. Conduct a trade-off analysis for a proposed 5 a 5ft after burner configuration operating at a flight conduction at mark 0.8 at 40,000 ft 105 psf inlet pressure. specifically sorry specifically compared this against a tree foot baseline configuration for tree access and blah blah blah blah blah. So this was generated to uh true um um Germany. So what I did was that I passed the entire chunks of the document cuz Germany has access to all of the chunks right and you could like you you you should have that entire context to be able to generate the proper question. So then I would actually pass this question the thing is this agent would need to find that chunks. So opposed to having all",
+    "start": 750.48,
+    "duration": 57.59899999999993,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_17",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "the chunks we need to find it. So I can verify whether the answer was right or wrong but yeah we'll just click on enter. So we we validated all of this yesterday but you know just to get that feel of what we are trying what we did yesterday and what we have to do today is we just fire it off and see what goes on. Oops. Generating embedding field. Yes it's because we have to run the embedding model. And to embedding model I'm actually running um true armor which is a quen 4 billion parameter embedding model. I have some RAM so I can you know you know process MBD models the reankers and etc on my PC but for in when we deploy this stuff we're going to deploy this into one H100 system where you know we'll have embeddings we'll have reanker we'll have the you know the VLM",
+    "start": 806.56,
+    "duration": 46.32000000000005,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_18",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "processing model itself and we'll actually have uh you know 10,000 documents working uh for at least a day I would say like uh processing it 17 to 18 hours we'll also look into efficiencies how could you distribute load how could you map out how how do you build cues? We'll also we'll probably use VLM to um dynamically adjust the context caching dynamically adjust KB cache dynamically adjust the um the models models memory capacity. So then if you want to even give for 10,000 tokens and if only using 2,000 tokens you can use use the memory gap uh for the remaining 7,000 to pull something on the queue and you know all of those stuff. So we'll go through everything and of course even if you're a beginner you should be able to follow. We'll do it in the very simple approach and take a problem sort of solution approach. So",
+    "start": 851.199,
+    "duration": 47.440000000000055,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_19",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "it should be good. Um that that'll be actually fun. We'll be doing it to tomorrow I think and I want that that'll be probably a long stream. In this stream we build the agent. I want to get it I want to build like I want to quickly build the UI for it. So then I can actually see what's going on and also see the sources and etc. And also build the UX for it like quickly. It's not the final UX but just as a UX so I can keep testing and I can see what's going on because I need to verify with the images were right on and etc. And terminal is okay for now but not great. So I want to just get that there. So yes now I think this should work and set this. Oops. So you can see it's performing a parallel search. This is one of our hit",
+    "start": 895.839,
+    "duration": 60.160999999999945,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_20",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and get sort of query where you know you fire five parallel search at the same time based on a few queries and then you get dduplic like you you basically get try to ex hit you know a white space and try to get some signals and use those signals to find the right document get info about the document and then you know find for example if you see there's one tool called adjacent chunks you know it was initial doing a parallel search it good it got the initial landscape mapped out the initial landscape and got a specific document. The info of that the info consists of abstracts. The info also has a lot of metadata. We we processed a lot of metadata as well. You can see in the last videos and it checks the images of it. You can also read images and a processing is quite strong",
+    "start": 953.279,
+    "duration": 43.20100000000002,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_21",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "where you can read images, formulas everything in a very different way. So they have their own tool calls because formula itself uh is quite nuanced and you need to find adjacent images in inline math just for formulas and so we solve everything. You can also see it's using adjacent chunks, you know, or something on, you know, just like a human going above 300 400 chunks and also going below 300 400 chunks and etc. And then it has its own nodes. It also has its own to-do list and yeah, it does bunch of stuff and yeah, you got a good response. The thing is like this we've done it in a very smooth I would say quite quite uh unite decent way and not a noisy way. We not prompting the model for this you use this for this you use this. If if a scenario comes like this, make sure you",
+    "start": 994.56,
+    "duration": 42.16000000000008,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_22",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "use this tool, this tool, this tool, this tool, that tool, this tool. We're not doing anything. We're spiking up the domain intuition. We're telling I'll show you the system prompt. Uh so you get a chance to see quickly. I mean, you could of course read it if you want. What we're trying to do is say that we're trying to we what we what we're trying to do is that we the model the good thing is that this models the models are already trained on how these aerospace engineers talk how they go about what is their thinking pattern how do they use tools you know what is their hypothesis how they form hypothesis what is their you know you know just you know like like the model the model itself is like an aerospace engineer sort of we put this into a spot where you imagine you're a person you know the realities",
+    "start": 1035.36,
+    "duration": 40.480000000000246,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_23",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "of the documents you work with and you know use your domain intuition and the building blocks blocks which are the tools to you know use them properly creatively dynamically to solve a problem that's how we're trying to do it um yeah and it seems and it also works quite well for example if I were to go up um for example this is this document is actually from 1954 right and because of that it actually didn't use a tool called get section get section would actually want you to have like a um a tree of um let me no actually I don't want to complicate this basically yeah it's just depending on the documents if it's if it's a very old document it knows that the document is basically you know um basically from an old scan and it could have very bad OCR so we want to",
+    "start": 1073.919,
+    "duration": 54.240999999999985,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_24",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "visually verify things even though we the the passing is right or wrong so sort of sort of very nuances like that we solved all of those OCR for very bad documents But as just in case if you even if you hit that 5% inaccuracy the model will you know just it'll be like you know no let us verify this visually and get a screenshot and verify it very screenshot verify the screenshot visually. So yeah you can see this what I want to do is that I want to also quickly show you the sub agent. So uh the thing is like this the model only if the model needs to use it and if it needs to it'll naturally come up use this sub agent but just to provoke it to do it and this is fairly very simple scenario like uh I would encourage you to use uh or spawn a",
+    "start": 1125.679,
+    "duration": 44.40099999999984,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_25",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "sub agent so you can see how a sub agent would actually you know spawn and you know how it works and I didn't get a chance to see it properly yesterday so you know we'll just go through this so the first 30 minutes I guess we'll just you know form an understanding on what's going on and what you know we did in the last few days and then we'll probably, you know, go plan out what we're going to do next and it's uh so you can see spawn research thread which is itself is a research agent. So it's basically like the clone of the entire big agent but except it can't spawn research thread because it in if it were if you were to give that to it probably become a recursive loop where sub agents call sub agents those agents call sub agents we don't want that. So sub agents that's",
+    "start": 1167.6,
+    "duration": 47.43900000000008,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_26",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "the only limiting of that not a limiting but actually just a filter for the sub agent but it has access to all the tools all the documents and etc. And you can see the main agent has spawn a sub agent the task is this and has given it uh a full task what it needs to do and also context on whatever it did find and etc you know cuz the parent will have a lot of context which it needs to pass. So it has passed that context and you can see it has its own notes. The sub agent has it own notes. It can also have it own tasks you know it does a lot of parallel search um search documents and all of this stuff and I think we've hardcoded it to a max iteration of five just for the case of you know just verifying",
+    "start": 1213.36,
+    "duration": 41.76000000000022,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_27",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "whether this works or not. So it will force the model to give a final output with whatever information you have. But what I want to do is that check the subvision code and I want to make the max iterations dirty not dirty sorry dirty. Yeah. So because it hit a roadblock right only five iterations. Um now whatever the info it got from the sub agent it has a solid on foundation but we're still missing key compos concepts because with the iteration limit now the main agent is trying to do the work. So that's how you're building your stuff can change in some you know stuff could change in some some situation sub agent wouldn't respond not respond it'll definitely respond sometimes you'll hit the max iteration and then you want the parent age to continue and stuff like that very different scenario you would never know so you want to make sure the",
+    "start": 1253.44,
+    "duration": 59.27999999999997,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_28",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "the system thinks like a you know senior colleague of that certain domain and has access to all the documents and also being able to solve also thinks like a problem solver and you also need to spike up the domain intuition which means that you can't give examples You can't give an example how this person was searched because the model will sleep on it. What you should do is that this is the mindset. This is the person or this is the persona. This is your personality. I would want you to you know you know think about use your domain intution to you know map out the brains of the person you're working with and then you give the right tools and that's where you can see it's being proactive enough to you know continue from this space. But you know we'll give maxerations of 30. I would like to see",
+    "start": 1310.4,
+    "duration": 39.679999999999836,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_29",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "you know what it does how long would the depth of the search tools and everything go for a sub agent. So we'll uh and we also using highQ and it's working well for highQ contractor trade for we'll run the same thing I would encourage you to use a sub agent",
+    "start": 1347.6,
+    "duration": 25.839999999999918,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_30",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah. And you can see the entire thread is sub aent thread. So it's doing a lot of work.",
+    "start": 1478.96,
+    "duration": 7.7999999999999545,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_31",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. So, sub agent pretty much did all the work. The only work that the main agent did was just find the just map out the space, give it some context, and the sub agent did all of the work. So, I want to verify was this. So, final answer is actually based on just a f sub agent response. Usually we're just forcing it. But usually these like the sub aents response will be used as context to you know for the parent agents to move on or verify things and move on for like for the main task. In this case I just want to I'm not sure whether it's as accurate or whatever if but yeah we'll just try. I tried it one more time using a sub agent and I want you to verify this but yesterday it was like got a agent like it was grade A. So",
+    "start": 1600.159,
+    "duration": 48.48099999999977,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_32",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "let's verify this. This was only using a sub agent because we only forced it to. But that's not the natural behavior. We're basically going against it and saying, you know, for a thing where it doesn't need to use a sub aent telling to use it. So there could be some gap in the response. Could be like a B or a B+ or something like that. But let's see. Okay, it's actually a plus 10. That's good. Okay. Yeah, seems good. Critical insights as well. Yeah. Then it's an A+ which is also good for us updating to to verify. Um, cool. Right. So, what shall we work on? I want to verify whether the images it saw and everything is uh like I want to build a UX but should I build a UX or should I work on the scale document posting scale or let's see first of all whether we",
+    "start": 1646.48,
+    "duration": 78.79899999999998,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_33",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "have made some whether we have made all the changes in to specification. Okay, make sure to re go through the agent tool specification MD and also go through the tools we have already integrated to claw at production. I would like to know what tools are still missing what we need to what are the pending stuff left cuz I know there was an issue with uh formulas being able to not get bounding boxes we are proc because we processing formulas independently given like as in a page so yeah but there was a workar around for it I just didn't want to mess the code that's the that's what I didn't sort of work on it but let's So get visual region block needs formula bounding blocks. Get document info added today not in spec. Yeah, this is fine. One extra. Yeah, we added it yesterday cuz Yeah, it was a good tool to add.",
+    "start": 1723.2,
+    "duration": 75.32000000000016,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_34",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Update this update with document info and let me know cuz we actually want to solve the bounding boxes issues for formulas next. And I had this in my development knows the way to figure is not needed because of them will generate uh whatever it wants. If search does not match then a problem because you don't I don't know what the hell this means. Now for Roman culture we're not saving treasure. Sorry.",
+    "start": 1793.6,
+    "duration": 37.31900000000019,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_35",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, this we solved it yesterday also for document metadata should be useful for a lot of tools including get chunks. We have to make a decisions whether we want to auto append to certain tools the metadata what yeah this is done now it's a tool if it wants you know dive deep into document it uses the document get info to get the abstract or whatever the metadata we have for it and then we'll and you can see it here uh you can see document get document info somewhere you can definitely see here get document info And this is the sub agent doing the work here something with formula. Yeah. So this is how the thing is I'll take a risk and basically you know it's not it's not it's just that one like 5 to 10% of addition you don't need to work on it now but I think it's um",
+    "start": 1862.799,
+    "duration": 77.4409999999998,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_36",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "uh in case you want you like formulas do have a lot of inline method etc you want to be able to you know check the like to give you a sense I'll show it in a document because I have it in my head and I'll when I talk it'll probably like be blabbering so for example you can see this formula right uh let's go to this one okay so this formula detection model we have 90 to 95% accuracy using an open source model. So what happens is that you know what we unc bounding boxes or annotated images. Okay just assume this. Okay. Now, oops. Oh, this was done very very very long time ago. So, there's a lot of noise. Yeah. So, for example, look at this image. All we process this image. Now, let's say now how we find formulas is that now we The the thing is layout doc",
+    "start": 1937.12,
+    "duration": 74.24000000000024,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_37",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "docklinks layout detection model was very crap. So it didn't work well for formulas. So what we did if we detect the formula in a single page again using the dock links model what we do is send the page the screensh page to the model. Now to be able to put the formula in the right place like for example you need to have an order of the document because when you process a model how do you know this formula is actually after this text right? Right? If you use a layout detection give you array of items. So you know this is above this item, this is below this item because you have the order ID. But if you process you know process as a process this as an image you would never have you would probably have access to nothing like that. So what we do is that we draw paints or",
+    "start": 2009.12,
+    "duration": 42.16000000000031,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_38",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "like you know boxes around all the above and below boxes and we'll be like you know this is the formula and tell me what box is it under. Is it five or four? It'll be like four and stuff. But you that is okay. That's quite simple. But if you want to see there's also inline math going on. And for example, you can see this ninth this particular this entire what do you call this entire text over here on the very this uh this is the main formula that's why you can see main formulas are not highlighted but you can see there's a lot of like you know intricate parts like f scale is trust of this this can't be like this this can't be processed by an OCR engine it'll probably fail 90% chance it'll fail so what we do is that for we call it inline",
+    "start": 2049.119,
+    "duration": 42.720000000000255,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_39",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "mat because it's inline equation of mat and then we actually get the initial in mat from the model itself. Now the question is how do you get it like you know for you to like this would be a main equation this this would be 8 and 9 but how do you get in between text so what we do is that we call it inline math and get the start of the box and also the full of the box and what what we'll do is that we'll actually let the llm output the entire thing and because we have the bounding boxes the location of the one that's actually below which is 10 then we get the bounding box of the 10 bounding of the seven and use the bottom of the seven the start of the 10 whatever is in the middle is actually this particular formula or",
+    "start": 2089.359,
+    "duration": 40.48000000000047,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_40",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "this particular whatever formula or whatever. So then this is what we do. Now when we do this we didn't store BB boxes we didn't store any bounding information. So because of that every other item in our code do have bounding information except the formulas. So yesterday we were like of course we already do something like this in the bounding boxes where you what you can do is to get the bounding boxes of this. Choose this bottom one as a starting as a start bounding box of this and the top one as the ending box of the inner formula because this is this could be the start of this formula. You see we working with this formula right? Yeah, this end of four location of end of four, you know, could be the start of this entire formula and the location of start of five could be the end of this",
+    "start": 2127.839,
+    "duration": 49.04100000000017,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_41",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "formula. You can have extra padding, doesn't matter. End of day, you get the BB boxes. So, that's what we trying to do. So, paste as one line. So, formulas have bound boxes and this was the idea. Uh check the code if you want to gather more info, but uh feel free to check any relevant code. But how would you approach this and would this be accurate? We know it's accurate. We went through it. Just push us to do the extra amount of work to rethink and verify in case we miss anything.",
+    "start": 2174.96,
+    "duration": 31.159000000000106,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_42",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "just searching the code to understand the relevant structure and once we figure those figure this out we'll probably do like a basic UI to you know improve our testing cases now understand there and this is not the end we're not we've not even touched the proper stuff guys just because we're building UI it's not we fixed the document crossing we fixed the Now we have a UI and then blah blah blah it's done. That's not the case. Everything we're building our foundation. We have not touched the scale of 10K. This project will only be completed when we verify that 10k documents and that you know finding the needle in the hast stack giving that finally find finding the right 40 documents inside the 10 documents works. Until then we'll push through. So nothing is ending here just to get the UI done. So I we can keep testing and I",
+    "start": 2259.839,
+    "duration": 43.92100000000028,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_43",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "can visually see the images. If not here I have to click on all of these tables and just I could I could be wrong and I could be confused and I could be wrong as well. That's the entire goal. So everything here is foundational. We've not started the real work yet. This is all foundation. Now I understand the data flow. Let me summarize. BM sees some text about BB box known some text before formula BB known. Uh formula no box B box unknown. BM writtens after box remaining in uh meaning insert formula after box two. So after box two is where you would return. So what we do is that we have after the box bottom of y2 exactly. So yeah the bottom of the bottom coordinates and the next item box if it's three then it's the top y coordinates form and estimate the formulas. Um it",
+    "start": 2301.119,
+    "duration": 49.840999999999894,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_44",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "could it's just an estimation. This is just to get the visual region. And what we do is that even though the formula is halfway cut off in terms of bonding boxes you know we'll just you know get adjacent region and region. If it's not enough, we'll get more region. More region. So, not a big deal. Accuracy assessment. Vertical position. Good. Formula is definitely between boxes. Vertical extent approximate maybe include some white space. That's okay. Horizontal position formula simply match get visual. This is accurate enough. We're capturing region uh to view and expand our below parameters. Use a C foration. We need to look up ahead and like I'm just curious if this will No, I this will never mess up with anything. Yeah, I will implement this. The worst case, it can have the wrong bounding box. That's the worst case. And there's al there's also one edge",
+    "start": 2349.599,
+    "duration": 53.20099999999957,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_45",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "case. For example, if your bounding if you don't have an item, let's say you have a formula and if you don't have a bounding box afterwards, actually what we say is that uh before we code, I also want to think about a little bit of edge cases. Sometimes if the formula is actually in the end of the page or maybe start of the page then you might not have u uh the start box or whatever right but it's okay I think the model will anyway give you uh I think an after the box anyway I'll give you an after the box uh but yeah I just wanted to bring this up the thing is you want we don't want to over complicate this as well because we know 90% of the formulas will have inline maths and they'll be probably under a few paragraphs. That's that's",
+    "start": 2401.359,
+    "duration": 46.16100000000006,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_46",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "how you explain m and of course it can there's a good chance that you might just have formulas in a given page. If then yeah that's when things get tricky but still worst case you'll have the wrong bounding box but the thing is the model can you know expand the cross bounding boxes and if it's incorrect you it can use some other tools other you know we've given it a lot of building blocks I would not even know what tool the model needs would like to you know see or would use but you know just use and try to come up with something just like yesterday it for a 1957 document I was just going through it um section we had a lot of noise and the image didn't show up and the image was not clear so what it It it it actually fall back to",
+    "start": 2444.96,
+    "duration": 39.92000000000007,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_47",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "getting adjacent text and getting the visual region and it this uh did it and got the final answer. So yeah, just building blocks. Good catch formula at the end have after the box give stop boundary missing next item use page bottom of fix expansion after the box plus 150 pixels. Yes. Yeah. Yeah. You just have to get you know just the right just a bit right that's it. formula start the page get after the box could not be next estimate formula box bottom of the box. Yeah, this is only like you know it's a very small edge case but you know we'll just uh we'll just anyway try to tackle this in case we do not we do not have an afterbox or an um uh in the box or something only when when we don't have this but yeah it's a very small case just wanted to bring it",
+    "start": 2483.2,
+    "duration": 52.559999999999945,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_48",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "um yeah proceed with the changes and also I would recommend you a lot of a lot of things are going on in the pipeline and the code so make sure to accurately make change Don't assume things. If you assume things, you know, ask check the code or ask me. I'll try to help you out. Don't assume things. Try to accurately, you know, make changes to the code cuz we already have the pipeline working, the pipelines are working and etc. Um, yeah, it's a very simple thing, but I'm just being cautious because in case I just make a change that I, you know, I was not aware of and if the pipeline starts failing, the entire 2 or 3 hours will just go trying to figure out, you know, why it's failing and etc. I just don't want that to happen. That's why.",
+    "start": 2529.359,
+    "duration": 41.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_49",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Find next item at same page.",
+    "start": 2653.92,
+    "duration": 4.760000000000218,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_50",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Why are you tracking index? I'm curious to know did we get a chance to check the entire code because I think we get the bounding boxes of the above items like the start box and end box somewhere but I'm not sure your code changes could be right could you but check instead of checking the instead of doing focus search can you check all the code all the written code connected to it and come back and see if your changes is fine cuz at least something is odd because it's using ids but you don't need to I think because you already have the fourth and the fifth bounding boxes you have that and I don't know why using um let me see just oh it's a wrong time to come back the conversation okay yeah thanks so I want you to create a complex scenario but this case I want",
+    "start": 2771.599,
+    "duration": 47.20100000000002,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_51",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "you to work with a lot of formulas to be able like to to reason through formulas and inline math and etc or I mean only relate to whatever is in the document but I want you to give me a case for formulas and equations and you know at maybe understanding tables or whatever do not give like figure numbers and etc. I want the agent to be proactive enough to find that. So give me a use case that is complex enough sending it",
+    "start": 2816.96,
+    "duration": 28.119000000000142,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_52",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Actually, don't be an idiot. I I want I don't want you to me. So, this is not how a real humor would or a user would actually query the system, right? They have no clue the you're mentioning everything like the names of the equations and everything accurately. What I want you to do is you know just you know ask it has a question and you and you know I want the agent to verify this fine information you're basically giving all the blind spots cuz you can see it's giving trust equation which is against this formula and then the will just you know it has I mean this is giving the formula itself.",
+    "start": 2868.24,
+    "duration": 47.11900000000014,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_53",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So send it trying to validate the performance code against methodology and it's asking the formulas I think so change it up. Appreciate your precise request. You're looking for something specific. I want to make sure you're narrowing right documents which yeah I don't want to ask any document stuff I'll be like please be proactive here don't ask me any questions for for example for stuff like this I think the followup question was probably good because they'll actually uh no I don't know what the question was I guess it asked for the right document which is wrong and the question itself is wrong I think so I don't just trying to See if it can find the formulas cuz we have and it's seeing all the images showing the f see this image I think it located the formulas based on the thorough review formal implementation review you know",
+    "start": 3018.72,
+    "duration": 77.11900000000014,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_54",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "implementation is correct here my verification coordinate system origin at formula logic formula appears after after the box formula is in the gapic pane my implementation is get a b box get the top of them yeah looking ahead using the iteration index or look ahead items ps is already sorted yeah this looks good both iterate in the same order and skip formula so off the box numbers correctly with results. The formula box ready documents are ingested change will forming. Yeah, this is good. We'll have to anyway uh this do we don't still have the uh get visualization region serve tool. We'll send it and see where it's right. Check this and let me know and evaluate this. This is flawless. A star response. Good. Yeah, because we have very good extraction on latex and um any formulas and etc. or not formulas within latex. Even if you want to have something",
+    "start": 3094.72,
+    "duration": 81.83899999999994,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_55",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "usually formalics and if you have even like I know some Greek written that'll be part of the same like detection or whatever and then it'll I mean Greek meaning it's not I'm not saying it as a language but then like complex sort of where undetermined not not something that's you know you can express with words or in a paragraph okay so I think this is good my yes please make sure you read the entire agent tool specifications and to form a strong understanding on how the get tool visual region should be and then please make the changes because the thing is we spend a lot of time crafting uh the promise or maybe the understanding of get visual reason even each tool like even a very small miss for example like assuming things might you know lead to very bad results so I just want to take",
+    "start": 3174.64,
+    "duration": 49.19900000000007,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_56",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "don't want to take a chance tell you to read the entire spec and then uh uh implement",
+    "start": 3222.48,
+    "duration": 7.440000000000055,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_57",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Capture the screenshot of the reason from capture of the region from south pedial resation. This will particularly valable when working with formulas in mathematical dealing with document processing. Inline math equations go through complex processing but can sometimes miss content. Use this to verify what you're seeing everything. If chunk call is provided the capture is centered uh is centered on the chunks money box and expands by specific commands. If chunk call is not provided captures the full p. Yeah, captures full picture. Verify inline mac person missed during processing. See the full uh derivation context around the formula. Check if it just chunks captured all mathematical noticing page. Yeah, this is specifically for format because this is just a tool to support that visual understanding in case some uh inline mat goes wrong or something like that. So we'll test this final tool and I guess we're done with the tools for agent.",
+    "start": 3310.319,
+    "duration": 60.56100000000015,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_58",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "We'll I think it'll be fine to move with the test UI so we can see all the sources and we also need to get the sources right when you know clicked on the source we need to show the sources and etc. Um anyhow so it helps us you know validate a lot of things and then we can sort of move on for the document processing and all the GPU stuff because I don't want to do it because I would only do so this stream is probably I think I'll do it for the next four or five hours and for the GPU stuff I want to do it in a single go so I need a lot of time for it is not enough so yeah I'll probably do the UI for now test UI for some issues. I think you should make changes to the I guess you should make changes to the",
+    "start": 3368.799,
+    "duration": 51.24100000000044,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_59",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "agent demo as well. demo file as well. Actually is Oh, it's actually capturing region particularly valuable for for information. Import directory by where we have validate the page. uh convert the boxes to original lift and expansion convert by recordings. Yeah, this is like we've already done this stuff for even images. So that's okay. Oh shoot. Oh. Oh. What did I say? Yeah, please proceed.",
+    "start": 3414.16,
+    "duration": 86.4390000000003,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_60",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. I Yeah. So, we'll just go with first test to to see whether the the tool itself is working. Then I want to verify whether the bounding box are working by seeing saving the image, saving the bounding boxes and then validating it.",
+    "start": 3672.799,
+    "duration": 16.76000000000022,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_61",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, let's see whether it's you know naturally using it. But the main the reason for using get visual region is you know when you is when you probably work with a lot of formulas and etc. So happy to help you out validate the comp but I need to identify which report you are working from. Yeah, exactly. So this because you you can the thing is we had this idea of having this sort of projects like cloud projects where this the agent will actually have access to uh the projects uh the documents that the you know he or she whoever is actually working on but in this case you know we just want to test it out it'll be like you know there's only one document from collection so just check that I think do a How",
+    "start": 3702.24,
+    "duration": 42.59900000000016,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_62",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "can he pull? How did he do it? Do you have a reason why you didn't use this tool? And I don't want CL to say sorry I want to use it. It's fine but I just want to know you know maybe there was no uh there was no need for it. Just give me your honest thoughts. So I just know you know what's the thinking method or why not using it. able to ask me why didn't you use it and it'll be like you know commanding it'll be like oh sorry I'll actually use next time this way you can identify why you didn't use it just to see what it's really thinking so there is no get visual to read in my toolkit oh wait can you check on this probably it's as part of tool I think or",
+    "start": 3758.48,
+    "duration": 61.68000000000029,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_63",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, I think we revoke some code. Maybe that's the reason.  What else went wrong?",
+    "start": 3846.559,
+    "duration": 11.080999999999676,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_64",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Actually, you know, we'll push we'll get a we'll manage git for this because in case claude messes up, delete something or either revert something with dead. We call it so I make it crazy. All right. Just I'm not sure why the agent didn't have your past, but I also want to verify if all the BB boxes or formulas and all your recent changes uh uh do persist. Selected",
+    "start": 3923.76,
+    "duration": 58.278999999999996,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_65",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "And there's two Kes.",
+    "start": 4003.28,
+    "duration": 3.5590000000001965,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_66",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. Right. Now I would like to push the code to GitHub. Uh could you add a No, this is a Python code, right? Just add a proper g ignore. And also I would want to uh add the public docs folder as part of g uh gnome as well.",
+    "start": 4020.0,
+    "duration": 21.40000000000009,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_67",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I don't need Yeah.",
+    "start": 4055.359,
+    "duration": 4.440000000000055,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_68",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Well, it's only 40 changes. It's Yeah. Yeah. Okay, that's good. We're not pushing research PC. Yeah. What will we track? I would say we need to track research PC sample. No, we don't need sample docs. We need simulations. We need test.py. compile. Don't",
+    "start": 4075.44,
+    "duration": 37.559999999999945,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_69",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Public data test test output is ignored. Looks good. Push. All right. In the meantime, we'll actually test this out. This time she had access to the tool.",
+    "start": 4149.12,
+    "duration": 33.80000000000018,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_70",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So it's using visual reason",
+    "start": 4197.52,
+    "duration": 4.039999999999964,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_71",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "that thank you. So did why did you use a visual region tool and I would also know did you actually see the visual region and what did you see like uh was it helpful for you just to valid it from the perspective of Claude",
+    "start": 4223.36,
+    "duration": 17.720000000000255,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_72",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. So everything is set save. Thank good in case something happens we can revoke the code for you know some reason. Yeah, this extreme meta question to be honest what reason why I was about to give you a complex equations foundation equation and it said when working with old technical documents because yeah see this is where metadata helps and also uh we didn't specify you know to to use tools based on year it's just intuition so this is one um um this is one in 1954 so OCR passing of mathematician can sometimes misnotation see so this this is just something that's the clause is actually coming or misparass supererscripts you know subscripts especially in formulas with complex one using get visualation was a quality assurance step I wanted to verify that what came through was actually matched the source of the PDF did I see yes the",
+    "start": 4269.12,
+    "duration": 52.88000000000011,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_73",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "image came back and I viewed them page 12 showed the method of calculation section I could see the after ratio yeah the thing is like this because we didn't reprocess it right we didn't reprocess our chunks one once back again so it didn't have the bounding box so It read the entire image which is yes as a fallback you know we could they also tested the fallback we'll represent and write one more time what is helpful partially and I should have should be candid about this get document I already captured the formulas through its passing that's what I'm saying so our accur our document passing is also 99% accurate but still this is just there in case that you know let's say you're processing 10,000 formulas and you're missing 10 or 100 not 100 I don't think we'll miss 100 maybe in a case of 10,000",
+    "start": 4320.239,
+    "duration": 52.00000000000091,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_74",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "we'll might miss you know 50 to 50 not even 50 I would say not even 100 just maybe 50 like 0.5% of inaccuracy that will be solved by this tool that's why that's why we match that 100% uh accuracy gain uh not 100% but to get that full accuracy gain we're not matching measuring it against any benchmark or something I'm just I'm just telling you that um This is a proactive step that can in case things go wrong, we'll still end up in the right response. Okay, I could have skipped it. Give you information auction. Cool. So, I think we have to reprocess it. We'll reprocess. Okay. So we processing this PDF and yeah it'll basically clear clear out the a cloud collection and create uh create create but rem all all the all the",
+    "start": 4368.48,
+    "duration": 68.08000000000084,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_75",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "also I would like to know why didn't you think after calling each step",
+    "start": 4460.0,
+    "duration": 18.679000000000087,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_76",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, I want you to work on the same query once again, but this time I want you to pause and think after you get access to all response from a single step or basically at each step. I want you to pause and think and then move for the next one. This is to validate in case I we can influence its thinking in the middle or something. Oh, so this is the thinking is not happening. It's actually happening the so naturally I think claude is like um if it needs to think it needs to it'll probably think. If not it's just going to because we forcing it to think it's coming in the final response. So this is not part of thinking.",
+    "start": 4504.08,
+    "duration": 44.399999999999636,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_77",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, this is like a fake way of simulating like going against it thinking pattern. So not not the best scenario. Cool. Yeah.",
+    "start": 4591.76,
+    "duration": 12.359999999999673,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_78",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I'm waiting until we process this entire thing on embeddings and then to jump back test it one more time and move on for the next",
+    "start": 4705.52,
+    "duration": 8.678999999999178,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_79",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All",
+    "start": 4776.0,
+    "duration": 2.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_80",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "right. So all the chunks are represists. Two extra chunks. Guess there's one line.",
+    "start": 4791.12,
+    "duration": 31.159999999999854,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_81",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I I would like to see all the visual region uh images that was sent to cloud. Just for now save it in some test or something like that. Later you can remove that. I would like to see uh uh the images that are sent uh images that are used by the get visual region tool. So I could you know sort of validate uh the images I just just for testing for now later we can remove it. Did you see the entire page from visual vision tool or did you access u some parts of the page or maybe just above the and below the formula.",
+    "start": 4851.6,
+    "duration": 39.399999999999636,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_82",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. So, if it needs to do you want to just go a little bit above uh the chunks and not read the entire page. Yeah, it was being defense. Yeah, it can accept. Yeah, just try expand above 150 and and expand below 150 and just give it a shot. Okay, there was an L. Nice. We just got it. So, it just got it now. Also, when the model Wait, the model worked. No, actually we'll send the above first. This worked for the model. But this failed. So I can see over here I need the page number. Let me look at the page numbers. Yeah, I think it didn't send the page. It send page as zero. Yeah. Yeah, it needs to send the page. No, the tool work correctly. Yeah. Yeah. Page number was not sent. Fail was because page zero in tools. The agent corrected. It's working but it reveals",
+    "start": 4933.12,
+    "duration": 96.96000000000004,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_83",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "UX improvement. Chunk is provided. Want me to provide? Yeah, if chunk is provided with no page number, look up the chunk and get its page number. Look up the chunk and get its page number. Look up the chunk and get its page number. But yeah, but what do we specify this in uh for the tools of CLA? Like do we specify that like what fields are optional and what are not? I guess because clot needs to know like you need to in the description needs to clearly know that what is our uh what is our assumption or what is our uh how do you put that how do you call that what is what is that we are meaning by giving all of these rules that's I mean the the the parameters don't code but I'm just asking",
+    "start": 5027.679,
+    "duration": 69.28099999999995,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_84",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Do not update the definitions. Just give me and I'll confirm and you can then update. What do we have currently? Currently, what do we have? And then what would your change look like?",
+    "start": 5115.84,
+    "duration": 10.519999999999527,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_85",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and two modes. The chunk order captures the",
+    "start": 5158.159,
+    "duration": 4.9210000000002765,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_86",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "page number. The page number close to the capture the capture synapture on this song. So need to update the implementation to look up page number. All right. Yeah, this makes sense. Proceed with the changes. So this is just top it's so for a for a low intelligent model sometimes it'll just specify the chunk order because this makes sense. You can using the chunk order you can find the page. But on a previous call we were also assuming you want the page and also chunk order. You just don't need even I'm just trying to remove even simple like whatever we can do in terms of code bases we'll do and just keep things clear to the model even in like very basic baby stuff like",
+    "start": 5176.4,
+    "duration": 65.44000000000051,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_87",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "You just look up the page and",
+    "start": 5270.0,
+    "duration": 4.359999999999673,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_88",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, try it one more time.",
+    "start": 5316.56,
+    "duration": 4.118999999999687,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_89",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Now yeah I did this page order was zero uh order was 106 context um after equation five and idea",
+    "start": 5356.08,
+    "duration": 16.519999999999527,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_90",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "visualization of equation 8. I need to expand 150 up, 150 down. Excellent. I have information. Let me complete the analysis. Like I can see you used to use this tool was actually helpful and how helpful was this was this",
+    "start": 5390.0,
+    "duration": 18.279999999999745,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_91",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "somewhat helpful not critically necessary but it gave me visual confirmation the equation renders correctly. the surrounding explanation original formatting which other minor context verification I was looking at the right equation what I didn't what it didn't semantic search from document I already had given me the complete equation text yeah of course it'll that's yeah it'll definitely you ask for specific equations not logic to verifiation confidence yeah in case in 100 queries you like two of them are of them have come ac if they have a very uh if they deal with a math that is missing in the document accordance then this will actually solve it then the the accuracy from the and claude will probably tell you this is actually 100% help useful for me because the adjacent information was very wrong and this gave me uh proper information or something like that so okay my actually mistake I used it",
+    "start": 5422.239,
+    "duration": 63.681000000000495,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_92",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "somewhat reflects the I found section cool thanks Cool. I think we are in good shape. The initial agent is working fine. We have probably we have other we let us go and check the tools. We have everything there. Yeah. And I think not like usually you need to include the tools info on the system prompts and also people will probably like a lot of the if you see the code they in the system prompt they give access to the tools and they'll be like you know use this do this use this and do that. We're not doing anything like that. We've never even specified you know any I don't think we the system prompts we have anything specified for I mean we have something told about nodes but not anything else. So your tools search document get chunks you search for this thing you search for",
+    "start": 5483.6,
+    "duration": 62.07899999999972,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_93",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "that I think we might yeah we can if if we want we can actually yeah we can actually remove this and try",
+    "start": 5543.12,
+    "duration": 11.320000000000618,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_94",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Make sure to check the tool specifications RMD and also make sure to check the entire system prompt from this file and let me know if we need to update the tools section. Would it actually confuse the model by having a lot of information because it already works well. I don't want to give it examples on when to use this, when to use this, but I just want to say these are the tools and give any additional context about the usage of the tools. That's it. Yeah, give me your thoughts on this.",
+    "start": 5568.239,
+    "duration": 28.761000000000422,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_95",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "It's actually please read the entire agent to specification RMD.",
+    "start": 5616.239,
+    "duration": 6.6010000000005675,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_96",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right, cool. Current state only two documents missing nine tools. My thoughts models already working will figure out the visual tool tools in the API work. The model's reasoning ability feels fine. Too much guidance. Yeah, too much guidance hurt by operating natural reasoning. What's actually missing? Was it overkill? Neither tool exists and what it does detail is overkill. Yeah. Needed nonobvious contact description of unified image. Uh yeah, needed constraints. Needed constraints. Keep only non-obvious context. The tool differentials come. No, I think let's not even talk about non-obvious context. We'll just give it you know uh the info on the tools and encourage it to look at the descriptions of that. I think the tool the tool themselves provide descriptions right so I think that should be good",
+    "start": 5742.48,
+    "duration": 63.960000000000946,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_97",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, dude. Change.",
+    "start": 5839.199,
+    "duration": 5.081000000000131,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_98",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "And hopefully this shouldn't bring any confusion to the model because yeah, let's see.",
+    "start": 5875.6,
+    "duration": 9.078999999999724,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_99",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So just don't ask me anything just there's only one document in the arch just search it so we need to change like you know this is like a dumb question I think not dumb question again we don't have projects right so that's why it's asking me this too because if if for every question if you were to you know search um search if for every question if you were to search all the 100k documents it won't be effective you would you would I would say in a given month you would only look at those like like skim through a ton of old docs and do perform that you know maybe 10 to 20% of the time maybe 30% of the time most of the time you already work with a very fairly I mean usually that's I think that's the that's how the reality would be fairly you know focused",
+    "start": 5936.32,
+    "duration": 49.35900000000038,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_100",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "amount amount of documents. So we need to create projects and also I don't want to fire off search queries for 100k documents because everything will have information like when you have 100k documents we're talking about uh let's just say not just 10k the initial 10k we working with and I just assume there was uh three um 50 pages you know because we've seen documents with 300 pages 400 pages some of them with 50 pages so take an average of 50 so we dealing with 500 00 pages of documents 10k documents but then 500,000 pages 500 basically working with 500,000 pages and each page consists about I don't know 1,000 tokens then we are working with 500 million tokens now just see you have to compute embeddings for 500 million tokens okay that's an embedding sort of thing you know accord chamber equations for 500 million tokens",
+    "start": 5984.48,
+    "duration": 67.11999999999989,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_101",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "like NE how you know even the model is smart you know you have the rag working you have the metadata working how could you find because in 500 we just assume use GPT call quickly for this I actually bought the new rock subscription that rock then Say not.",
+    "start": 6048.32,
+    "duration": 28.91900000000078,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_102",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, we have super gro. So, so we have 10,000 documents. Each document could have uh you know on an average of 50 pages and each page could have,000 tokens. This is just a number let's work with. Do me a an quick math of how many token how many tokens are we dealing with and uh what would be the percentage of 10,000 chunks among the total number of chunks that exists inside the inside yeah inside the process 10k do it goes to 500 million tokens and so when you when when you fire off a question when you fire off you know like find me u the equation for gas gas quite leaks or something like that then it needs to find 10 so let's say you're you're reading 10,000 10,000 tokens at the give you fire the question you find the 10,000 tokens but I want to know",
+    "start": 6094.0,
+    "duration": 77.60000000000036,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_103",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "what percentage of it is what percentage is that token as part of the main of the entire token that exists inside um in a corner which is 500 million tokens No, actually it's wrong. So, we're talking about not total chunks is 500,000. What the hell? Just 500 million tokens. No, actually this is wrong. What I asked was that you have 500 million tokens and what percentage would it be for 10,000 dogs? Sorry, 10,000 tokens actually. It probably be 0.00 something. Yeah. 0.00. Just look at this guys. Divide by 500 actually multiply 100 to convert it to be 0.00.2% chunks. No just assume you have 500 million tokens in your quadrant. The embedding now. Now right now we are using you know cordon to you know search up the embedding space and it's very quick but when when it hits 500 million tokens it needs to compute embeddings",
+    "start": 6168.719,
+    "duration": 107.51999999999953,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_104",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and you know all of those stuff for 500 million tokens reanker is easy you only getting 30 40 reanking but embeddings has to be calculated for all 500 million tokens we have to think about efficiencies and extra and a coordinate space on a vector embedding space we'll come to that but just just the fact that you you uh you're searching for something the initial doc is actually running for running a search for all the documents inside in basically what it's trying to do is that it's trying to find that right 10,000 tokens among 500 million tokens and the ratio is 02%. It's not 2% it's not 0.2% it's 0 it's not 0.02% it's actually 02%. And then yeah it's I mean it's a um uh yeah that's that's that's where we have to have projects that's where all of the non what do you call non-computation like we have to have a",
+    "start": 6274.8,
+    "duration": 60.319000000000415,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_105",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "lot of strict requirements for the query or we need to find we need to I I don't know what we're dealing with right now because for legal it's different for for for finance it's different but I want to know how could we limit uh how could we limit that initial query is it by filtered by timeline. So if you were to filter this by timeline, let's say you have 500 million tokens and you're only getting documents for the past 10 years, not the last 75 years, then the 500 million token will actually shrink it to 5 million token or maybe even it'll you're just going down to an strict embedding space only 5 million token. So you don't need to compute for every query. You can't run 500 like for example I'll just show you the uh math behind it. So I'm using quadrant and let's say I fire a query that searches",
+    "start": 6332.88,
+    "duration": 47.68000000000029,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_106",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "uh you know that the embedding space that quadrant needs to return me uh  is so bad. Assuming I have 500 million tokens in my collection I fire off a query. How much RAM or computation would cer need and how much time would it take for for it to return? Um yeah, return the top 15 or 20 chunks. Now this is where all the basic you know using cord in your MacBook where you fire basic stuff using quant in your cloud and etc sort of breaks and this is where all the lag latency everything comes in. So that's what in reality what we have to do is that even though we like searching 500 million tokens we we just call it searching 500 million tokens that's our last resort when you can't find anything you know where where you just searched everything and damn we actually you didn't find any damn thing",
+    "start": 6378.4,
+    "duration": 59.039999999999964,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_107",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "that's when you go ahead as a last resort to compute to use that embedding space to use it for 500 million tokens you know that's more if I were to just say 10k docs you wouldn't understand you wouldn't understand okay it's just docs it's s it's just stored somewhere it's just stored in quadrant it's like a hard hardware you sort of question it and you get back no 500 million tokens you have to comput embeding space for each not token level but for each vector and vectors computing I guess it takes about 2 to 3 GB I think uh RAM storage if you were to uh actually not 500k yeah 500k vectors yeah actually at 768 dimensions we're actually storing it double 1024 dimension there's also 2048 dimension 2048 dimension will only give you 3 to 4% bump from 1024 dimension. So we we so we decided this we're not using that",
+    "start": 6435.679,
+    "duration": 50.960000000000036,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_108",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "we're only using 1024 1024 still you need 3 GB RAM not 3 GB RAM uh maximum for a single this thing you need 3 GB RAM to compute in a single for a single query if you have 10 people asking the same question if you are using 500k tokens for I don't know if you're using 500k tokens for in a single space it's actually 30 GB of RAM needed cuz you need to load it I that's what that's what I Think maybe we have efficiencies uh distri redistributing it but yeah but we'll just you know play D and just see what this means.",
+    "start": 6483.28,
+    "duration": 36.720000000000255,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_109",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "2 to 5 GB to load query and index compat single machine for production scale.",
+    "start": 6569.199,
+    "duration": 7.081000000000131,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_110",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I actually meant quadrant.",
+    "start": 6597.119,
+    "duration": 3.881000000000313,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_111",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, it's a huge number. Yeah, it's like in GBs. So, yeah, we'll come to this. You know, we have this. I'm not sure if I can finish this. Maybe at least I need the last 4 days. I'm planning to complete everything by this Friday. So, if then I have to complete the UI today. Let's just work on the UI cuz I think I need 3 days to figure this out. We not using any graph. So it's yeah",
+    "start": 6614.32,
+    "duration": 32.91899999999987,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_112",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "What if there was 20 queries at the same time? Yeah. Scaled hardware for sub 50 millconds. Let's see.",
+    "start": 6667.84,
+    "duration": 16.039999999999964,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_113",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "16 GB is sufficient. Okay. But I want to verify this with CL as well. But we we'll come to this. So this is also one point. So I should not forget this. Um yeah in development plan GPU stuff and all of this stuff I actually add it as a note in notion I'll just add this here work on GPU embedding models models Quadrant 500 mil tokens RA speed latency Q's dim handling what uh also M speed latency handling Q's um handling using VBLLM V LLM Then more. Okay. So cool. And we'll reference this chat. We also need to reference Claude's chat because we also talked about we also talked about uh yeah we li requirements this one. So we'll come back to this because easily we'll be spending hours planning this out and then building it in a single code. So yeah, I think makes sense right now.",
+    "start": 6725.52,
+    "duration": 120.39999999999964,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_114",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "We work on the UI get the initial UI working and lets us quickly test things uh you know ask questions drop in documents or whatever you want not drop in documents not drop in documents because documents will be proc processed on a VM GP right now I have a VM not without that it doesn't have a GPU it's just a basic VM later I have to create so later we have to create a VM process all 10k documents so I'll note it on on the next few days I need to create a VM that has one H100 processes 10k documents, handles quadrant loads, handles Q processing uh using VLM V L V V V V V V V V V V V V V V V V V V V V VLM for Quen uh and etc and then redistributing as an API and this and exposing this as an API. So",
+    "start": 6843.52,
+    "duration": 54.47999999999956,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_115",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "then our agents locally or anywhere could actually call. Okay. So, so then I don't forget this. All right. So,",
+    "start": 6895.76,
+    "duration": 16.75999999999931,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_116",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Thank you.",
+    "start": 6940.48,
+    "duration": 3.0799999999999272,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_117",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Find me the links for this girl. For this skill. Find me the link for this skill. Find me the link for this skill.",
+    "start": 7158.0,
+    "duration": 14.359999999999673,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_118",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Find me the link for this skill.",
+    "start": 7187.679,
+    "duration": 5.161000000000058,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_119",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I think this is the skill wise is very very small. I'm not sure will this be useful, but okay, let's see.",
+    "start": 7219.199,
+    "duration": 9.561000000000604,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_120",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, let me use a scope. Oops. We'll have the students now. All right. Now, I would want you to create a project an XJS project project and yeah, I would like to work on the front end of this. So the exact terminal version, but I want you to uh want to have a front end for it.",
+    "start": 7326.48,
+    "duration": 37.48000000000047,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_121",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "But for now just create like a skeleton xj or whatever install what the package is you want and then uh yeah once we have the server running we'll uh discuss on how the UI should be and etc. For now, I just want to be like, you know, one plain UI where I can type questions. I can see all the images and open and see images, see sources. That's it.",
+    "start": 7397.679,
+    "duration": 20.84100000000035,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_122",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "What's close to me?",
+    "start": 7430.96,
+    "duration": 4.119999999999891,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_123",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "There's no",
+    "start": 7486.159,
+    "duration": 2.4799999999995634,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_124",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. So the survey is running. What I want you to do is that use the front-end design skill and I would like you to create um a UI where I can ask questions and I would like to see um um basically I just want to see a beautiful UI front-end version of the agent demo CLI we built if with the interaction mode. So I would like to see that but on UI I would say you know make it plan mode and yeah I'm going to go lunch. So if I just were to write this up hopefully this can make all the changes and by the time I'm here it should have all of it I think. No, but I think it needs to make a ton of updates to the code as well like in terms of the initial code uh the the the backend",
+    "start": 7641.76,
+    "duration": 65.91899999999987,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_125",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "code. Yeah. Do you want to export expose this as an API or how would like to how would you like to proceed? I think API would be better, right? Cuz in the future you probably want to have an API. Uh yeah, probably want to be want to have API. I would also want to know whether you want to do API streams. Would we want to um would we want to stream each event to the UI? Would that be better? Or would we do like a ping every 2 seconds or 3 seconds to see what the to see the logs of each API calls and etc. I think uh I think web streams should be accurate because I want to see everything you know real time like how the CLA sort of works. So make sure you do some uh thinking on this and get back to me on uh yeah on a",
+    "start": 7703.679,
+    "duration": 57.84099999999944,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_126",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "plan on how would you want to go about making this change. All right, click on plan mode and yes I'll be back in a minute. in 10 minutes or so. Okay. So yeah, that's the thing. We have the CLA, we have the agent, we'll have the UI, we'll have see we'll visually see everything is going on. We can see the sources and etc. We'll see the we'll show the bounding box and etc. And then we'll complete whatever the the this is going to be a very short one probably 5 hours and then we complete all of the necessary stuff and finish the basement. And tomorrow we'll start with um you know working on the um yeah working on the hard part which is like processing 10,000 docs and also Yeah. Yeah. 10 oxy a bit.",
+    "start": 7759.04,
+    "duration": 61.720000000000255,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_127",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "architecture band stream oneways one way streaming for use case server client only simpler than websockets built in reconnection realtime CLI no polling yeah I think",
+    "start": 7881.04,
+    "duration": 17.280000000000655,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_128",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, I want to come back and review this properly and then yeah um probably quickly just kick this off. Kick the power off. See you guys in a bit.",
+    "start": 7912.239,
+    "duration": 12.681000000000495,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_129",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. Okay.",
+    "start": 8785.6,
+    "duration": 13.55999999999949,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_130",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All",
+    "start": 9007.2,
+    "duration": 2.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_131",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "right. All right.",
+    "start": 9025.68,
+    "duration": 3.7189999999991414,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_132",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "We want to have the context. Work on a lot of things.",
+    "start": 9150.72,
+    "duration": 6.280000000000655,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_133",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "And of course I've played the context. Or also when you read the entire when you read the code I would encourage you cuz it's the context is cleared up to read entire file. So relevant code but all the entire file do not uh the files are not that big. So please read the entire files you come across and whatever whatever is relevant because there's a lot of things happening. I don't want to have any issues. So read the entire file. Yeah. Heat.",
+    "start": 9181.04,
+    "duration": 66.51999999999862,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_134",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Let's install. No, I guess we already have a have a VNV uh I guess we already have a requirements for text. We can use that env for now. And yeah uh and also you know as a practice we are actually using all of the latest packages.",
+    "start": 9360.08,
+    "duration": 24.19999999999891,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_135",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Think about ways to reduce Think about Think about the ways to reduce the 500 million token space. Think about the way to reduce the 500 million token space. Maybe trying to understand the users aspect more.",
+    "start": 9632.08,
+    "duration": 33.8799999999992,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_136",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Just sorry to interrupt but did you access the front end skill and are you moving forward there?",
+    "start": 9753.84,
+    "duration": 7.638999999999214,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_137",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, seems like it didn't probably rewrite the messages or chatics. I think",
+    "start": 9777.439,
+    "duration": 8.52100000000064,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_138",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah,",
+    "start": 9990.96,
+    "duration": 3.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_139",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. Usual 2,000 3,000 frames 17,000 frames. OBS not sorry guys. So I'm just just communicating in a different language. The thing is I've been the the frames is sort of dropping on my stream. So I can see it on OBS. I'm not sure because this time I'm trying with reream to stream it on Twitter and YouTube. I can see a significant amount of drop in frames. So yeah.",
+    "start": 10010.0,
+    "duration": 60.20000000000073,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_140",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Wi-Fi speed,",
+    "start": 10127.52,
+    "duration": 3.319999999999709,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_141",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I think this stuff done.",
+    "start": 10152.08,
+    "duration": 4.359000000000378,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_142",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "It looks good to be honest. Looks very serious. Yeah.",
+    "start": 10206.0,
+    "duration": 8.840000000000146,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_143",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "1080p 30 fps 0.2% 2% YouTube uh 9,000 technical information. Papa servers the server option. All right, the UI seems to work nice. Good job. Actually, I guess the front end specification uh skilled is actually good. Like if you were to see the I thought like very like it was it was not even like 60 lines of uh specification I think but like like text like prompt but yeah looks very good very serious sort of field. Yeah works well together here. So let's start the API and yeah start the activate. So this we need to install.",
+    "start": 10238.08,
+    "duration": 122.67999999999847,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_144",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I think you need to add u and whatever whatever the package to this requirements.xt so I can install them and they should be the latest ones.",
+    "start": 10386.64,
+    "duration": 9.56000000000131,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_145",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Not sure why I just can't see you. Yeah, I know why. I think I'm confident. You have to make this true. Respect get to know file false then it should work is working some index issue Yeah, now it's before the documents GitHub somewhere. Same thing. Sol it. Cool. Run the API. Let's ask one question.",
+    "start": 10427.6,
+    "duration": 72.75900000000001,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_146",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I think it's loading all the stuff, the re the reanker and all of those stuff. And we need to make this a bit efficient. What I will do is I just put that here. Yeah, something is happening but I don't see anything in the UI.",
+    "start": 10515.84,
+    "duration": 33.47899999999936,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_147",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Now, a couple of things. I saw this, but I didn't see this real time. Here is the logs. I'm sure something is inefficient and not sure. I'm not sure if you want to load the reanker when the API starts and etc. So, it doesn't need to use the reanker or something. And also, I think we need to uh we we we have to disable ranker for now cuz it was bringing some lag. It was doing some uh some it was bringing some lag. Um disable reanker for now. But yeah. Yeah, I think there's some issues. Check it cuz the context is cleared up. Can I can all the logs but so far it's okay. It's not real time but it's okay.",
+    "start": 10682.24,
+    "duration": 66.60000000000036,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_148",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah reanker for now when we host it reanker right now there is reanker can could be what we can do is that host it in the same GPU and expose it as an API so you don't need to load the reanker locally later we'll probably you know load it from the GPU itself because everything is there accord everything is there embedding is also there let the reanker be there Mhm.",
+    "start": 10790.479,
+    "duration": 23.240999999999985,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_149",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Good. I can see real time. But yeah, I just wanted to send this. This is my activity monitor. And there seems to be something. Uh the embedding model is only 5G. I'm not sure but we have 7 GB of swap used and yeah once I run this it sort of increases",
+    "start": 11137.92,
+    "duration": 25.959999999999127,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_150",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and it's the same even if I leave it. But I just wanted to know what's going on like cuz 7 GB of memory used is too much and 7 GB of swap to use is 5 GB. We've been working with since since um I don't know for the last couple of days. Python holds 10 GB some some arrays some large arrays. You can see 10.1 G 91 G is concerning",
+    "start": 11176.399,
+    "duration": 33.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_151",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and the reanking is loaded I think but 10GB is also too much rank is the model itself is 0.6GB 6GB I mean or maybe it's actually loading in full full precision mode in FPS 32. Yeah, could be could be could be 56. Yeah. And once I quit uh the API, you can see the drop in memory. You have the V mark. So we run it one more time. Stabilize.",
+    "start": 11228.08,
+    "duration": 50.76000000000022,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_152",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, now it's fine. Looks good. But just see this UI. So the model calls tools and then sometimes outputs text as well like response and then it calls tools and then it outputs text and then response sort of you know when we see the CLI. So according to the UI what happens is that you'll have the entire like you have tools like appended in the above and then all of the text is going below that. So basically the like you're not having a flow more than that the there's only one single paragraph that sort of concatenates all the text after each each um after after each tool called whenever a response is given. Do you understand what I'm trying to say? And also I guess we should also support some latex rendering as well. Take a screenshot.",
+    "start": 11313.2,
+    "duration": 61.15899999999783,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_153",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, response. Yeah. Note that it's it's it's a thing from the model. Maybe it would do one text and then it'll do five tool calls and then a text and then maybe two two calls and a text. It depends on the model. So yeah.",
+    "start": 11400.319,
+    "duration": 23.72099999999955,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_154",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All",
+    "start": 11545.439,
+    "duration": 2.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_155",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "right, we'll try it out.",
+    "start": 11561.84,
+    "duration": 4.040000000000873,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_156",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right, there. That's working.",
+    "start": 11583.92,
+    "duration": 3.8799999999991996,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_157",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. So the thing is like this when we processed this time the symbols have we've so the the symbols we the request for symbols have actually failed. So not so that's not act so that's not probably in the embedding space and you can see over here it's actually checking for appendix A appendix B and etc checking for images as well. So in case see in a worst case scenario even if uh the symbol sort of failed you can see that it's trying to get the region and take screenshots and etc. So yeah, page nine. Yeah, page nine, I think. Yeah, can you see it's page nine and page 10 both basically. Yeah, the symbols did fail, but the model figure out to, you know, use something different and take screenshots of two image and then process it. Yeah, that's quite Yeah, it's quite good. Yeah, looks good actually. which is a",
+    "start": 11637.04,
+    "duration": 61.63999999999942,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_158",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "very good thing and I would like to yeah this working now can you can see the latics in this uh image I would like to show them uh like this so I would like to render them claude was rendering very nicely so I will probably take some inspiration from",
+    "start": 11695.359,
+    "duration": 26.40099999999984,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_159",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "That's it. Yeah. So see this this render",
+    "start": 11736.72,
+    "duration": 14.759000000000015,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_160",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "but overall I think good job um has done a good job even figured out that it needs to note symbols but symbols has failed because I probably would have tried document info and you can see no abstract. Nothing is found for this particular PDF. Yeah. So, we'll debug this later. Let's see.",
+    "start": 11764.0,
+    "duration": 27.47899999999936,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_161",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, first of all we verify this restart the server install some packages. Okay. Yeah. Next thing is sub agent. I want to see I want to have a beautiful UI for sub agent. It can't be a tool. It'll probably be you know some yeah it'll yeah it'll probably be like an expanded version open like this and then we can see like in itself how the agent would call tools and etc inside of it. So see it didn't find the normal pressure and it's searching this is nothing is prompted here right you can see it's search for normal question let me search for middle of the document end of the document start of the document and let me get more correct done equation five to see if there's explanation of connection terms and and let me view the actual page. Let me go to page 13 to see the continuation.",
+    "start": 11884.479,
+    "duration": 72.40099999999984,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_162",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So, it's just trying to figure out if you can find it. Yeah, but that should have been that should have like so that's that was an issue from our document processing. Not sure why it failed. Let me see if I can give any logs.",
+    "start": 11955.52,
+    "duration": 17.399999999999636,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_163",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Actually there is symbols I don't know what's going on will debug not an issue. Yeah and you can see the latics as well. Very good. Beautiful. See all the formulas. Yeah, if I were to expand this a bit, you can see the screen. You can see so clearly it's it looks very nice. Cool.",
+    "start": 11990.16,
+    "duration": 27.960000000000946,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_164",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Wait, maybe collection is it? What collection is it searching the docs on? Maybe it's the old collection. Yeah. Yeah, I think it's the Yeah. Yeah, exactly. Mian chunks. We need to do it for tool definitions. That's why you missed it because you can see in the terminal you can see pre pre-appended two document chunks abstract and symbols use this",
+    "start": 12034.239,
+    "duration": 35.07999999999993,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_165",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, now we'll try it up. Um, I'm sure that this um it could even perform a little bit more better because you have access to a lot of metadata which you can search for. So, not a lot, but yeah, quite quite the bump should be there. It's cuz it's this again. I think we're using the Summit. What model are we using? Hiko or Summit? I think it's Summit. As I can see the streaming tokens are quite slow. So some",
+    "start": 12155.84,
+    "duration": 50.43899999999849,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_166",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, let's switch it to high.",
+    "start": 12238.319,
+    "duration": 3.959999999999127,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_167",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay. So, it's going to be cool.",
+    "start": 12301.84,
+    "duration": 4.439000000000306,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_168",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I guess the API is still losing mids as the default correction.",
+    "start": 12324.319,
+    "duration": 5.880999999999403,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_169",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, it's using some tool validation. Let's try one more.",
+    "start": 12400.16,
+    "duration": 7.56000000000131,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_170",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "and it's checking for visual region as well. See this? If I click on this, you can see the expand above, expand below. Checking for images. Yeah, I think we have a good uh system here as in terms of a skeleton. Good. Um what should we do now? I also want to add this at the end of the response. I also want to have sort of something like this at least just a copy button, copy icon. So I can click on that and copy the final response of the agent. Let's try this to launch a sub agent. I would encourage you to use a sub agent first. Okay, it's launching research thread.",
+    "start": 12440.08,
+    "duration": 89.35900000000038,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_171",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah.",
+    "start": 12622.64,
+    "duration": 3.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_172",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. Now, this is what I saw for the sub agent. I'll put this in. I actually didn't see anything real time. So what I would like to see is that uh I want that sort of how can I put this what I want is that I want this box to be yeah I actually want the research agent to be you know like the image the box open like the section opened and then uh it should show of course cuz there's only two fields the tasks and then Um no we'll say box open and it basically should uh show everything real time inside itself like the tool calls it's making etc. And it should be uh you know nice and yeah I wouldn't say nice it'll it'll probably be nice and everything real time.",
+    "start": 12647.04,
+    "duration": 76.51999999999862,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_173",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Oops.",
+    "start": 13238.479,
+    "duration": 3.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_174",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, now we'll try. I would encourage you to use a sub agent. There's only one document in the collection for testing. So yeah, search it up.",
+    "start": 13576.399,
+    "duration": 24.040000000000873,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_175",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, this is a very good sub call. UI is messy, but yeah, subscribe. Good. So what I would say is that",
+    "start": 13701.6,
+    "duration": 20.520000000000437,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_176",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "yeah, I would say this is fine, but it there's a couple of things. One, I want the UI to be fixed. I showed an image before, right? It was sort of like a sort of like a square sort of a rectangle sort of thing. So it should be fixed like that and uh as the model makes progress it'll auto scroll right uh of course auto scroll inside and also second point is that when the sub agent yeah the second point is that uh like like in a main main agent the text uh there's text and then tool called text text text text tool call tool called tool call sort of thing. So you you you need to handle that too. Apart from that should this seems okay.",
+    "start": 13738.08,
+    "duration": 54.27900000000045,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_177",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "We can have task title description but it's okay for now. This task task is fine.",
+    "start": 13810.56,
+    "duration": 7.239999999999782,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_178",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "refresh this restart in case I would encourage you to use a sub agent.",
+    "start": 13978.96,
+    "duration": 13.680000000000291,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_179",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Now, there's a couple of issues. First of all, there's some miss in the UI. We're trying to we're trying to follow a good theme of UI and this doesn't seem to have that flow. Make sure to look at the current theme uh consistent flow and also take a look at the front end scale please. Second thing is that um also the the text of the LLM can be just as small as the context and we also do not need a background for it. It can just be like whatever the tool call that's currently going on. You don't need the background for any tool call for the sub agent. just you know the tool called just a progress of that you know which you which you already have and then just a basic text and the scroll and it should autoscroll inside of that specific box. So right now",
+    "start": 14108.16,
+    "duration": 74.2390000000014,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_180",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "what's happening is that the entire the entire window is auto scrolling like some the entire window everything is like something is happening something is lagging and everything is messing up. If that's an issue, don't block auto scroll. But what you can do is that for that specific box or whatever inside of that you can make an auto scroll, not the entire window.",
+    "start": 14179.279,
+    "duration": 21.800999999999476,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_181",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "And also I will encourage you to look at or also encourage you to use the front end skill uh skills.",
+    "start": 14234.08,
+    "duration": 9.079999999999927,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_182",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Find me all the nomen pleasure of all of this specific document. For this specific document, sorry. How do you have access? Find me all the pictures. Great. Like there's only one document collection. Find me how many tables um uh does the collection have? Show me that. I would like to see the tables. No, I would like to see the tables. Like this is not a table. This is description. Okay, I can see an issue here. I would like to see the table and the descript is just description. I don't see the table. It seems now the thing is like this. All the three images we work with um the table is actually Oh Can't you show me the table needs I mean in terms of UI and uh seeing tables and etc. It needs some improvement but it's okay. Oh done the changes.",
+    "start": 14343.359,
+    "duration": 133.07999999999993,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_183",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I would encourage you to use a sub agent.",
+    "start": 14489.52,
+    "duration": 4.520000000000437,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_184",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Okay, let's see. Okay, this looks good. Nice.",
+    "start": 14525.84,
+    "duration": 21.159999999999854,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_185",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "You can see the sub agent is done. The thread is good. Got an entire response. Completed 20 calls. Excellent finding from the sub agent. There's a bit of search and then outputs an answer. What's the prompt for document info?",
+    "start": 14622.88,
+    "duration": 29.160000000001673,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_186",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right. Now, what I want to do is that uh you can see there's a system prompt in the agent tool specification. Not system prompt but then addition to the system prompt about the tools. Now what I want to do is that I want to put that uh I just want to for now add it to the prompts file where the system prompt is and for now I just need to add that specific uh tool tool part of the tool information on the system prompt as well just to see if there's a bump and I should be able to disable that or comment it if I don't need to. The thing is I can see even though we have we can this doesn't use okay the thing is like this this maybe this particular tool used get document info okay you can see that and it and it and yeah this tool",
+    "start": 14686.96,
+    "duration": 50.080000000001746,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_187",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "also use document info symbols on but I don't know why it searched for my additional documentation Yeah, actually it's not a prompt issue. It's a No, we leave it. It's okay. But anyway, it's it's finding the information. That's what we want. It's not finding the information in the way that we want, but it's finding the information. So, that's more than enough. So, research thread, it scan spawn research alien. That's enough. Okay. Right. Cool. So, I guess we're in a very good spot. Uh, what else?",
+    "start": 14733.52,
+    "duration": 67.31999999999971,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_188",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "What else do we need in terms of UI? What features do we have? Document processing. Now, uploading documents, that's a different scenario. We're going to process that. We don't we we're not going to have this sort of upload document sort of UI. So, that's okay. We're not going to have that. So, show notes. Oh, okay. I just saw this. Show notes in the sidebar. Cool. Nice. And you can see all the notes. See all the tasks. These are the no notes. Sorry, not the notes. These are the notes and the tasks of the a of of the agent. Okay. Okay. I think we're in a very good spot. Um yeah, this has been a very small live stream. Uh but yeah, we just got the initial UI working. This is what we want. We want to test all of this. And I think I also want to add tables quickly.",
+    "start": 14814.96,
+    "duration": 68.55999999999949,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_189",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "So I'll just add it. I would like to add table. Like for example, I'm not able to see the tables here properly. I would like to show tables properly as well. And okay uh nicely got it. We should have sauces. What I'll do guys? So I don't want to do very uh small small live streams. Maybe once I come back after some heading hour, I'll come back and then what I'll do uh I won't do it in a live stream but it's only UI stuff, right? So what I'll do I'll just add sources uh to the UI uh and image images to be able to see the images the models is uh which is view region view view region and etc. So let's say even if you were to uh yeah I'll just add it to development nodes quickly so I don't forget. Yeah. So this is UI stuff front end.",
+    "start": 14880.64,
+    "duration": 75.88000000000102,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_190",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Sorry guys I don't have a proper notes sort of thing. I'm just randomly typing information but yeah I would remember this. All right. So we have front end front end so be able to see images the model sees yeah for example if I were to click on visual region I should see like that specific image so then I can actually validate okay this is what the model uh sort of view etc cuz it could be anything right so I'm not sure if I in case even I want to test I I I will see the image is in a beautiful box or something then I click on it and I can see it npm mark gfm Okay.",
+    "start": 14957.359,
+    "duration": 41.72099999999955,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_191",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, nice. So I can see the tables uh correctly sort of uh rendered as well. Okay, looks good. All right.",
+    "start": 15060.479,
+    "duration": 15.0,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_192",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "I'm curious to know why do you uh search for this using the uh search documents cuz we have a tool called god document info. Maybe it has an error. That's what I'm asking you. Just be honest. why you didn't use doc uh get document info or the nomen culture or maybe the symbols from document info. Why are you using this tool? I would like to know no problem. Be your honest cuz they'll be like you know oh I'm sorry I made a mistake I'll use it next time etc.",
+    "start": 15115.68,
+    "duration": 39.47999999999956,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_193",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Yeah, it's okay. You can't control the behavior once and for all. But just refresh that up. Yeah, I think good progress made on the UI short one. But yeah, this is very important we get it right. So then we can, you know, start testing this properly. Awesome. What else is left? I think what else is left is sources seeing images and also not just that but also control panel. Control panel to select model M. So then we can you know control some behaviors embedding select the model maybe cloth hike or whatever and then also changing this changing collection. Yeah, that's it. So, apart from that, I guess we're in good uh good shape. We just have to we just have to I guess there's some issue with the tables. I need to check what the issue is with tables or maybe it doesn't include any info on tables or",
+    "start": 15178.319,
+    "duration": 92.5609999999997,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_194",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "something. Because if I see page four there's yeah there is no tables. I mean you can call this a table I think like this might have text as in a table but in terms of being a standalone table there is no tables. I can't okay I can see one table over here. This one there's actually two tables. I like engine. There's only one document in the collection. Find me all the tables and show it to me properly. There's only one document in the collection. Just perform a search.",
+    "start": 15269.359,
+    "duration": 50.680999999998676,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_195",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "Like I'm curious, don't you don't you have access to the markdown of the table? I would like to check the check how many tables do we have in the tool collection and I would like to see is they are markdown or are we only storing descriptions because those are very simple tables. But yeah, I want to I want you to do a proper markdown. Okay, it actually has access to the tables. Idiot. Let's verify it. Table one. I saw it somewhere. Station. Station. Station. Okay. on the top and the instrumental okay total temperature 20 48 and this is accurate very 100% of course simple stuff right and then 36.56 and then you have documentary symbols yeah it sort of like it assumes this to be a table as well sometimes Yeah, this should be a table. But yeah, we got yeah, two of the table. Two of",
+    "start": 15339.279,
+    "duration": 100.8799999999992,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_196",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "the table that's like in terms of like a main table. This is accurate. I've got the subtext here as well. That's also accurate. Okay, nice. No, no. All right, cool. I think Yeah, I just have to s",
+    "start": 15438.319,
+    "duration": 41.72100000000137,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_197",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "All right, thank you so much for uh watching if you were to watch the stream. Of course, uh this was a very small one, but we completed the UI most of it of as I did mention I don't want to do another UI stream because it's just UI, right? What I'm going to do is come back and quickly work on sources and have those ready and tomorrow we'll actually work on processing the documents. So working on the yeah so entirely not UI based we'll probably we'll be using some maybe I actually have a GPU so I can render that I can use it through Azure and yeah we'll just uh continue that. So tomorrow the goal is to complete the entire pipeline with all the test cases, the tries and etc with with uh with buffers and etc. So then it doesn't fail in the middle",
+    "start": 15551.84,
+    "duration": 48.47899999999936,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_198",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "because then we're going to actually process the 10,000 documents and yeah I also need to have any fallbacks or something like that. Maybe just process at each,000 documents sort of do some process and then uh sort of uh see if there's any because there'll definitely be some failure rates. We just want the failure rate to be less than two to 3%. Uh that's a good number and we can reprocess the 3% of the documents and then we can come back to see you know why it failed in the 3% or if it were to have any like if the failure rate was like 20% 30% for the 10,000 documents for each like you know you process th000 and the failure rate is 10 or 20% that's very bad then you want to just pause it and you uh I would probably you know jump in and see what's",
+    "start": 15599.199,
+    "duration": 42.8809999999994,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_199",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "going on but yeah I will probably run it overnight. So tomorrow we'll work it out entirely. We we have to we have to see the amount of like we need to like yeah we need to think through a lot of things and see work on all the process and yeah once that's done that's quite simple once you expose it in 10,000 documents and then you expose it through an API uh you just need uh it's quite easy the agent needs to work and also I will al we will also need to see because it's not just the document processing it's also we we'll have embeddings we'll have reanker we have we'll have the VLM uh we'll process the document douments and the documents itself would need to run parallelly and each document will have its own uh parallel API calls and etc. So we'll plan for the few hours",
+    "start": 15639.279,
+    "duration": 47.039999999999054,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_200",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "implement in the next hour we'll fully complete it and then we'll jump into uh on Thursday I think so in Wednesday we'll jump into you know getting the agent to work in a scale of uh 10,000 docs which has about 500 million tokens then we also have to you know have you know realistically check how to reduce the space the agent can work whether it's by timeline or whether whether it's by the recent docs the agent has the the person has worked with That's when the project like you know uh sort of like cloud projects like the meridian projects will come in hand and yeah etc. That's it and you'll give uh I guess the search itself will have to be improved. They're technical folks, right? You need to have some additional things like sending an image or sending a PDF or uh getting looking into something or maybe",
+    "start": 15684.08,
+    "duration": 48.2390000000014,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_201",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "even I don't know you might need databases. I'm not sure. But according to what we have on our RFP, what is it? So according to RFP, I think we've pretty much solved this. Heavy user technical challenge solved. Okay, we have domain specific acronyms. I need a day for it. So at least one day because there's 18,000 domain specific acronyms and we need to build a rag not just retrieval. Anyone can build retrieval but you know like how why build it in the first place and how to get it right. So then we need to understand the do the the domain the like more about the not the user not I'm not not talking user experience but like about the domain like when when is it useful or is it just acronyms or does it change by documents or and etc. And we're using and we'll be using the",
+    "start": 15731.199,
+    "duration": 55.92100000000028,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_202",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "NASA's disorders. It provides free 18,000 keywords. We'll only use 2,000 to 3,000. That's more than enough for the not for the project we're building but the solution we're solving too. It has a lot of taxonomy and all of those bunch of stuff you know of course not just uh aerospace jargon but also life sciences earth life science stuff and um astrophysics and related to uh aeronautical engineering and stuff like that but complex we just need to get that right 23,000 and then perform search in that and yeah and of course we'll also work on some good practices in case the theorus changes you know you just have to reindex the stuff and keep it also the improvements as well. it wouldn't be it wouldn't be because we're building a production sort of one right so I'll try to have some good use cases for that uh tables and critical data",
+    "start": 15785.279,
+    "duration": 50.72099999999955,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_203",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "we've solved it cross represent document this is when once we process all the 10k documents I need to select 40 documents get all the chunks properly give it to Germany because now Germany can read all the 40 documents but our agent has access to 10,000 so it's sort of like finding that um you have this one one of the benchmarks of finding that intricate pieces among um a given data it with um yeah so that's what I want to try if it were to work on that like if you like for example in a given try the agent would need to only look into 30 40 50 documents so as long as it can find 30 40 50 documents in 10,000 document space you can also make it work for 100k documents as well and then 100k documents will become uh would be supported once you once you have the",
+    "start": 15834.479,
+    "duration": 49.52100000000064,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_204",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "right infra once you figure out how to reduce the dimensional space for it to you know search I'm not talking about embedding space I'm actually talking assuming agent is it has its own space it would you know do parallel hits it'll do a lot of search in in that constrained space first and then if you don't find it only your radius becomes just like how even like you know like um GPS systems work you know first within a small radius you try to find you you put some signals and find the hit if not then you sort of try to expand it slightly and you know opposed to because one small information in this very small radius could be very what do you call very um it can be very accurate and it could also have reference documents. It's not about just finding the right one. The the first few documents is just",
+    "start": 15881.359,
+    "duration": 49.11999999999898,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_205",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "you it'll probably not be the right ones but what you but you but the whole goal is that one document might reference another and the other one would reference another and the other one would reference another and that's why we have this sub agent. So then the what claude can do is that when there's a lot of things to work on it can just spawn sub agents instead of it doing and going through a lot of stuff. So it's also sort of redistributing the work and also redistributing the randomness good higher randomness is also good. The more randomness not not not randomness but actual focus randomness. You do this and do this and the agent should find basic information and proceed from there. Uh I'm only thinking I think there's a 30 to 40% chance the agent would fail initially because of course we only have",
+    "start": 15928.319,
+    "duration": 47.76100000000042,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_206",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  },
+  {
+    "text": "systems where we only have tools added. There's a lot of things we need to do in terms of context management. Uh because I'm I'm pretty sure it won't be quite straightforward. So I to think through this we'll figure this out once we build it. So it's not a problem to solve now. So awesome. I think thank you so much for watching.",
+    "start": 15973.6,
+    "duration": 18.878999999998996,
+    "video_id": "Ji8lhhDYXKA",
+    "chunk_id": "Ji8lhhDYXKA_207",
+    "title": "Agentic Tools & UI Implementation | Building AI Agents for 10K+ NASA docs from 1960s-2025s | Part 6",
+    "playlist_index": 6
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "video_id": "ZewbP6tNJwI",
+  "playlist_index": 11,
+  "title": "Building Production RAG for 10K+ NASA Docs (Scales to 85K+): Rocket Schematics and more! (Part 11)",
+  "error_type": "TranscriptsDisabled",
+  "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=ZewbP6tNJwI! This is most likely caused by:\n\nSubtitles are disabled for this video\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!"
+}

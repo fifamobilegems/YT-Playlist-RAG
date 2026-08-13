@@ -1,0 +1,812 @@
+[
+  {
+    "text": "So hey guys, I think the live is live. Just came back from gym. So this is part for if you were to check this. Anyone new here, it's part I would say it's the continuation of day nine. So I did a stream before this. That's the initial one. Uh I think this one will be a quick 2 or 3 hour sort of stream. That was a four or five hour stream. I think I couldn't do it cuz I had to head out. Now I basically wanted to do it myself and then do like a fresh stream from tomorrow but then you still we want to document everything right and I don't want to you know give surprises on the next video saying I fixed this issue this is how I fixed it and I don't want to go through summaries and etc. So it even though it's a very small recording",
+    "start": 6.96,
+    "duration": 39.119,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_0",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "or something I just wanted to you know keep there keep it there so you get a chance to see it and I don't think stream is working oops so hi everyone this is day nine part two I did the stream before folks who are new here go make sure to go ahead and check that out. Uh to give you a quick summary, we were trying we currently working on scaling the document processing system that processes um technical diagrams to basically any document that's any no I can let me actually show it to you. So this is a list of documents example documents we're working with. We're actually working with 10,000 documents and each of them look like this and we've completed the document ringing. Uh it's very accurate. be getting 90 to 95% accuracy using the 20 32 billion version model and you can also you're very",
+    "start": 44.8,
+    "duration": 61.84,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_1",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "flexible to switch models if you want to and yeah it it does table detection it does formula detection we're using dock link and also hybridly we using BLM now that work for a few documents right now I'm using my my H100 so I'm going to quickly show you uh just the the compute that I have right now it's not a lot just uh just one single H100 I'm trying to process all Okay. Yeah. And you can see I have an NVLM uh NVL H100 uh 96 variant 96 GB variant or model is already loaded. This is the 7 billion parameter model. So yeah, that's simply it what we're trying to do is to process 10k documents. Now it usually a lot of you now yeah when if you have to process 10k with our all with our level of documents with our computer it's going to actually take us a couple of",
+    "start": 104.56,
+    "duration": 53.599999999999994,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_2",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "days if done efficiently if not it'll actually take weeks so that's what we're trying to do it very efficiently and to quickly give you a gist of what we're trying to do or what issue are we solving for the past 2 days one 12-hour live stream was totally debugging and that's I we can't say waste we learned a few things but then still it was totally debugging we was in the right th was in a wrong track. We were in a wrong track. So we completely ditching that and you know writing a new infra that will that's that that would actually support that's that's new infra that usually mimics how ML platforms inference platform sort of works and etc at scale. It's quite complicated. You have to write not complicated but quite a lot of work. I didn't plan for this. So yeah, essentially what we're trying to do is",
+    "start": 156.16,
+    "duration": 43.28,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_3",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "that do batch processing for each everything and use parallelism like true parallelism not um actually parallelism. Sorry I can't spell properly my English is quite bad. Um so yeah that's what we are trying to do but unfortunately we using dockling dockling is an open-source document processing service actually a framework not the framework developed by IBM they also have their own opensource models but we are only using dockling for layout detection and then we're using layout detection and BB boxes BB boxes essentially a location for a PDF so we are only using dockling for that no OCR nothing we're using visual images and etc we're using BLM that's why we using 7 billion parameter model. Now the issue here is that because Dockling uses a PDF of convert thing called sorry. Okay, guys. Just a bit.",
+    "start": 197.68,
+    "duration": 50.03999999999999,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_4",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "All right. Sorry guys. Um, someone important called me. Yeah. So, I don't know what I was mention what I was talking about. But yeah, essentially what what the issue with dockling is that it's you it's using a p it's it's depend totally dependent on this package called this weird package uh pdf name called pdm pi pdfm2 I don't know how you spell this is it's pi pdfm or ppdfm or something whatever but then this is what you're using for uh the entire pdf processing view viewing images getting the location of bounding boxes and etc. Now the thing is like this this h this by default you know wherever application you use you can see over here they have a very they don't support you can do multipprocessing but they don't process they don't they have a lot of issues with threading so in cap you can see",
+    "start": 424.88,
+    "duration": 65.20000000000005,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_5",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "that in compatibility with threading so because of that even though the documents are itself processed parallelly through PDF threads in every GPU in the GPU basically this threading is actually locked locking each PDF this particular package locking the thread for everything and then basically serializing the entire process. So what essentially means is that usually to convert the document it takes 50 seconds for a 70page document 50 seconds and that's a very good number to be honest. Um but because we have this and usually what you want to do if you parallelize it parallelize it. Yeah, parallel. If you if you do it in parallel, you would actually finish three documents in 50 seconds. That's the advant that's what we want. But because of this issue, the entire three documents would actually take 50 seconds. Each document will take 50 seconds, but still it'll adapt to the",
+    "start": 487.68,
+    "duration": 58.079999999999984,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_6",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "sequential processing. In this case, basically your we are literally not processing anything sequentially even though we do a lot of work. So that's the what you call that's the issue we have. So because of that what we're trying to do because we have 96 GB of GPU or sorry GPU VRAM what the the 30 billion version model itself is only 34 34GB right and we have 50 GB odd left what we're trying to do is that initially all the documents we use dockling to process and then we use what we do that we process all the stuff on dockling and then we don't call dockling once again we have a GPU level we call it and then save it in the CPU worker and now what we'll c it up and then we will we will not use dockling one more time. Now the thing is like this before",
+    "start": 543.839,
+    "duration": 46.9609999999999,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_7",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "we had a lot of inefficiencies where dockling was called a couple of times cuz when we when you code we don't literally know right you know whether dockling is good whether I mean we don't plan for a lot of the treading and stuff at least I didn't plan for it it was actually like a sample project I wanted to work on but now at 10k documents I'm facing this issue this is an infra problem not an aim problem it's actually infra problem and I'm not an expert in infra so of course I was you know researching kapa trying a couple of other ways and people who are smart would easily would have figured this out but for me it took a little bit of time but still we figured figure this out. Not still figure it out. We're still working on it. But essentially what we're trying to do is that we have 8 95",
+    "start": 588.72,
+    "duration": 37.83999999999992,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_8",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "50GB left. And because we have 50GB left, we take um what we do is that we take uh uh we have 50 50GB left and we also have 30GB on the model. There's two ways of doing it. What we're trying to essentially do is that we take the 50GB and then we use that for dockling. So one dockling will have 7GB. It usually takes about 6GB per dockling. will at worst case to 7GB depending on the documents and pages and etc. At worst case 7 and if you divide that by 50 you can actually run seven workers parallely. Basically what we're trying to do is that we you know the thread lock is still there but the thread lock is only locked at a core level. So we still parallelizing it. It's still locked but we have four services running. So port 801 8034 805 whatever.",
+    "start": 623.2,
+    "duration": 49.84000000000003,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_9",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "So you get the point and then we're trying to parallelize this. Now the thing is that good thing is that initial docu document dockling process it will only run initially after we save that particular dockling document you know class we don't call it right so if you don't call it next time then we better you know get rid of the GB of that model and then we process dockling and then offload the dockling GPU and then again bring back WM and entirely open up 34 gig and of course you need 50 GB for KV cache or parallel processing but the advantage here is that you can do batch processing and then you can make that efficient so easily you can do 35 70 depending 75 70 is a big number. You have to find the sweet spot there because workers you don't want to get into GPU congestion as well. You should",
+    "start": 671.519,
+    "duration": 42.56000000000006,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_10",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "find the sweet spot there. Uh yeah but essentially that is the plan. So what we're trying to do first is to support have 8012 to 83 just basically try to figure this out and then once we really validate that's actually because we don't never know until you process it you'll never know whether it's actually a sequential or parallel. Once we know each document takes 50 and actually the entire three documents takes less than 60 seconds or a minute maybe like a very small very small five to 10 seconds difference we want to try so slowly down if this only works we'll jump into the other part so that's what's really happening over here so yeah if if you want if you if you I hope you got it but you probably have to check on the last few streams at least the last stream on the issue we actually dealing with and",
+    "start": 711.44,
+    "duration": 43.27999999999997,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_11",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "still it's an issue we not solved it but hopefully I'm hoping we can solve this Cool. Now what's next? Okay. Now uh so actually if you want to see we have a we have something called production architecture here. This is what we're working on. And I'm going to quickly show you the like. So we have phases over here, right? This is phase one. This is phase two. This is phase three. This is phase four. This is phase five. Phase six and all of this phases. We have all of this stuff. What we essentially trying to do is that um we are we are working on each phase by phase. For example, this phase I have a document here called phase one dockling server and you can see the entire this entire document is about 1,60 lines and I document everything in terms of the plan in terms of the diagrams in terms",
+    "start": 752.88,
+    "duration": 45.84000000000003,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_12",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "of you know the issues we face why we changed it why are we not changing it what's our future plan and all of those stuff this essentially acts like this is a small hack that you can do to manage sort of the memory of it because what you have to do is that when you work on a stuff like this a lot of stuff change you you suddenly get into this you suddenly get into progress you suddenly get in a services you suddenly get on VLM and all of those crap will happen. So essentially what we are trying to do is that we are having like um like like a timeline sort of doc where you put in all the stuff that goes into each phases and lock it into a phase. So then when you work on second phase you just read the entire phase one that gives you",
+    "start": 796.639,
+    "duration": 37.36099999999999,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_13",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "relevant context in the decisions you've made you what was your thinking pattern what was your rational behind certain decisions you've made in terms of architecture and then you continue from that spot and this will definitely and you can definitely see you can't literally prompt this up to cloud and you can't tell cloud please go ahead and check this out to gather relevant context and come back you'll miss a lot of things you have to you have to you have to scope all decision points so it's like a small tip I want to give you if you're starting off building some decent project or decent medium size small complex or whatever the project for small projects not needed one file is enough for this I'm sort of following this maybe this might change in the future it is something good that you can follow as well it has saved me tons of",
+    "start": 832.399,
+    "duration": 40.08100000000002,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_14",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "time tons of hours in debugging but still I spend 12 hours in debugging because of the wrong planning or maybe the uh I'm very inexperienced in uh uh the infra part of it I think and yeah yeah cool um and uh yeah so what we have to do here Next is that what's pending on phase one what's true. So then you can so so literally what you can do the advantage of is that you have everything made you have all the changes of course this can change everything can change. So yeah",
+    "start": 869.839,
+    "duration": 53.400999999999954,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_15",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "coffee is one complete what's spending based on a PDF to achieve 50 second targets for three docs we need to do all of this option before option A set up three in instances now start two instances on port add simple uh round robin for dockling validate three docs and process. Let's go with actually option one. Okay.",
+    "start": 947.76,
+    "duration": 23.960000000000036,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_16",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "And to be honest, I've learned so much from claude itself. If cla if I didn't have claude could never this is like this will take me like months to figure out and learn. I'll probably stop in the middle. This is very useful. So default instances 0 1 0 1 0 02. Now again I did mention before that you know we this is just dummy. Three is dummy. We'll find the sweet spot. We'll do all of those you know managing stuff later. But three works then we know it works that parallel stuff is working. Just simply take like very small steps and you know build it out. So instances you have round robin. Click on enter.",
+    "start": 984.24,
+    "duration": 36.91999999999996,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_17",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "So even if it if one document takes uh right now it takes 50 seconds with VLM processing we'll estimate it takes two to and depends on every page and all. So even if it takes 2 minutes or 3 minutes worst case 3 minutes for one document then with 10,000 documents and three actually no we're doing parallel right then do my dom command 3 minutes per document. Uh 10 documents, sorry, actually 3 minutes per document. Seven documents per per given time or parallelly. How much time will you take for 10,000? That means still days. We're looking at days but initially we had like one of the worst cases you know with all this stuff we even estimated ahead of 29 days nearly a month so this will actually take 3 days 71 hours good that's enough and I mean nothing is stopping us after a day we",
+    "start": 1192.64,
+    "duration": 80.39899999999989,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_18",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "have like we'll have like 3,000 documents we can start working with it s on this.",
+    "start": 1271.52,
+    "duration": 18.919999999999845,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_19",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Nothing is being loaded but I'm sure I won't but I not now but I've usually seen that once we hit start hitting the request the model starts to load.",
+    "start": 1492.96,
+    "duration": 11.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_20",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "So instance, so I'm going to make this run here.",
+    "start": 1603.36,
+    "duration": 14.19900000000007,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_21",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Huh?",
+    "start": 2132.48,
+    "duration": 3.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_22",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay guys see the speed less than 50 seconds got three of this the three three less than 50 seconds for a how much 2.9x speed uh less than 50 seconds for what is this for a 70page document so just calculate the per page number you go uh this is dense with diagrams, formulas and etc. The land was slightly slow because the loaded mod was loaded first and we run again with warm instances. Okay, let's try one more time. So this is already loaded. You can see each of them uh consume about 6 GB. So with 7 GB is a good number with buffer 1 GB you can assume it's 7GB. Of course, if we didn't have this dockling issue with PIP PDF uh the PDF package, it would have been very easy. But this is a workar around. That's how you should do guys. Like in like whenever",
+    "start": 2193.52,
+    "duration": 73.76000000000022,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_23",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "the things you do won't go as planned. If you have to go as a plan, then you should have like very good experience in frameworks. And of course, I don't have it. But you can't you can't for example tomorrow something news come new comes up. Doc releases a V2 or V3 or V7 whatever then yeah we lally have to spend some time before you you know uh for example stick to a project in big very very very big projects what they do is that they do like P's and then figure this out but here we are not doing any P's I don't have time for it so I just you know straight away just improvise on it and you know I'm just going in a flow so whatever I think is uh good enough I just go ahead and build it off that's it so I don't yet have a big plan but we",
+    "start": 2264.88,
+    "duration": 43.679999999999836,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_24",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "have a goal the RFP that's what we providing solution for. So here you have the results success through parallelism achieved nice total points 66 seconds target less than 70 seconds speed up 2.98 nearly 3x instances used three uh previous 170 improvement 61% faster. So yeah, we'll check the GPU and you can see only how much 52 is 9. Not nine actually though actually five 66 seconds for three dos. That's a good GP 50. I will say same.",
+    "start": 2306.079,
+    "duration": 54.840999999999894,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_25",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Yeah, which is Yeah, you have another 3.3 GB extra head to phase one is complete. Ready to do phase two whenever you are. Nice. Nice. Yes. We'll think about the other stuff processing etc later.",
+    "start": 2384.96,
+    "duration": 25.960000000000036,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_26",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Let's have a go.",
+    "start": 2424.0,
+    "duration": 12.119000000000142,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_27",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "So essentially this is Maybe this",
+    "start": 2474.319,
+    "duration": 7.320999999999913,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_28",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Don't think",
+    "start": 2547.76,
+    "duration": 3.480000000000018,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_29",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "This is seven. Okay.",
+    "start": 2565.28,
+    "duration": 5.239999999999782,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_30",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "What's happening? Oops.",
+    "start": 2667.599,
+    "duration": 5.080999999999676,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_31",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Actually, maybe we will look back into this. just update the phase one document you add this as a note we keep it very concise and we look back into this once we have the entire pipeline so once we complete entire phase it's a matter of just changing uh changing a little bit here and there right for the GPU sorry for the VLM and then the dockling it's just for config so just add it as a note in pay phase one we'll come back to it once we have the entire flow and uh all the phases done Right? Cuz we in like a after a lot of issues at least we have some part that we can be still three or 4 days of run time but we still have something we can work around with. So let's not mess this up. Update the progress move on for the",
+    "start": 2779.599,
+    "duration": 52.20100000000002,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_32",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "phase two.",
+    "start": 2828.48,
+    "duration": 3.3200000000001637,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_33",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Now before we run phase 2, I just want to know one more thing. Now I saw that per document took about 47 seconds to 50 seconds. And when we ran three you know in each process I mean three hit three of the documents hit three different um um three different dockling services it actually became 66 seconds but it should have been around less it should have been the single document hit right that's what true parallelism is is right like are we missing anything I just wanted to know.",
+    "start": 2899.44,
+    "duration": 32.67899999999963,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_34",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Before you code, just give me an understanding of what we're building at phase 2 and how uh this would serve as a foundation of purpose for the phase three.",
+    "start": 2997.44,
+    "duration": 11.079999999999927,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_35",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay, before we proceed, I think you still have to update the production architecture document and also phase one document as with all the current changes or whatever the progress you've made. So essentially you would need to read the entire file both of you have to read both of them and you have to read entire files the entire code of both. So I would to save context I would encourage you to launch a sub agent with a goal to update them with the progress we made so far and then we can start phase two.",
+    "start": 3141.599,
+    "duration": 30.040999999999713,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_36",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "What if you do? What if we do seven? Oh, that's a seven.",
+    "start": 3223.76,
+    "duration": 9.879999999999654,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_37",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Hey, hi LLBH2. I just saw a message. Sorry about that. I'm not sure if you are watching it yet, but yeah, just all good. How are you? Um, yeah. So we're working on this a little bit having we're facing a bit of issues. So we just we just solved it a few hours ago and we just continuing to it. Nothing much of an update. Still still um in document processing trying to complete it here. Let us take Search.",
+    "start": 3665.68,
+    "duration": 55.720000000000255,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_38",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Awesome. Now create a phase 2 document. Put all of this information and let's get started. because we also got started something like this with phase one and you can see the number of the stuff the issues we sort of with and it's probably thousand pages and all of this context is very necessary. So yeah at least at this stage it's sort of becoming a little bit more like a medium medium size sort of project. So then we have it's good we include phase by phase information and this is all updated most of the time it's updated. So once it's um we have the phase two document it starts and also you can see context left until auto compresses 8% in case you have you know you have your initial basic plan and this is a very good plan and with all of this information your agent is actually",
+    "start": 3736.96,
+    "duration": 58.31999999999971,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_39",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "working on it and halfway it actually there's an auto compact how do you get this understanding all of this understanding is missed these understanding are quite important when you when we build so many nuances are there if you were to build a very small application where there's no nuance very small interdependencies between components send fine. This is if if something break breaks here then I have to spend hours and hours figuring out what to do and then delaying everything delaying timeline etc. So safe is to you know have face face like face by face document you can call it field milestone whatever you want just a document that tracks uh the progress you're trying to make. So this is a good this is like 500 uh lines of stuff. Uh basic stuff is there things can change but initial level of doc it's okay and we",
+    "start": 3792.799,
+    "duration": 53.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_40",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "can get started.",
+    "start": 3842.48,
+    "duration": 3.31899999999996,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_41",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Service configuration task definition main processing logic workers task definitions main processing logic workers workers for workers from docking input not allowed from docking Singapore system client first test. Should I begin with clients start?",
+    "start": 3872.559,
+    "duration": 29.559999999999945,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_42",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "8 8:15. Oops. Sorry, guys. Oh, okay.",
+    "start": 3937.44,
+    "duration": 22.840000000000146,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_43",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "One more time. Okay.",
+    "start": 4005.44,
+    "duration": 13.878999999999905,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_44",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Sorry.",
+    "start": 4100.319,
+    "duration": 3.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_45",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay, I still again missed your message. Uh, sorry about that. Hello. I'm doing good. I'm designing a generalized hack plan for enterprises which can expose a chatbot for customers. Yeah, awesome. Good stuff, mate. Is this contract work, hobby or project? Actually this is a hobby project project but uh a complete real world project. Yeah guys, so easily uh this at least 100 plus K easily. Of course, 100K is nothing for a project like this. building for solving rocket science bro easily I would if I were to actually you know build maybe like code for a customer probably do like 250k for a system like this yeah and if there I have other employees and stuff like that I'll easily do and I have access to a lot of you know members and teams as well and etc but yeah um yeah definitely will take this much",
+    "start": 4816.719,
+    "duration": 86.32099999999991,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_46",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "of time and not this much of time definitely it will take months if you're working with a big team here I'm just the only guy who's working on I make the decisions all make the scaling all all as quick as possible. I'm just going to move on.",
+    "start": 4901.04,
+    "duration": 14.44000000000051,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_47",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Anybody",
+    "start": 4934.159,
+    "duration": 3.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_48",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "All right, let's try this.",
+    "start": 5026.08,
+    "duration": 4.199999999999818,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_49",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Whenever it reads this 200 accurately lines, you know for a fact that's it's not accurate. It's actually reading not the full thing. Let's check unified chunk source. Unifi chunk is a huge file. See 626. I know I tried. So 200 + 4 is 47. So I tried everything I think.",
+    "start": 5068.0,
+    "duration": 32.44000000000051,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_50",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Also confirming that you read the entire unified chunker, right? Like the full file because all the context is very necessary. If you read the entire file, then fine.",
+    "start": 5116.48,
+    "duration": 11.960000000000946,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_51",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "What?",
+    "start": 5325.679,
+    "duration": 3.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_52",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay.",
+    "start": 5363.6,
+    "duration": 2.880000000000109,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_53",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay. Why don't",
+    "start": 5410.88,
+    "duration": 3.9600000000000364,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_54",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "All right. >> Yeah. How did you learn all of this? Do you have a system you follow for it? No, no, no. Actually I worked on I worked on my own startups previously and I still work on a currently I work on a startup called Introplex um yeah so worked this is actually building stuff for enterprises so you know check it out onremi enterprise for onrem AI so essentially I learned building a lot of stuff I worked on a lot of startups and you know at hobby I love to learn a lot of the things that's how I build there's no any courses I follow there's no no such thing like that I'm a self engineer so that's what I How do you recommend I go about designing my own pipeline man? It depends on what you're working on, what scale you're working on um and what sort",
+    "start": 5431.6,
+    "duration": 55.75999999999931,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_55",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "of documents you work with and etc. Uh feel because there is no one thing that I can give you depends on a lot of the project. But I would say you know if you're working with enterprise your scale is very important that's what we are currently trying to handle. We're trying to process 10k documents that scales to 85,000 to 100,000 documents but right now we working with one H100 you can see and then you know just wrapping your heads around and this is totally an infra infra sort of an issue so yeah that's what we working on and I would recommend you you know understand what they need just go don't go don't plan out based on anything else no understand their problem what the solution should probably look like try to generalize it and then build the system from the problem space. Don't go and jump. Hey,",
+    "start": 5485.12,
+    "duration": 45.840000000000146,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_56",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "this will be useful for you. This will be useful for you. No, don't do that. You know, just try to see what the problem is. And if you're working on a clear problem, it's should be quite easy for you. Um, unified chunk of workers. And of course, it's a big conversation. It's it's totally a different conversation. Uh, if you were to give me a lot of info, uh, adapted for to work on this thing use. Yeah. No dockling inputs. Good. This is good. We're using the doc document returned by our initial phase one calculate the section area data classes go will take care of all of this dissolve from a battle tested code. Okay. One more thing. M I'm tasked to develop a pipeline having access to any information on company. What the hell? Company loss. How's startup? Oh, how is the startup going? Yeah, quite well.",
+    "start": 5528.96,
+    "duration": 73.19900000000052,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_57",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "You're working with a few enterprise customers and etc. Startup is good. And to answer your first question to develop a pipeline before having access to any information manually depends on what scale I working what what's the number how many documents are you dealing with",
+    "start": 5601.04,
+    "duration": 15.960000000000036,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_58",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Oh yeah man. Tuki is I think uh and what document are you dealing with? I don't understand company for what is it like finance dogs or like general contracts or what is it you have like I mean is it a law firm or what what is it? Just give me a little bit of info on that. Oh, it's a charity. Uh, cool. I have I'm new to this. I mean, I'm I don't know. So, just give me an information. What sort of documents do charity company works with? Like work with like for legal companies is law firm legal documents. They're very you have client information and it has a lot of uh they're mostly you know well well created you know with the lawyers and etc. they have stamps etc for financial docs there's a lot of financial information they have a lot of tables they have a lot of excels and stuff like",
+    "start": 5635.199,
+    "duration": 57.52000000000044,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_59",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "that so what documents are you dealing with charity what is the use case I'm just trying to understand basically give me an information what are you trying to enable what is the solution what is your solution so I can backtrack it and see okay this is what you what what's the problem you're solving where the money goes towards check oh yeah then I think you're dealing with some finance stocks tax and just like that I would say a pipeline for 2k docs I would say would you can use something like dockling to do a lot of like you know detection and stuff and then you know embed it you can go with quadrant not sure you know if you're hosting it as a service in their company but whatever quadrant should be fine and I think agent wise you should be able to watch my video on agent um um",
+    "start": 5691.28,
+    "duration": 41.280000000000655,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_60",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "it should be one of these exposing chatbot to users to reduce help oh that's what I wanted to know exposing chatbot to users to reduce help exactly then you have to then you have to embed all the website their uh documents whatever and then design the prompt and the system prompt the entire agent in a way that you know give give the agent access to all the tools that a human would have you know accessing documents or maybe even elevating the conversation if the AI is not able to help then you should be able to elevate it or you know bring back a human or something like that and then help uh ch yeah and also yeah just have I think then it's fairly easy for you you have text based information helpline stuff like usual text based then you just embed them and make sure you design",
+    "start": 5731.12,
+    "duration": 42.23999999999978,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_61",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "an agent that gives um that you know does a bit of research and then comes back in opposed to a fairly bad answer. Yeah, true. Security is an issue. But that's what I'm saying. What you can to do is to have confidence course or something like that with the agent. If it was if if if the agent is going be beyond a certain threshold, if the agent is going beyond um um a g a certain limit, you just, you know, stop the chat. you know you and you'll escalate it to a human or something like that that could I don't know how what do you mean by security here I think these are helpline stuff right helpline information and etc you just have one quadrant that is that only exists that only has all of this basic information you wouldn't probably share any you probably won't embed any public or any",
+    "start": 5771.92,
+    "duration": 49.839999999999236,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_62",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "sorry any personal information right cuz it's exposed to the users um yeah but still you can still deal with you can what you can do is that write a rapper in front you know remove any person information anything you want to remove before it gets stuck to quadrant you know go ahead use a VLM go ahead use a GPT you're only pressing 2K documents so you can afford that and you know go for it and of course man of course yeah sure uh yeah document worker orchestrate the full document pipeline call HTTP annotate formulas uh call VLM http build chunk CPU generates embeding so wow beautiful nice And we're not using dockling uh in terms of like you know like a dockling instance for this for sure and this should be quite efficient and we'll basically see how long will it take for single document to finish phase one and",
+    "start": 5819.84,
+    "duration": 53.11999999999989,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_63",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "then jump into phase two and here we want to do batching as much as possible. So how like like you know we're going to use VLM's batching and you know that's what the GP is entirely designed for you know we'll we'll use it to the ultimate potential. and process a single end to end task. This is the main task of document processing. Call dockling annotate formula. Call VM build chunks. Generate embeddings stored in quadrant. These are the arguments. What why you why do you prefer claw in your de workflow? Dude, co-pilot is  bro. I'm sorry, but copilot can't handle this project. And I don't even think and I've used I've used what do you call I've used um codeex as well. It's not near to claude. Claude just gets it, you know. I I don't know. I don't know how to put that in a way. You",
+    "start": 5870.48,
+    "duration": 56.15900000000056,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_64",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "know, you'll have benchmarks in cloud codeex bet and all of those crap. But cloud just works for, you know, complex stuff like this and I'm and yeah, I just have the max subscription and it gives me access to cloud gives me access to now co-work as well and also access to cloud code unlimited and yeah um there's I mean of course intelligence that that's that's one single answer that I can give you. Cloud code is the best and I would recommend for anyone to get a subscription and you know you you clock would never let you fail to be honest. uh embed task process documents define salary workers executes in uh task thin functions quick processing dockling and chunk no embeddings dockling and chunk only we will try vm for sure useful for testing the pipeline etc and all this again first we'll run the initial tasks",
+    "start": 5925.04,
+    "duration": 61.88000000000011,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_65",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Oops. I thought this was a command walker.",
+    "start": 6010.56,
+    "duration": 11.558999999999287,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_66",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "And we're going to start with a 70 page. What's the easiest rack project you worked on? I don't know. When I started off, I was building agents, not necessarily like rag. Now here you you just call it rag, but it's actually it's an agentic system. I mean, you have retrieval on top of it. Um I think the easiest one that I worked for was for um an insurance company but still that was quite complex as well.",
+    "start": 6035.52,
+    "duration": 30.678999999999178,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_67",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Sorry, I had to message someone. Was there any questions? Cool. Cool. Verify for verify workers don't have for imports and all of this stuff. Yeah. So essentially what we're testing is I don't think we're using VLMs. Test full processing. Oh, okay. We're doing it. Okay. We're passing everything through. Cool. Let's give it a shot and see. And you can see on the right. Uh I don't think you can see it, but let me put this over here and put bash in the middle over here. Somewhere here. Okay. And you can see",
+    "start": 6143.04,
+    "duration": 42.4399999999996,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_68",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Yeah. And you can see Nvidia over here. We have, let me expand this a little bit more. See it fully. This is the three workers of Doppling and we have the entire model loaded and you can see you have to see this will you have to see some flu fluctuations on this. Let's see. Cool. Okay, it's starting to bump up. You can see",
+    "start": 6197.84,
+    "duration": 32.27899999999954,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_69",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Now I can see pictures, images, formulas, text and etc.",
+    "start": 6678.32,
+    "duration": 6.199999999999818,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_70",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Yeah, yeah, that's what I'm saying. I saw this somewhere. Yeah, I saw that. So now we'll know how how long will it take for a single dock and probably it will take the same for the other docks. All right.",
+    "start": 6696.88,
+    "duration": 22.039999999999964,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_71",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "The initialization itself is taking like 40 seconds because I can see dockling initialize three instances like this itself is 50 but again doesn't matter this will load once when we do this processing and then it'll run for days.",
+    "start": 6762.239,
+    "duration": 16.4399999999996,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_72",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay, man. We'll be there in a little bit. What's the hell?",
+    "start": 6812.239,
+    "duration": 16.84100000000035,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_73",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Oops. It's taking a lot of time. 4 plus minutes. Anyway, we can do a lot of sequential stuff. Not to worry about that.",
+    "start": 7022.48,
+    "duration": 15.480000000000473,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_74",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "And you have all our running for embeddings. So still we have a lot of stuff left. What would make sense is keep it at seven. Try to have a good number of seven and then try to increase the parallel count of this. Okay. We can still use it at 30 GB, right? And this is fixed, right? This five is fixed. So you can run three at the same time. Five is sort of fixed. But yeah, we'll try. We'll see what are the options.",
+    "start": 7075.119,
+    "duration": 37.5600000000004,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_75",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "I think there still are some issues with cloud code being processed or something. So yeah. So it restarted it and running it on my site.",
+    "start": 7422.719,
+    "duration": 15.640999999999622,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_76",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Sorry guys, I got a call and I have to ping my brother.",
+    "start": 7494.8,
+    "duration": 8.760000000000218,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_77",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "No problem. I will be in phase three. Sure. Please update the progress. That's good. 777 is proing. And what we'll do is that even if you were to cut it by let's say we took finish 66 by 60 that's still 3.7 minutes. You can easily bump it down to 2 minutes. You can keep documents at 2 minutes and I think we'll reach our goal much faster. If you would did even seven documents parallelly for 3 minutes per documents we can still finish it in about 3 days. We'll yeah it'll still take 3 days I'm sure. But yeah hopefully we'll make we'll try to make it 2 days. Oh, I mean, no, let's not plan a lot, but you know, even 3 days without error, if you can process 3,000, 10,000, it's okay because even with one day, we'll have another 3,000 documents, right? That's more than",
+    "start": 8214.639,
+    "duration": 53.88000000000102,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_78",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "enough for us to work with.",
+    "start": 8264.8,
+    "duration": 3.7189999999991414,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_79",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Just curious, should we try uh the same thing for three parallel workers and see Yeah, because I just want to see for all of this stuff with Elm if you were to process all three, how much will it take and see if there's any difference in numbers. Just just just curious to know. That's it.",
+    "start": 8374.88,
+    "duration": 34.36000000000058,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_80",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Yeah, it's okay. The thing is I totally forgot VM we still serializing. So 3x long. I totally forgot about it. I thought Yeah. So that's all in phase three then. We'll wait and see. So we can document the time and then we can compare it once we complete phase three. This will go on for a bit.",
+    "start": 8548.64,
+    "duration": 23.959999999999127,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_81",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Maybe it's actually stuck. Shouldn't take this much time.",
+    "start": 9088.479,
+    "duration": 7.321000000001732,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_82",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "It's fine. Uh, we'll move for the next one. We We know how much time it takes, right? So, we'll move for the next one.",
+    "start": 9291.04,
+    "duration": 9.159999999999854,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_83",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Who's",
+    "start": 9480.16,
+    "duration": 3.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_84",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "Okay. So, I think we can complete phase four before the before the stream and we can actually jump into uh jump into phase four tomorrow.",
+    "start": 10387.6,
+    "duration": 10.279999999998836,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_85",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "No, sorry m",
+    "start": 11049.279,
+    "duration": 3.720999999999549,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_86",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "All",
+    "start": 13200.399,
+    "duration": 2.0,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_87",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "right, guys. So, I just noticed it that I had my audio totally down. Oh my god. Sorry about that, guys. Really sorry about that. I don't know how much we missed you. So basically just to give you some context the processing is working already and fine we have salary we have um red with this for caching we have the processing everything monitors everything working nice tomorrow phase four vm batching and etc we should be able to complete it in a few hours and move on for the next deployment. Okay, just you know get the um testing all of those failures ready and then you know push it up where the model can start processing documents and we can work on any of the rest of any of the stuff that is available for us to work on. Right. Thank you so much guys. Talk soon and",
+    "start": 13214.64,
+    "duration": 51.92000000000189,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_88",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  },
+  {
+    "text": "sorry for the audio issue. Totally forgot about that that I you know put the audio gain a little bit low cuz I wanted to talk to my brother. All right guys, thank you so much. Be silent. Good night.",
+    "start": 13265.12,
+    "duration": 11.039999999999054,
+    "video_id": "a9pNRWj5670",
+    "chunk_id": "a9pNRWj5670_89",
+    "title": "Parallel Processing 10K Documents on a H100 | Multi-Instance Load Balancing, Celery & Redis |Part 10",
+    "playlist_index": 10
+  }
+]
